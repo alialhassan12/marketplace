@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "marketplace_d77c0748"
+        },
+        {
+            "name": "Python: Run Script Automatically",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/your_script.py",
+            "console": "externalTerminal"
+        }
+    ]
+}

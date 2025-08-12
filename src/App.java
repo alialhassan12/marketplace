@@ -9,5 +9,3 @@ public class App {
         // log.setLocationRelativeTo(null);
     }
 }
-sheyef sho 3am bektob?????
-//shayyyfffff
