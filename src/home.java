@@ -17,8 +17,8 @@ public class home extends JFrame{
     JButton profileBtn;
     JButton postBtn;
     JButton browseBtn;
-    home(int Uid){  
-        String query="Select name From users where Uid="+Uid;
+    home(int client_id){  
+        String query="Select name From Client where client_id="+client_id;
         connect=config.getConnection();
 
         try{
