@@ -169,12 +169,13 @@ public class login extends JFrame{
                 connect=config.getConnection();
                 String username=loginUsernameTxt.getText();
                 String password=new String(loginPasswordTxt.getPassword());
-                String query="Select  client_id, username,password_hash From users where username ='"+username+"' and password_hash='"+password+"'";
+                String hashedPass=new hashPassword().hashPasswords(password);
+                String query="Select  client_id, username,password_hash From Client where username ='"+username+"' and password_hash='"+hashedPass+"'";
                 try{
                     Statement stmt=connect.createStatement();
                     ResultSet rs=stmt.executeQuery(query);
                     if(rs.next()){
-                        home home=new home(rs.getInt("Uid"));
+                        home home=new home(rs.getInt("client_id"));
                         home.setVisible(true);
                         setVisible(false);
                         home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -215,7 +216,8 @@ public class login extends JFrame{
                 }
 
                 try{
-                    String query="Insert Into Client(name,email,phone,password_hash,username) Values('"+name+"','"+email+"','"+phone+"','"+password+"','"+username+"');";
+                    hashPassword hashPassword=new hashPassword();
+                    String query="Insert Into Client(name,email,phone,password_hash,username) Values('"+name+"','"+email+"','"+phone+"','"+hashPassword.hashPasswords(password)+"','"+username+"');";
                     Statement stmt=connect.createStatement();
                     stmt.execute(query);
                     registerPanel.setVisible(false);
