@@ -3,5 +3,29 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
+    ],
+    "dataworkspace.excludedProjects": [
+        "data1/data1.sqlproj"
+    ],
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "statement_timeout": 30000,
+                "query_timeout": 30000,
+                "connectionTimeoutMillis": 10000,
+                "idleTimeoutMillis": 30000,
+                "max": 5
+            },
+            "previewLimit": 50,
+            "server": "aws-0-us-west-1.pooler.supabase.com",
+            "port": 6543,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "database": "postgres",
+            "username": "postgres.jjrtlhqvivxhiuorlauo",
+            "name": "IUL_ConnectDB",
+            "group": "Group1",
+            "connectionTimeout": 10000
+        }
     ]
 }
