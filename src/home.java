@@ -9,53 +9,73 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class home extends JFrame{
-    Connection connect=null;
+public class home extends JFrame {
+    Connection connect = null;
     JPanel panel1;
-    JLabel name;
+    JLabel nameLabel;
     JLabel title;
-    JButton profileBtn;
-    JButton postBtn;
-    JButton browseBtn;
-    home(int client_id){  
-        String query="Select name From Client where client_id="+client_id;
-        connect=config.getConnection();
+    JButton buyBtn;
+    JButton rentBtn;
+    JButton sellBtn;
 
-        try{
-            Statement stmt=connect.createStatement();
-            ResultSet rs=stmt.executeQuery(query);
-            if(rs.next()){
-                name=new JLabel(rs.getString("name"));
-            }else{
-                name=new JLabel("Name not Found");
+    public home(int client_id) {
+        String query = "SELECT name FROM Client WHERE client_id = " + client_id;
+        connect = config.getConnection();
+
+        try {
+            Statement stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                nameLabel = new JLabel("Welcome, " + rs.getString("name") + "!");
+            } else {
+                nameLabel = new JLabel("Welcome, User!");
             }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            nameLabel = new JLabel("Welcome, User!");
         }
 
-        
         setLayout(new GridBagLayout());
 
-        title=new JLabel("Home");
-        title.setFont(new Font("Arial",Font.BOLD,24));
+        title = new JLabel("Main Menu");
+        title.setFont(new Font("Arial", Font.BOLD, 24));
 
-        profileBtn=new JButton("Profile");
-        postBtn=new JButton("Post");
-        browseBtn=new JButton("Browse");
+        buyBtn = new JButton("Buy a Car");
+        rentBtn = new JButton("Rent a Car");
+        sellBtn = new JButton("Sell Your Car");
 
-        panel1=new JPanel();
-        // panel1.setPreferredSize(new Dimension(300,500));
+        buyBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                new BuyCarsPage(client_id).setVisible(true);
+            }
+        });
+
+        rentBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                new RentCarsPage(client_id).setVisible(true);
+            }
+        });
+
+        sellBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                new SellCarForm(client_id).setVisible(true);
+            }
+        });
+
+        panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         panel1.add(title);
         panel1.add(Box.createVerticalStrut(10));
-        panel1.add(profileBtn);
+        panel1.add(nameLabel);
+        panel1.add(Box.createVerticalStrut(20));
+        panel1.add(buyBtn);
         panel1.add(Box.createVerticalStrut(10));
-        panel1.add(postBtn);
+        panel1.add(rentBtn);
         panel1.add(Box.createVerticalStrut(10));
-        panel1.add(browseBtn);
+        panel1.add(sellBtn);
 
         add(panel1);
-        add(name);
         pack();
+        setLocationRelativeTo(null);
     }
 }
