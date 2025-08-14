@@ -1,3 +1,4 @@
+package app;
 import java.sql.*;
 public class config {
 private static String url = "jdbc:postgresql://aws-0-us-west-1.pooler.supabase.com:5432/postgres";

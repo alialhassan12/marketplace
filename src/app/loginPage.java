@@ -1,38 +1,54 @@
+package app;
 import javax.swing.*;
+
+import controllers.login;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-public class Login extends JPanel {
+public class loginPage extends JPanel {
     Connection connect = null;
     JLabel usernameLabel, passwordLabel;
     JTextField loginUsernameTxt;
     JPasswordField loginPasswordTxt;
     JButton loginBtn, toRegister;
 
-    public Login(CardLayout cardLayout, JPanel mainPanel) {
+    public loginPage(CardLayout cardLayout, JPanel mainPanel) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
 
         JLabel title = new JLabel("Login");
-        title.setForeground(Color.BLACK);
+        title.setForeground(Color.white);
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title);
         add(Box.createVerticalStrut(20));
 
         usernameLabel = new JLabel("Username:");
-        usernameLabel.setForeground(Color.BLACK);
+        usernameLabel.setForeground(Color.white);
         add(usernameLabel);
+        add(Box.createVerticalStrut(10));
+
         loginUsernameTxt = new JTextField();
         loginUsernameTxt.setMaximumSize(new Dimension(300, 30));
+        loginUsernameTxt.setOpaque(false);
+        loginUsernameTxt.setBackground(new Color(34,34,34,179));
+        loginUsernameTxt.setForeground(Color.white);
+
         add(loginUsernameTxt);
         add(Box.createVerticalStrut(10));
 
         passwordLabel = new JLabel("Password:");
-        passwordLabel.setForeground(Color.BLACK);
+        passwordLabel.setForeground(Color.white);
         add(passwordLabel);
+        add(Box.createVerticalStrut(10));
+
         loginPasswordTxt = new JPasswordField();
         loginPasswordTxt.setMaximumSize(new Dimension(300, 30));
+        loginPasswordTxt.setOpaque(false);
+        loginPasswordTxt.setBackground(new Color(34,34,34,179));
+        loginPasswordTxt.setForeground(Color.white);
+        
         add(loginPasswordTxt);
         add(Box.createVerticalStrut(10));
 
@@ -62,21 +78,9 @@ public class Login extends JPanel {
                 String username = loginUsernameTxt.getText();
                 String password = new String(loginPasswordTxt.getPassword());
                 String hashedPass = new hashPassword().hashPasswords(password);
-
-                try {
-                    Statement stmt = connect.createStatement();
-                    String query = "SELECT client_id FROM Client WHERE username='" + username + "' AND password_hash='"
-                            + hashedPass + "'";
-                    ResultSet rs = stmt.executeQuery(query);
-                    if (rs.next()) {
-                        home home = new home(rs.getInt("client_id"));
-                        home.setVisible(true);
-                        SwingUtilities.getWindowAncestor(Login.this).setVisible(false);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Invalid credentials!");
-                    }
-                } catch (Exception ex) {
-                    System.out.println("Login error: " + ex.getMessage());
+                login login=new login(username, hashedPass);
+                if(login.getLogin()){
+                    SwingUtilities.getWindowAncestor(loginPage.this).setVisible(false);
                 }
             }
         });

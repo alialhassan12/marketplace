@@ -1,66 +1,80 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "marketplace_d77c0748"
-        },
-        {
-            "type": "java",
-            "name": "ProLoginApp",
-            "request": "launch",
-            "mainClass": "ProLoginApp",
-            "projectName": "marketplace_d77c0748"
-        },
-        {
-            "type": "java",
-            "name": "LoginApp",
-            "request": "launch",
-            "mainClass": "LoginApp",
-            "projectName": "marketplace_d77c0748",
-            "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "ProSwingAuthUI",
-            "request": "launch",
-            "mainClass": "ProSwingAuthUI",
-            "projectName": "marketplace_d77c0748",
-            "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "ProModernAuthUI",
-            "request": "launch",
-            "mainClass": "ProModernAuthUI",
-            "projectName": "marketplace_d77c0748",
-            "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "ModernAuthUI",
-            "request": "launch",
-            "mainClass": "ModernAuthUI",
-            "projectName": "marketplace_d77c0748",
-            "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "marketplace_d77c0748",
-            "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "name": "Python: Run Script Automatically",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/your_script.py",
-            "console": "externalTerminal"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "app.Main",
+      "projectName": "marketplace_377d8c93"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "marketplace_377d8c93"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "marketplace_d77c0748"
+    },
+    {
+      "type": "java",
+      "name": "ProLoginApp",
+      "request": "launch",
+      "mainClass": "ProLoginApp",
+      "projectName": "marketplace_d77c0748"
+    },
+    {
+      "type": "java",
+      "name": "LoginApp",
+      "request": "launch",
+      "mainClass": "LoginApp",
+      "projectName": "marketplace_d77c0748",
+      "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "ProSwingAuthUI",
+      "request": "launch",
+      "mainClass": "ProSwingAuthUI",
+      "projectName": "marketplace_d77c0748",
+      "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "ProModernAuthUI",
+      "request": "launch",
+      "mainClass": "ProModernAuthUI",
+      "projectName": "marketplace_d77c0748",
+      "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "ModernAuthUI",
+      "request": "launch",
+      "mainClass": "ModernAuthUI",
+      "projectName": "marketplace_d77c0748",
+      "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "marketplace_d77c0748",
+      "vmArgs": "--module-path \"C:\\Users\\samih\\Desktop\\marketplace\\javafx-sdk-24.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "name": "Python: Run Script Automatically",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/your_script.py",
+      "console": "externalTerminal"
+    }
+  ]
 }

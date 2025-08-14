@@ -1,56 +1,103 @@
+package app;
 import javax.swing.*;
+
+import controllers.register;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-public class Register extends JPanel {
+public class RegisterPage extends JPanel {
     Connection connect = null;
+    JLabel nameLabel,emailLabel,phoneLabel,usernameLabel,passwordLabel,confirmPasswordLabel;
     JTextField nameTxt, emailTxt, phoneTxt, usernameTxt;
     JPasswordField passwordTxt, confirmPasswordTxt;
     JButton registerBtn, toLogin;
 
-    public Register(CardLayout cardLayout, JPanel mainPanel) {
+    public RegisterPage(CardLayout cardLayout, JPanel mainPanel) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
 
         JLabel title = new JLabel("Register");
         title.setFont(new Font("Arial", Font.BOLD, 24));
+        title.setForeground(Color.white);
         add(title);
         add(Box.createVerticalStrut(10));
 
         nameTxt = new JTextField();
-        nameTxt.setMaximumSize(new Dimension(300, 30));
-        add(new JLabel("Full Name:"));
+        nameTxt.setPreferredSize(new Dimension(300, 30));
+        nameTxt.setOpaque(false);
+        nameTxt.setBackground(new Color(34,34,34,179));
+        nameTxt.setForeground(Color.white);
+        
+        nameLabel =new JLabel("Full name:");
+        nameLabel.setForeground(Color.white);
+
+        add(nameLabel);
         add(nameTxt);
         add(Box.createVerticalStrut(10));
 
         usernameTxt = new JTextField();
-        usernameTxt.setMaximumSize(new Dimension(300, 30));
-        add(new JLabel("Username:"));
+        usernameTxt.setPreferredSize(new Dimension(300, 30));
+        usernameTxt.setOpaque(false);
+        usernameTxt.setBackground(new Color(34,34,34,179));
+        usernameTxt.setForeground(Color.white);
+
+        usernameLabel=new JLabel("Username:");
+        usernameLabel.setForeground(Color.white);
+
+        add(usernameLabel);
         add(usernameTxt);
         add(Box.createVerticalStrut(10));
 
         emailTxt = new JTextField();
-        emailTxt.setMaximumSize(new Dimension(300, 30));
-        add(new JLabel("Email:"));
+        emailTxt.setPreferredSize(new Dimension(300, 30));
+        emailTxt.setOpaque(false);
+        emailTxt.setBackground(new Color(34,34,34,179));
+        emailTxt.setForeground(Color.white);
+
+        emailLabel=new JLabel("Email:");
+        emailLabel.setForeground(Color.white);
+        add(emailLabel);
         add(emailTxt);
         add(Box.createVerticalStrut(10));
 
         phoneTxt = new JTextField();
-        phoneTxt.setMaximumSize(new Dimension(300, 30));
-        add(new JLabel("Phone Number:"));
+        phoneTxt.setPreferredSize(new Dimension(300, 30));
+        phoneTxt.setOpaque(false);
+        phoneTxt.setBackground(new Color(34,34,34,179));
+        phoneTxt.setForeground(Color.white);
+
+        phoneLabel=new JLabel("Phone Number:");
+        phoneLabel.setForeground(Color.white);
+
+        add(phoneLabel);
         add(phoneTxt);
         add(Box.createVerticalStrut(10));
 
         passwordTxt = new JPasswordField();
-        passwordTxt.setMaximumSize(new Dimension(300, 30));
-        add(new JLabel("Password:"));
+        passwordTxt.setPreferredSize(new Dimension(300, 30));
+        passwordTxt.setOpaque(false);
+        passwordTxt.setBackground(new Color(34,34,34,179));
+        passwordTxt.setForeground(Color.white);
+
+        passwordLabel=new JLabel("Password:");
+        passwordLabel.setForeground(Color.white);
+
+        add(passwordLabel);
         add(passwordTxt);
         add(Box.createVerticalStrut(10));
 
         confirmPasswordTxt = new JPasswordField();
-        confirmPasswordTxt.setMaximumSize(new Dimension(300, 30));
-        add(new JLabel("Confirm Password:"));
+        confirmPasswordTxt.setPreferredSize(new Dimension(300, 30));
+        confirmPasswordTxt.setOpaque(false);
+        confirmPasswordTxt.setBackground(new Color(34,34,34,179));
+        confirmPasswordTxt.setForeground(Color.white);
+
+        confirmPasswordLabel=new JLabel("Confirm Password:");
+        confirmPasswordLabel.setForeground(Color.white);
+        
+        add(confirmPasswordLabel);
         add(confirmPasswordTxt);
         add(Box.createVerticalStrut(10));
 
@@ -83,26 +130,10 @@ public class Register extends JPanel {
                 String phone = phoneTxt.getText();
                 String password = new String(passwordTxt.getPassword());
                 String confirm = new String(confirmPasswordTxt.getPassword());
-
-                if (!password.equals(confirm)) {
-                    JOptionPane.showMessageDialog(null, "Passwords don't match!");
-                    return;
-                }
-                if (name.isEmpty() || username.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Please fill all fields!");
-                    return;
-                }
-
-                try {
-                    String query = "INSERT INTO Client(name,email,phone,password_hash,username) VALUES('" + name + "','"
-                            + email + "','" + phone + "','" + new hashPassword().hashPasswords(password) + "','"
-                            + username + "')";
-                    Statement stmt = connect.createStatement();
-                    stmt.execute(query);
+                register register=new register(name,username,email,phone,password,confirm);
+                if(register.getRegister()){
                     JOptionPane.showMessageDialog(null, "Registered successfully!");
                     cardLayout.show(mainPanel, "login");
-                } catch (Exception ex) {
-                    System.out.println("Register error: " + ex.getMessage());
                 }
             }
         });

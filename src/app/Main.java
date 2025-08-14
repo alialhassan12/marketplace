@@ -1,4 +1,6 @@
+package app;
 import javax.swing.*;
+
 import java.awt.*;
 import java.io.*;
 import javax.imageio.*;
@@ -19,8 +21,8 @@ public class Main extends JFrame {
             JPanel mainPanel = new JPanel(cardLayout);
             mainPanel.setOpaque(false);
 
-            mainPanel.add(new Login(cardLayout, mainPanel), "login");
-            mainPanel.add(new Register(cardLayout, mainPanel), "register");
+            mainPanel.add(new loginPage(cardLayout, mainPanel), "login");
+            mainPanel.add(new RegisterPage(cardLayout, mainPanel), "register");
 
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridx = 0;
@@ -34,6 +36,7 @@ public class Main extends JFrame {
             setExtendedState(JFrame.MAXIMIZED_BOTH);
             setLocationRelativeTo(null);
             setVisible(true);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
