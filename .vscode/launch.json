@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "app.Main",
+      "projectName": "marketplace_f5fe7149"
+    },
+    {
+      "type": "java",
       "name": "CarWayLoginFrame",
       "request": "launch",
       "mainClass": "app.CarWayLoginFrame",
