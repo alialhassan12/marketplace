@@ -5,16 +5,15 @@ import controllers.register;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
-import com.formdev.flatlaf.FlatDarkLaf;
+
 public class RegisterFrame extends javax.swing.JFrame {
 
     public RegisterFrame() {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    
+    
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
