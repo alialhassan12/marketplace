@@ -14,7 +14,7 @@ public class home extends javax.swing.JFrame {
 
         Connection connect=null;
         jPanel1 = new javax.swing.JPanel();
-        ImageIcon logo=new ImageIcon(getClass().getResource("../layout/logo.jpg"));
+        ImageIcon logo=new ImageIcon(getClass().getResource("/layout/image.jpg"));
         logoLabel = new javax.swing.JLabel(logo);
         profileBtn = new javax.swing.JButton();
         BuyBtn = new javax.swing.JButton();
