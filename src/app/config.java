@@ -1,9 +1,11 @@
 package app;
+import functions.*;
 import java.sql.*;
 public class config {
-private static String url = "jdbc:postgresql://aws-0-us-west-1.pooler.supabase.com:5432/postgres";
-    private static String username="postgres.jjrtlhqvivxhiuorlauo";
-    private static String password="d@t@b@$eiul2025";
+    static readingEnv readEnv=new readingEnv();
+    private static  String url = readEnv.getEnv("DB_URL");
+    private static  String username=readEnv.getEnv("DB_USER");
+    private static  String password=readEnv.getEnv("DB_PASS");
     public static Connection getConnection(){
         Connection con=null;
         try{

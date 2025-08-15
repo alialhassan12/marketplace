@@ -27,6 +27,7 @@ public class login {
                 if (rs.next()) {
                     home home = new home(rs.getInt("client_id"));
                     home.setVisible(true);
+                    home.setExtendedState(JFrame.MAXIMIZED_BOTH);
                     home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     return true;
                     // SwingUtilities.getWindowAncestor(loginPage.this).setVisible(false);
