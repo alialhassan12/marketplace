@@ -1,16 +1,9 @@
 package app;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.concurrent.Flow;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import controllers.getCars;
 public class home extends javax.swing.JFrame {
@@ -23,7 +16,6 @@ public class home extends javax.swing.JFrame {
 
     private void initComponents() {
 
-        Connection connect=null;
         jPanel1 = new javax.swing.JPanel();
         ImageIcon logo=new ImageIcon(getClass().getResource("../layout/image.jpg"));
         logoLabel = new javax.swing.JLabel(logo);
@@ -45,8 +37,6 @@ public class home extends javax.swing.JFrame {
         featuredPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        
 
         jPanel1.setBackground(new java.awt.Color(79, 100, 111));
         jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {

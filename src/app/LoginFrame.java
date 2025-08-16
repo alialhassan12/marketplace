@@ -6,8 +6,6 @@ import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-
 public class LoginFrame extends javax.swing.JFrame {
 
     public LoginFrame() {
@@ -124,7 +122,6 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jPasswordField1.setBackground(new java.awt.Color(255, 255, 255));
         jPasswordField1.setForeground(new java.awt.Color(0, 0, 0));
-        jPasswordField1.setText("..............");
         jPasswordField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,29 +220,28 @@ public class LoginFrame extends javax.swing.JFrame {
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         jButton1.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-                String username = jTextField1.getText();
-                String password = new String(jPasswordField1.getPassword());
-                String hashedPass = new hashPassword().hashPasswords(password);
-                login login = new login(username, hashedPass);
-                if (login.getLogin()) {
-                    // SwingUtilities.getWindowAncestor(LoginFrame.this).setVisible(false);
-                    setVisible(false);
-                }else{
-                    jTextField1.setText("");
-                    jPasswordField1.setText("");
-                }
-        }
+            public void actionPerformed(ActionEvent e) {
+                    String username = jTextField1.getText();
+                    String password = new String(jPasswordField1.getPassword());
+                    String hashedPass = new hashPassword().hashPasswords(password);
+                    login login = new login(username, hashedPass);
+                    if (login.getLogin()) {
+                        // SwingUtilities.getWindowAncestor(LoginFrame.this).setVisible(false);
+                        setVisible(false);
+                    }else{
+                        jTextField1.setText("");
+                        jPasswordField1.setText("");
+                    }
+            }
         });
         jButton2.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 RegisterFrame register=new RegisterFrame();
                 setVisible(false);
-                register.setVisible(true);
                 register.setSize(1280, 750);
+                register.setVisible(true);
                 register.setResizable(false);
-                register.setLocationRelativeTo(null);
-        }
+            }
         });
 
         pack();

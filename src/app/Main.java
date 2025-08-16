@@ -13,15 +13,15 @@ public class Main {
             e.printStackTrace();
         }
         SwingUtilities.invokeLater(() -> {
-            // LoginFrame login = new LoginFrame();
-            // login.setSize(1280, 750);
-            // login.setVisible(true);
-            // login.setLocationRelativeTo(null);
-
-            home login = new home(3);
+            LoginFrame login = new LoginFrame();
             login.setSize(1280, 750);
             login.setVisible(true);
             login.setLocationRelativeTo(null);
+
+            // home login = new home(3);
+            // login.setSize(1280, 750);
+            // login.setVisible(true);
+            // login.setLocationRelativeTo(null);
         });
     }
 }
