@@ -1,7 +1,18 @@
 package app;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.concurrent.Flow;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+
+import controllers.getCars;
 public class home extends javax.swing.JFrame {
     private int clientId;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(home.class.getName());
@@ -34,6 +45,8 @@ public class home extends javax.swing.JFrame {
         featuredPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        
 
         jPanel1.setBackground(new java.awt.Color(79, 100, 111));
         jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -237,19 +250,36 @@ public class home extends javax.swing.JFrame {
 
         featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         featuredLabel.setText("Featured Cars");
+        featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        featuredLabel.setText("Featured Cars");
 
-        featuredPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 51)));
+        featuredPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
+        
+        getCars getCars=new getCars();
+        
+        try{
+            ResultSet AllCars= getCars.getAllCars();
+            while(AllCars.next()){
+                RoundedPanel card=new RoundedPanel(10);
+                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+                card.add(new JLabel(AllCars.getString("brand")));
+                card.add(Box.createVerticalStrut(10));
+                card.add(new JLabel(AllCars.getString("model")));
+                card.add(Box.createVerticalStrut(10));
+                String year=Integer.toString(AllCars.getInt("year"));
+                card.add(new JLabel(year));
+                card.add(Box.createVerticalStrut(10));
+                card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                moreBtn=new JButton("Show More");
+                moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        javax.swing.GroupLayout featuredPanelLayout = new javax.swing.GroupLayout(featuredPanel);
-        featuredPanel.setLayout(featuredPanelLayout);
-        featuredPanelLayout.setHorizontalGroup(
-            featuredPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 835, Short.MAX_VALUE)
-        );
-        featuredPanelLayout.setVerticalGroup(
-            featuredPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 280, Short.MAX_VALUE)
-        );
+                card.add(moreBtn);
+                featuredPanel.add(card);
+            }
+        }catch(Exception e){
+            System.out.println("Error : "+e.getMessage());
+        }
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -258,12 +288,13 @@ public class home extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(featuredPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(23, 23, 23)
+                            .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(featuredPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 835, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -273,8 +304,8 @@ public class home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(featuredPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addComponent(featuredPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -356,6 +387,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel brandLaybel;
     private javax.swing.JLabel featuredLabel;
     private javax.swing.JPanel featuredPanel;
+    private javax.swing.JButton moreBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel logoLabel;

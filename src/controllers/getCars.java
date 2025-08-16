@@ -6,7 +6,7 @@ import app.config;
 public class getCars {
     public ResultSet getAllCars(){
         try{
-            String query="Select * From cars";
+            String query="Select * From car";
             Connection connect =config.getConnection();
             Statement stmt=connect.createStatement();
             ResultSet rs=stmt.executeQuery(query);

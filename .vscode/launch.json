@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "home",
+      "request": "launch",
+      "mainClass": "app.home",
+      "projectName": "marketplace_f5fe7149"
+    },
+    {
+      "type": "java",
       "name": "Main",
       "request": "launch",
       "mainClass": "app.Main",
