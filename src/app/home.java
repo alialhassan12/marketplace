@@ -1,6 +1,9 @@
 package app;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
+import java.awt.Image;
+import java.net.URL;
 import java.sql.ResultSet;
 
 import javax.swing.*;
@@ -244,32 +247,56 @@ public class home extends javax.swing.JFrame {
         featuredLabel.setText("Featured Cars");
 
         featuredPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
-        
+
         getCars getCars=new getCars();
         
         try{
             ResultSet AllCars= getCars.getAllCars();
-            while(AllCars.next()){
+            ResultSet AllPrimaryCarImages=getCars.getPrimaryCarImages();
+            while(AllCars.next() && AllPrimaryCarImages.next()){
                 RoundedPanel card=new RoundedPanel(10);
                 card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-                card.add(new JLabel(AllCars.getString("brand")));
-                card.add(Box.createVerticalStrut(10));
-                card.add(new JLabel(AllCars.getString("model")));
-                card.add(Box.createVerticalStrut(10));
+
+                String imageName=AllPrimaryCarImages.getString("image_path");
+                URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                if(imageUrl != null){
+                    ImageIcon image=new ImageIcon(imageUrl);
+                    Image scaled=image.getImage().getScaledInstance(200, 120, Image.SCALE_SMOOTH);
+                    JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+                    imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(imageLabel);
+                }else{
+                    card.add(new JLabel("no image"));
+                }
+                JLabel cardBrandLabel=new JLabel(AllCars.getString("brand"));
+                cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                card.add(cardBrandLabel);
+                card.add(Box.createVerticalStrut(5));
+                JLabel cardModelLbel=new JLabel(AllCars.getString("model"));
+                cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                card.add(cardModelLbel);
+                card.add(Box.createVerticalStrut(5));
                 String year=Integer.toString(AllCars.getInt("year"));
-                card.add(new JLabel(year));
+                JLabel cardYearJlabel=new JLabel(year);
+                cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                card.add(cardYearJlabel);
                 card.add(Box.createVerticalStrut(10));
                 card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
                 moreBtn=new JButton("Show More");
                 moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+                moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
                 card.add(moreBtn);
                 featuredPanel.add(card);
             }
+            //refresh panel
+            featuredPanel.revalidate();
+            featuredPanel.repaint();
         }catch(Exception e){
-            System.out.println("Error : "+e.getMessage());
+            System.out.println("Featured Panel Error : "+e.getMessage());
         }
 
+        featuredScrollPane=new JScrollPane(featuredPanel);
+        featuredScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -280,11 +307,11 @@ public class home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(23, 23, 23)
                             .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(featuredPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 835, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -294,7 +321,7 @@ public class home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(featuredPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -377,6 +404,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel brandLaybel;
     private javax.swing.JLabel featuredLabel;
     private javax.swing.JPanel featuredPanel;
+    private javax.swing.JScrollPane featuredScrollPane;
     private javax.swing.JButton moreBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
