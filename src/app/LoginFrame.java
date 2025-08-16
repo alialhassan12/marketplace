@@ -2,6 +2,7 @@ package app;
 
 import controllers.login;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -112,6 +113,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(51, 51, 255));
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jButton1.setText("Sign In");
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -138,6 +140,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(51, 51, 255));
         jButton2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jButton2.setText("Register");
         jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -227,7 +230,10 @@ public class LoginFrame extends javax.swing.JFrame {
                 login login = new login(username, hashedPass);
                 if (login.getLogin()) {
                     // SwingUtilities.getWindowAncestor(LoginFrame.this).setVisible(false);
-                setVisible(false);
+                    setVisible(false);
+                }else{
+                    jTextField1.setText("");
+                    jPasswordField1.setText("");
                 }
         }
         });

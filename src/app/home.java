@@ -14,7 +14,7 @@ public class home extends javax.swing.JFrame {
 
         Connection connect=null;
         jPanel1 = new javax.swing.JPanel();
-        ImageIcon logo=new ImageIcon(getClass().getResource("../layout/logo.jpg"));
+        ImageIcon logo=new ImageIcon(getClass().getResource("../layout/image.jpg"));
         logoLabel = new javax.swing.JLabel(logo);
         profileBtn = new javax.swing.JButton();
         BuyBtn = new javax.swing.JButton();
@@ -349,27 +349,6 @@ public class home extends javax.swing.JFrame {
         rentBtn.setBorderPainted(false);
         rentBtn.setContentAreaFilled(false);
     }                                   
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        // java.awt.EventQueue.invokeLater(() -> new home().setVisible(true));
-    }
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton BuyBtn;
