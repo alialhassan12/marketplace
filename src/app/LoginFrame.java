@@ -142,7 +142,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel9.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel9.setText("--------------------------------------------------------------------------------------------------------------------------------------");
+        jLabel9.setText("---------------------------------------------------------------------------------------------------------");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
