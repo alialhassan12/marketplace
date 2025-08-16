@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import app.config;
 import app.home;
+import app.adminhome;
 
 public class login {
     private String username;
@@ -23,25 +24,41 @@ public class login {
         Connection connect = config.getConnection();
 
         try {
-                Statement stmt = connect.createStatement();
-                String query = "SELECT client_id FROM Client WHERE username='" + this.username + "' AND password_hash='"
-                        + this.password+ "'";
-                ResultSet rs = stmt.executeQuery(query);
-                if (rs.next()) {
-                    home home = new home(rs.getInt("client_id"));
-                    home.setVisible(true);
-                    home.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    return true;
-                    // SwingUtilities.getWindowAncestor(loginPage.this).setVisible(false);
+            Statement stmt = connect.createStatement();
+            String query = "SELECT client_id, role FROM Client WHERE username='" + this.username + "' AND password_hash='" + this.password + "'";
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                int clientId = rs.getInt("client_id");
+                String role = rs.getString("role");
+
+                if ("admin".equalsIgnoreCase(role)) {
+                    // Open admin home
+                    adminhome adminPage = new adminhome(clientId);
+                    adminPage.setVisible(true);
+                    adminPage.setLocationRelativeTo(null);
+                    adminPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Invalid credentials!");
-                    return false;
-                }
-                } catch (Exception ex) {
-                    System.out.println("Login error: " + ex.getMessage());
-                    return false;
+                    // Open normal client home
+                    home clientHome = new home(clientId);
+                    clientHome.setVisible(true);
+                    clientHome.setLocationRelativeTo(null);
+                    clientHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 }
 
+                return true;
+
+            } else {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid username or password. Please try again.",
+                        "Login Failed",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (Exception ex) {
+            System.out.println("Login error: " + ex.getMessage());
+            return false;
+        }
     }
 }

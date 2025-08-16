@@ -6,6 +6,8 @@ import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+
 public class LoginFrame extends javax.swing.JFrame {
 
     public LoginFrame() {
@@ -238,9 +240,12 @@ public class LoginFrame extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 RegisterFrame register=new RegisterFrame();
                 setVisible(false);
-                register.setSize(1280, 750);
+                register.setLocationRelativeTo(null);
+                register.setSize(1270, 750);
                 register.setVisible(true);
                 register.setResizable(false);
+                register.setLocationRelativeTo(null);
+                
             }
         });
 
