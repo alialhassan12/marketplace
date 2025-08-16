@@ -20,8 +20,9 @@ public class home extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        ImageIcon logo=new ImageIcon(getClass().getResource("../layout/image.jpg"));
-        logoLabel = new javax.swing.JLabel(logo);
+        ImageIcon logo=new ImageIcon(getClass().getResource("../layout/logo2.png"));
+        Image logoImage=logo.getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH);
+        logoLabel = new javax.swing.JLabel(new ImageIcon(logoImage));
         profileBtn = new javax.swing.JButton();
         BuyBtn = new javax.swing.JButton();
         sellBtn = new javax.swing.JButton();

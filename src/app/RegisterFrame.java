@@ -122,8 +122,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel9.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel9.setText(
-                "--------------------------------------------------------------------------------------------------------------------------------------");
+        jLabel9.setText("---------------------------------------------------------------------------------------------------------");
 
         jLabel10.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel10.setText("Fill in your details to get started");
