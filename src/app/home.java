@@ -264,7 +264,7 @@ public class home extends javax.swing.JFrame {
                 URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
                 if(imageUrl != null){
                     ImageIcon image=new ImageIcon(imageUrl);
-                    Image scaled=image.getImage().getScaledInstance(200, 120, Image.SCALE_SMOOTH);
+                    Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
                     JLabel imageLabel=new JLabel(new ImageIcon(scaled));
                     imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                     card.add(imageLabel);
@@ -320,7 +320,7 @@ public class home extends javax.swing.JFrame {
                 URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
                 if(imageUrl != null){
                     ImageIcon image=new ImageIcon(imageUrl);
-                    Image scaled=image.getImage().getScaledInstance(200, 120, Image.SCALE_SMOOTH);
+                    Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
                     JLabel imageLabel=new JLabel(new ImageIcon(scaled));
                     imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                     card.add(imageLabel);
@@ -385,11 +385,11 @@ layout.setVerticalGroup(
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
         .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addGap(18, 18, 18)
-        .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(latestScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(latestScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 );

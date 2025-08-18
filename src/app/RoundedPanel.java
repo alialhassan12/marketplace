@@ -21,7 +21,7 @@ class RoundedPanel extends JPanel {
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
             
-            g2.setColor(new Color(242, 242, 242));
+            g2.setColor(new Color(79, 100, 111));
             g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
 
             g2.dispose();
