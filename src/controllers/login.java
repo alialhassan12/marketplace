@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 import app.config;
 import app.home;
-import app.adminhome;
+import app.AdminPage;
 
 public class login {
     private String username;
@@ -25,17 +25,17 @@ public class login {
 
         try {
             Statement stmt = connect.createStatement();
-            String query = "SELECT client_id, role ,name FROM Client WHERE username='" + this.username + "' AND password_hash='" + this.password + "'";
+            String query = "SELECT client_id, role, name FROM Client WHERE username='" + this.username + "' AND password_hash='" + this.password + "'";
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
                 int clientId = rs.getInt("client_id");
                 String role = rs.getString("role");
-                String name=rs.getString("name");
+                String name = rs.getString("name");
 
                 if ("admin".equalsIgnoreCase(role)) {
-                    // Open admin home
-                    adminhome adminPage = new adminhome(clientId);
+                    // Open admin home - now passing both clientId and name
+                    AdminPage adminPage = new AdminPage(clientId, name);
                     adminPage.setVisible(true);
                     adminPage.setLocationRelativeTo(null);
                     adminPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

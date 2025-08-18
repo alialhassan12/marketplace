@@ -3,6 +3,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AddAdminPage",
+      "request": "launch",
+      "mainClass": "app.AddAdminPage",
+      "projectName": "marketplace_22a2e1d"
+    },
+    {
+      "type": "java",
+      "name": "ViewAdminsPage",
+      "request": "launch",
+      "mainClass": "app.ViewAdminsPage",
+      "projectName": "marketplace_22a2e1d"
+    },
+    {
+      "type": "java",
+      "name": "ViewClientsPage",
+      "request": "launch",
+      "mainClass": "app.ViewClientsPage",
+      "projectName": "marketplace_22a2e1d"
+    },
+    {
+      "type": "java",
+      "name": "AdminPage",
+      "request": "launch",
+      "mainClass": "app.AdminPage",
+      "projectName": "marketplace_22a2e1d"
+    },
+    {
+      "type": "java",
       "name": "Main",
       "request": "launch",
       "mainClass": "app.Main",

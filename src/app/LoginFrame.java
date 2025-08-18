@@ -1,10 +1,12 @@
 package app;
 
 import controllers.login;
+import functions.RoundedButton;
 
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import functions.*;
 
 public class LoginFrame extends javax.swing.JFrame {
 
@@ -26,11 +28,11 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButton1 = new functions.RoundedButton(20);
         jLabel8 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        jButton2 = new functions.RoundedButton(20);
         jLabel9 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -113,7 +115,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jButton1.setText("Sign In");
-        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        //jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -139,7 +141,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jButton2.setText("Register");
-        jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        //jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel9.setForeground(new java.awt.Color(153, 153, 153));
         jLabel9.setText("---------------------------------------------------------------------------------------------------------");
