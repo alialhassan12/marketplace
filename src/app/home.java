@@ -7,6 +7,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import controllers.getCars;
 public class home extends javax.swing.JFrame {
@@ -39,6 +40,7 @@ public class home extends javax.swing.JFrame {
         yearComboBox2 = new javax.swing.JComboBox<>();
         featuredLabel = new javax.swing.JLabel();
         featuredPanel = new javax.swing.JPanel();
+        latestPanel =new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -297,7 +299,66 @@ public class home extends javax.swing.JFrame {
         }
 
         featuredScrollPane=new JScrollPane(featuredPanel);
+        featuredScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         featuredScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        featuredScrollPane.setBorder(null);
+
+        LatestListingsLabel = new JLabel("Latest Listings");
+        LatestListingsLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
+
+        latestPanel = new JPanel();
+        latestPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
+
+        try{
+            ResultSet latestCars= getCars.getLatestCars();
+            ResultSet AllPrimaryLatestCarImages=getCars.getLatestPrimaryImages();
+            while(latestCars.next() && AllPrimaryLatestCarImages.next()){
+                RoundedPanel card=new RoundedPanel(10);
+                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+
+                String imageName=AllPrimaryLatestCarImages.getString("image_path");
+                URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                if(imageUrl != null){
+                    ImageIcon image=new ImageIcon(imageUrl);
+                    Image scaled=image.getImage().getScaledInstance(200, 120, Image.SCALE_SMOOTH);
+                    JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+                    imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(imageLabel);
+                }else{
+                    card.add(new JLabel("no image"));
+                }
+                JLabel cardBrandLabel=new JLabel(latestCars.getString("brand"));
+                cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                card.add(cardBrandLabel);
+                card.add(Box.createVerticalStrut(5));
+                JLabel cardModelLbel=new JLabel(latestCars.getString("model"));
+                cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                card.add(cardModelLbel);
+                card.add(Box.createVerticalStrut(5));
+                String year=Integer.toString(latestCars.getInt("year"));
+                JLabel cardYearJlabel=new JLabel(year);
+                cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                card.add(cardYearJlabel);
+                card.add(Box.createVerticalStrut(10));
+                card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                moreBtn=new JButton("Show More");
+                moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                card.add(moreBtn);
+                latestPanel.add(card);
+            }
+            //refresh panel
+            featuredPanel.revalidate();
+            featuredPanel.repaint();
+        }catch(Exception e){
+            System.out.println("Featured Panel Error : "+e.getMessage());
+        }
+
+
+        latestScrollPane = new JScrollPane(latestPanel);
+        latestScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        latestScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        latestScrollPane.setBorder(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -306,26 +367,32 @@ public class home extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(23, 23, 23)
-                            .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(featuredScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+                            .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(latestScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE))))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+layout.setVerticalGroup(
+    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(layout.createSequentialGroup()
+        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(18, 18, 18)
+        .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addComponent(latestScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+);
 
         pack();
     }// </editor-fold>                        
@@ -406,6 +473,9 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel featuredLabel;
     private javax.swing.JPanel featuredPanel;
     private javax.swing.JScrollPane featuredScrollPane;
+    private javax.swing.JLabel LatestListingsLabel;
+    private javax.swing.JScrollPane latestScrollPane;
+    private javax.swing.JPanel latestPanel;
     private javax.swing.JButton moreBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

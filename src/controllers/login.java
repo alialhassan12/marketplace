@@ -42,7 +42,9 @@ public class login {
                     // Open normal client home
                     home clientHome = new home(clientId);
                     clientHome.setVisible(true);
+                    clientHome.setSize(1280, 750);
                     clientHome.setLocationRelativeTo(null);
+                    clientHome.setExtendedState(JFrame.MAXIMIZED_BOTH);
                     clientHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 }
 

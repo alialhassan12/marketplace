@@ -13,7 +13,7 @@ public class getCars {
             ResultSet rs=stmt.executeQuery(query);
             return rs;
         }catch(Exception e){
-            ResultSet rs =null;    
+            ResultSet rs =null;
             System.out.println("Error getting all cars "+e.getMessage());
             return rs;
         }
@@ -27,7 +27,35 @@ public class getCars {
             return rs;
         }catch(Exception e){
             ResultSet rs =null;    
-            System.out.println("Error getting all cars "+e.getMessage());
+            System.out.println("Error getting all cars primary images "+e.getMessage());
+            return rs;
+        }
+    }
+    public ResultSet getLatestCars(){
+        try {
+            String query="Select * from car where posted_at >= NOW() - INTERVAL '2 days' ";
+            connect =config.getConnection();
+            Statement stmt=connect.createStatement();
+            ResultSet rs=stmt.executeQuery(query);
+            return rs;
+        } catch (Exception e) {
+            ResultSet rs=null;
+            System.out.println("Error getting latest Cars "+e.getMessage());
+            return rs; 
+        }
+    }
+    public ResultSet getLatestPrimaryImages(){
+        try{
+            String query="Select ci.* From carimage ci"+
+                            " Join car c on ci.car_id = c.car_id "+
+                            "where c.posted_at >= NOW() - INTERVAL '2 days'";
+            connect =config.getConnection();
+            Statement stmt=connect.createStatement();
+            ResultSet rs=stmt.executeQuery(query);
+            return rs;
+        }catch(Exception e){
+            ResultSet rs =null;    
+            System.out.println("Error primary images for latest Cars "+e.getMessage());
             return rs;
         }
     }
