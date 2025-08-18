@@ -25,12 +25,13 @@ public class login {
 
         try {
             Statement stmt = connect.createStatement();
-            String query = "SELECT client_id, role FROM Client WHERE username='" + this.username + "' AND password_hash='" + this.password + "'";
+            String query = "SELECT client_id, role ,name FROM Client WHERE username='" + this.username + "' AND password_hash='" + this.password + "'";
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
                 int clientId = rs.getInt("client_id");
                 String role = rs.getString("role");
+                String name=rs.getString("name");
 
                 if ("admin".equalsIgnoreCase(role)) {
                     // Open admin home

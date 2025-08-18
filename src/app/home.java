@@ -9,15 +9,14 @@ import java.net.URL;
 import java.sql.ResultSet;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.TreeUI;
 
 import controllers.getCars;
 public class home extends javax.swing.JFrame {
     private int clientId;
+    private String name;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(home.class.getName());
     public home(int client_id) {
-        System.out.println(this.clientId);
+        this.clientId=client_id;
         initComponents();
     }
 
@@ -101,7 +100,13 @@ public class home extends javax.swing.JFrame {
         });
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profileBtnActionPerformed(evt);
+                profileFrame profile = new profileFrame(clientId);
+                    profile.setVisible(true);
+                    setVisible(false);
+                    profile.setSize(1280, 750);
+                    profile.setLocationRelativeTo(null);
+                    profile.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    profile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });
 

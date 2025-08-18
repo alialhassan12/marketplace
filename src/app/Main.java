@@ -14,17 +14,17 @@ public class Main {
             e.printStackTrace();
         }
         SwingUtilities.invokeLater(() -> {
-            // LoginFrame login = new LoginFrame();
-            // login.setSize(1280, 750);
-            // login.setResizable(false);
-            // login.setVisible(true);
-            // login.setLocationRelativeTo(null);
-
-            home login = new home(3);
+            LoginFrame login = new LoginFrame();
             login.setSize(1280, 750);
-            login.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            login.setResizable(false);
             login.setVisible(true);
             login.setLocationRelativeTo(null);
+
+            // profileFrame login = new profileFrame(3);
+            // login.setSize(1280, 750);
+            // login.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            // login.setVisible(true);
+            // login.setLocationRelativeTo(null);
         });
     }
 }
