@@ -4,11 +4,10 @@ import java.sql.*;
 import app.config;
 
 public class getCars {
-    private Connection connect=null;
+    private Connection connect=config.getConnection();
     public ResultSet getAllCars(){
         try{
             String query="Select * From car";
-            connect =config.getConnection();
             Statement stmt=connect.createStatement();
             ResultSet rs=stmt.executeQuery(query);
             return rs;
@@ -21,7 +20,6 @@ public class getCars {
     public ResultSet getPrimaryCarImages(){
         try{
             String query="Select car_id, image_path From carimage where is_primary = true";
-            connect =config.getConnection();
             Statement stmt=connect.createStatement();
             ResultSet rs=stmt.executeQuery(query);
             return rs;
@@ -34,7 +32,6 @@ public class getCars {
     public ResultSet getLatestCars(){
         try {
             String query="Select * from car where posted_at >= NOW() - INTERVAL '2 days' ";
-            connect =config.getConnection();
             Statement stmt=connect.createStatement();
             ResultSet rs=stmt.executeQuery(query);
             return rs;
@@ -49,7 +46,6 @@ public class getCars {
             String query="Select ci.* From carimage ci"+
                             " Join car c on ci.car_id = c.car_id "+
                             "where c.posted_at >= NOW() - INTERVAL '2 days'";
-            connect =config.getConnection();
             Statement stmt=connect.createStatement();
             ResultSet rs=stmt.executeQuery(query);
             return rs;

@@ -1,13 +1,16 @@
 package app;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
 import java.sql.ResultSet;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.plaf.TreeUI;
 
 import controllers.getCars;
 public class home extends javax.swing.JFrame {
@@ -24,6 +27,7 @@ public class home extends javax.swing.JFrame {
         ImageIcon logo=new ImageIcon(getClass().getResource("../layout/logo2.png"));
         Image logoImage=logo.getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH);
         logoLabel = new javax.swing.JLabel(new ImageIcon(logoImage));
+        HomeBtn=new javax.swing.JButton();
         profileBtn = new javax.swing.JButton();
         BuyBtn = new javax.swing.JButton();
         sellBtn = new javax.swing.JButton();
@@ -58,6 +62,25 @@ public class home extends javax.swing.JFrame {
         logoLabel.setBackground(new java.awt.Color(255, 0, 0));
         logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
 
+        HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        HomeBtn.setText("Home");
+        HomeBtn.setBorder(null);
+        HomeBtn.setFont(new Font(getName(),Font.BOLD,24));
+        HomeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        HomeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                
+            }
+        });
+        HomeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileBtnActionPerformed(evt);
+            }
+        });
+
         profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         profileBtn.setText("Profile");
         profileBtn.setBorder(null);
@@ -66,10 +89,14 @@ public class home extends javax.swing.JFrame {
         profileBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         profileBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                profileBtnMouseEntered(evt);
+                profileBtn.setBorderPainted(true);
+                profileBtn.setContentAreaFilled(true);
+                profileBtn.setFont(new Font(getName(),Font.BOLD,24));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                profileBtnMouseExited(evt);
+                profileBtn.setBorderPainted(false);
+                profileBtn.setContentAreaFilled(false);
+                profileBtn.setFont(new Font(getName(),0,24));
             }
         });
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -86,10 +113,14 @@ public class home extends javax.swing.JFrame {
         BuyBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BuyBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                BuyBtnMouseEntered(evt);
+                BuyBtn.setBorderPainted(true);
+                BuyBtn.setContentAreaFilled(true);
+                BuyBtn.setFont(new Font(getName(),Font.BOLD,24));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                BuyBtnMouseExited(evt);
+                BuyBtn.setBorderPainted(false);
+                BuyBtn.setContentAreaFilled(false);
+                BuyBtn.setFont(new Font(getName(),0,24));
             }
         });
         BuyBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -106,10 +137,14 @@ public class home extends javax.swing.JFrame {
         sellBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         sellBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                sellBtnMouseEntered(evt);
+                sellBtn.setBorderPainted(true);
+                sellBtn.setContentAreaFilled(true);
+                sellBtn.setFont(new Font(getName(),Font.BOLD,24));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                sellBtnMouseExited(evt);
+                sellBtn.setBorderPainted(false);
+                sellBtn.setContentAreaFilled(false);
+                sellBtn.setFont(new Font(getName(),0,24));
             }
         });
         sellBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -126,10 +161,14 @@ public class home extends javax.swing.JFrame {
         rentBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         rentBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                rentBtnMouseEntered(evt);
+                rentBtn.setBorderPainted(true);
+                rentBtn.setContentAreaFilled(true);
+                rentBtn.setFont(new Font(getName(),Font.BOLD,24));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                rentBtnMouseExited(evt);
+                rentBtn.setBorderPainted(false);
+                rentBtn.setContentAreaFilled(false);
+                rentBtn.setFont(new Font(getName(),0,24));
             }
         });
         rentBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -142,6 +181,7 @@ public class home extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(HomeBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(profileBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(BuyBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(sellBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -157,6 +197,8 @@ public class home extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(HomeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(profileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(BuyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -171,6 +213,7 @@ public class home extends javax.swing.JFrame {
         titleLabel.setText("Home");
 
         searchtext.setText("search");
+        searchtext.setBorder(BorderFactory.createLineBorder(new Color(79, 100, 111)));
         searchtext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchtextActionPerformed(evt);
@@ -423,51 +466,11 @@ layout.setVerticalGroup(
 
     private void jPanel1AncestorAdded(javax.swing.event.AncestorEvent evt) {                                      
         // TODO add your handling code here:
-    }                                     
-
-    private void profileBtnMouseEntered(java.awt.event.MouseEvent evt) {                                        
-        profileBtn.setBorderPainted(true);
-        profileBtn.setContentAreaFilled(true);
-    }                                       
-
-    private void profileBtnMouseExited(java.awt.event.MouseEvent evt) {                                       
-        profileBtn.setBorderPainted(false);
-        profileBtn.setContentAreaFilled(false);
-        
-    }                                      
-
-    private void BuyBtnMouseEntered(java.awt.event.MouseEvent evt) {                                    
-        BuyBtn.setBorderPainted(true);
-        BuyBtn.setContentAreaFilled(true);
-    }                                   
-
-    private void BuyBtnMouseExited(java.awt.event.MouseEvent evt) {                                   
-        BuyBtn.setBorderPainted(false);
-        BuyBtn.setContentAreaFilled(false);
-    }                                  
-
-    private void sellBtnMouseEntered(java.awt.event.MouseEvent evt) {                                     
-        sellBtn.setBorderPainted(true);
-        sellBtn.setContentAreaFilled(true);
-    }                                    
-
-    private void sellBtnMouseExited(java.awt.event.MouseEvent evt) {                                    
-        sellBtn.setBorderPainted(false);
-        sellBtn.setContentAreaFilled(false);
-    }                                   
-
-    private void rentBtnMouseEntered(java.awt.event.MouseEvent evt) {                                     
-        rentBtn.setBorderPainted(true);
-        rentBtn.setContentAreaFilled(true);
-    }                                    
-
-    private void rentBtnMouseExited(java.awt.event.MouseEvent evt) {                                    
-        rentBtn.setBorderPainted(false);
-        rentBtn.setContentAreaFilled(false);
-    }                                   
+    }                                                                     
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton BuyBtn;
+    private javax.swing.JButton HomeBtn;
     private javax.swing.JComboBox<String> brandComboBox;
     private javax.swing.JLabel brandLaybel;
     private javax.swing.JLabel featuredLabel;
