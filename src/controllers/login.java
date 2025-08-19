@@ -37,6 +37,7 @@ public class login {
                     // Open admin home - now passing both clientId and name
                     AdminPage adminPage = new AdminPage(clientId, name);
                     adminPage.setVisible(true);
+                    adminPage.setResizable(false);
                     adminPage.setLocationRelativeTo(null);
                     adminPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 } else {

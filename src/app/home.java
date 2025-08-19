@@ -95,7 +95,7 @@ public class home extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 profileBtn.setBorderPainted(false);
                 profileBtn.setContentAreaFilled(false);
-                profileBtn.setFont(new Font(getName(),0,24));
+                profileBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -125,7 +125,7 @@ public class home extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 BuyBtn.setBorderPainted(false);
                 BuyBtn.setContentAreaFilled(false);
-                BuyBtn.setFont(new Font(getName(),0,24));
+                BuyBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         BuyBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -149,7 +149,7 @@ public class home extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 sellBtn.setBorderPainted(false);
                 sellBtn.setContentAreaFilled(false);
-                sellBtn.setFont(new Font(getName(),0,24));
+                sellBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         sellBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +173,7 @@ public class home extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 rentBtn.setBorderPainted(false);
                 rentBtn.setContentAreaFilled(false);
-                rentBtn.setFont(new Font(getName(),0,24));
+                rentBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         rentBtn.addActionListener(new java.awt.event.ActionListener() {

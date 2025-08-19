@@ -1,13 +1,22 @@
 package app;
 import controllers.getCars;
+import controllers.profile;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -37,19 +46,25 @@ public class profileFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         userInfoPanel = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
-        profilePicLabel= new javax.swing.JLabel();
+        profilePicPanel= new javax.swing.JPanel();
         usernameLabel= new javax.swing.JLabel();
         emailLabel= new javax.swing.JLabel();
         phone= new javax.swing.JLabel();
         MyListingsLabel=new javax.swing.JLabel();
         locationLabel= new javax.swing.JLabel();
+        createdAtLabel= new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         userInfoPanel = new javax.swing.JPanel();
         myListingsPanel = new javax.swing.JPanel();
+        settingsPanel = new javax.swing.JPanel();
         scrollPanel = new javax.swing.JPanel();
         emailLabel = new javax.swing.JLabel();
         fullNameLabel = new javax.swing.JLabel();
         phoneLabel = new javax.swing.JLabel();
+        emptyLabel = new javax.swing.JLabel();
+        addProfileImgBtn=new javax.swing.JButton("Add Profile Picture");
+
+        profile profile=new profile(this.client_id);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,7 +97,7 @@ public class profileFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 HomeBtn.setBorderPainted(false);
                 HomeBtn.setContentAreaFilled(false);
-                HomeBtn.setFont(new Font(getName(),0,24));
+                HomeBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         HomeBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +146,7 @@ public class profileFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 BuyBtn.setBorderPainted(false);
                 BuyBtn.setContentAreaFilled(false);
-                BuyBtn.setFont(new Font(getName(),0,24));
+                BuyBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         BuyBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -155,7 +170,7 @@ public class profileFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 sellBtn.setBorderPainted(false);
                 sellBtn.setContentAreaFilled(false);
-                sellBtn.setFont(new Font(getName(),0,24));
+                sellBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         sellBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +194,7 @@ public class profileFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 rentBtn.setBorderPainted(false);
                 rentBtn.setContentAreaFilled(false);
-                rentBtn.setFont(new Font(getName(),0,24));
+                rentBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         rentBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -220,7 +235,7 @@ public class profileFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); 
         titleLabel.setText("Profile");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -239,21 +254,86 @@ public class profileFrame extends javax.swing.JFrame {
                 .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
+        // profilePicLabel.setText("Profile Picture");
+        
+        try{
+            profile clientInfo=new profile(client_id);
+            ResultSet result=clientInfo.getClientInfo();
+            result.next();
 
-        profilePicLabel.setText("Profile Picture");
+            if(result.getString("profile_image") == null){
+                profilePicPanel.setLayout(new BoxLayout(profilePicPanel,BoxLayout.Y_AXIS));
+                profilePicPanel.add(new JLabel("No Profile"),Box.CENTER_ALIGNMENT);
+                profilePicPanel.add(Box.createVerticalStrut(10));
+                profilePicPanel.add(addProfileImgBtn,Box.CENTER_ALIGNMENT);
+            }else{
+                profilePicPanel.setLayout(new BorderLayout());
+                String imagePath=new File(result.getString("profile_image")).getAbsolutePath();
+                System.out.println("Image path: "+imagePath);
+            
+                ImageIcon profilePic = new ImageIcon(imagePath);
+                Image profileImage=profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                JLabel profilePicLabel = new JLabel(new ImageIcon(profileImage));
+                profilePicPanel.add(profilePicLabel,BorderLayout.CENTER);
+                
+                profilePicPanel.revalidate();
+                profilePicPanel.repaint();
+            }
 
-        usernameLabel.setText(this.name);
+            usernameLabel.setText(result.getString("name"));
+            usernameLabel.setFont(new Font(getName(),0,18));
+            
+            emailLabel.setText(result.getString("email"));
+            emailLabel.setFont(new Font(getName(),0,18));
+            
+            phone.setText(result.getString("phone"));
+            phone.setFont(new Font(getName(),0,18));
 
-        emailLabel.setText("email");
+            createdAtLabel.setText("Account Created At: "+result.getString("created_at"));
+            if(result.getString("location") == null){
+                locationLabel.setText("Unknown");
+            }else{
+                locationLabel.setText(result.getString("location"));
+            }
+            locationLabel.setFont(new Font(getName(),0,18));
 
-        phone.setText("phone");
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
 
-        locationLabel.setText("Location");
+        addProfileImgBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                JFileChooser image=new JFileChooser();
+                int choice=image.showOpenDialog(null);
+                if(choice==JFileChooser.APPROVE_OPTION){
+                    File selected=image.getSelectedFile();
+                    File uploadDir=new File("src/layout/uploads/profilePic");
+                    String newFileName="user_"+client_id+"_"+selected.getName();
+                    Path destination=Paths.get(uploadDir.getAbsolutePath(),newFileName);
+                    String relativePath="src/layout/uploads/profilePic/"+newFileName;
+                    try {
+                        Files.copy(selected.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    System.out.println("Image saved to: " + relativePath);
+                    if(profile.profilePic(relativePath)){
+                        JOptionPane.showMessageDialog(null, "profile aploaded!");
+                    }
+                }
+            }
+        });
 
         editProfileBtn.setText("Edit Profile");
+        editProfileBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         editProfileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+                editProfileFrame edit=new editProfileFrame(client_id,usernameLabel.getText(),emailLabel.getText(),phone.getText(),locationLabel.getText());
+                edit.setVisible(true);
+                edit.setLocationRelativeTo(null);
+                edit.setResizable(false);
+                edit.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             }
         });
 
@@ -268,7 +348,8 @@ public class profileFrame extends javax.swing.JFrame {
                         .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                         .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(locationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(locationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(createdAtLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(editProfileBtn))
                 .addContainerGap(195, Short.MAX_VALUE))
         );
@@ -283,12 +364,14 @@ public class profileFrame extends javax.swing.JFrame {
                 .addComponent(phone)
                 .addGap(18, 18, 18)
                 .addComponent(locationLabel)
+                .addGap(18, 18, 18)
+                .addComponent(createdAtLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(editProfileBtn)
                 .addContainerGap())
         );
 
-        MyListingsLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        MyListingsLabel.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 24));
         MyListingsLabel.setText("My Listings");
 
         myListingsPanel.setLayout(new GridLayout(0,3,10,10));
@@ -298,54 +381,88 @@ public class profileFrame extends javax.swing.JFrame {
             ResultSet MyListingCars=getCars.getMyListingsCars(client_id);
             ResultSet MyListingPrimaryImages=getCars.getMyListingsCarsPrimaryImages(3);
             
-            while(MyListingCars.next() && MyListingPrimaryImages.next()){
-                RoundedPanel card=new RoundedPanel(10);
-                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-                String imageName=MyListingPrimaryImages.getString("image_path");
-                URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
-                if(imageUrl != null){
-                    ImageIcon image=new ImageIcon(imageUrl);
-                    Image scaled=image.getImage().getScaledInstance(220, 150, Image.SCALE_SMOOTH);
-                    JLabel imageLabel=new JLabel(new ImageIcon(scaled));
-                    imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(imageLabel);
-                }else{
-                    card.add(new JLabel("no image"));
+            if(!MyListingCars.isBeforeFirst()){//check if there a result
+                emptyLabel.setText("No Listings Yet...");
+                emptyLabel.setFont(new Font(getName(),Font.PLAIN,18));
+                myListingsPanel.add(emptyLabel);
+            }else{
+                while(MyListingCars.next() && MyListingPrimaryImages.next()){
+                    RoundedPanel card=new RoundedPanel(10);
+                    card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+                    String imageName=MyListingPrimaryImages.getString("image_path");
+                    URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                    if(imageUrl != null){
+                        ImageIcon image=new ImageIcon(imageUrl);
+                        Image scaled=image.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+                        JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+                        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(imageLabel);
+                    }else{
+                        card.add(new JLabel("no image"));
+                    }
+                    JLabel cardBrandLabel=new JLabel(MyListingCars.getString("brand"));
+                    cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardBrandLabel);
+                    card.add(Box.createVerticalStrut(5));
+                    JLabel cardModelLbel=new JLabel(MyListingCars.getString("model"));
+                    cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardModelLbel);
+                    card.add(Box.createVerticalStrut(5));
+                    String year=Integer.toString(MyListingCars.getInt("year"));
+                    JLabel cardYearJlabel=new JLabel(year);
+                    cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardYearJlabel);
+                    card.add(Box.createVerticalStrut(10));
+                    card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                    JButton moreBtn = new JButton("Show More");
+                    moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(moreBtn);
+                    myListingsPanel.add(card);
                 }
-                JLabel cardBrandLabel=new JLabel(MyListingCars.getString("brand"));
-                cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardBrandLabel);
-                card.add(Box.createVerticalStrut(5));
-                JLabel cardModelLbel=new JLabel(MyListingCars.getString("model"));
-                cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardModelLbel);
-                card.add(Box.createVerticalStrut(5));
-                String year=Integer.toString(MyListingCars.getInt("year"));
-                JLabel cardYearJlabel=new JLabel(year);
-                cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardYearJlabel);
-                card.add(Box.createVerticalStrut(10));
-                card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
-                JButton moreBtn = new JButton("Show More");
-                moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(moreBtn);
-                myListingsPanel.add(card);
             }
         }catch(Exception e){
             System.out.println("Error getting My Listings: "+e.getMessage());
         }
 
-        // javax.swing.GroupLayout myListingsPanelLayout = new javax.swing.GroupLayout(myListingsPanel);
-        // myListingsPanel.setLayout(myListingsPanelLayout);
-        // myListingsPanelLayout.setHorizontalGroup(
-        //     myListingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //     .addGap(0, 1020, Short.MAX_VALUE)
-        // );
-        // myListingsPanelLayout.setVerticalGroup(
-        //     myListingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //     .addGap(0, 0, Short.MAX_VALUE)
-        // );
+        settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
+        JLabel settingsTitle=new JLabel("Account Settings");
+        settingsTitle.setFont(new Font("Dialog", Font.BOLD, 24));
+
+        JButton changePassword=new JButton("Change Password");
+        changePassword.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        changePassword.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                changePasswordFrame changePasswordFrame=new changePasswordFrame(client_id);
+                changePasswordFrame.setVisible(true);
+                changePasswordFrame.setLocationRelativeTo(null);
+                changePasswordFrame.setResizable(false);
+                changePasswordFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
+        });
+        JButton deleteAccount=new JButton("Delete Account");
+        deleteAccount.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        deleteAccount.setBackground(new Color(255,0,0));
+
+        deleteAccount.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                if(profile.deleteAccount()){
+                    setVisible(false);
+                    LoginFrame login = new LoginFrame();
+                    login.setSize(1280, 750);
+                    login.setResizable(false);
+                    login.setVisible(true);
+                    login.setLocationRelativeTo(null);
+                }
+            }
+        });
+
+        settingsPanel.add(Box.createVerticalStrut(10));
+        settingsPanel.add(settingsTitle);
+        settingsPanel.add(Box.createVerticalStrut(10));
+        settingsPanel.add(changePassword);
+        settingsPanel.add(Box.createVerticalStrut(5));
+        settingsPanel.add(deleteAccount);
 
         javax.swing.GroupLayout scrollPanelLayout = new javax.swing.GroupLayout(scrollPanel);
         scrollPanel.setLayout(scrollPanelLayout);
@@ -356,26 +473,31 @@ public class profileFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(scrollPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(profilePicLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(profilePicPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
                 .addComponent(userInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scrollPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(myListingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scrollPanelLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         scrollPanelLayout.setVerticalGroup(
             scrollPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(scrollPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(scrollPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(profilePicLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(profilePicPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(userInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(MyListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(myListingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                )
         );
 
         jScrollPane1.setViewportView(scrollPanel);
@@ -383,6 +505,8 @@ public class profileFrame extends javax.swing.JFrame {
         jScrollPane1.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -440,12 +564,14 @@ public class profileFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel locationLabel;
+    private javax.swing.JLabel createdAtLabel;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JPanel scrollPanel;
     private javax.swing.JPanel myListingsPanel;
+    private javax.swing.JPanel settingsPanel;
     private javax.swing.JLabel phone;
     private javax.swing.JButton profileBtn;
-    private javax.swing.JLabel profilePicLabel;
+    private javax.swing.JPanel profilePicPanel;
     private javax.swing.JButton rentBtn;
     private javax.swing.JButton sellBtn;
     private javax.swing.JLabel titleLabel;
@@ -453,5 +579,7 @@ public class profileFrame extends javax.swing.JFrame {
     private javax.swing.JLabel usernameLabel; 
     private javax.swing.JLabel fullNameLabel;
     private javax.swing.JLabel phoneLabel;
+    private javax.swing.JLabel emptyLabel;
+    private javax.swing.JButton addProfileImgBtn;
     // End of variables declaration
 }
