@@ -1,21 +1,23 @@
 package app;
-
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.ResultSet;
 
 import javax.swing.*;
 
-import controllers.getCars;
-public class home extends javax.swing.JFrame {
+import controllers.search;
+public class searchFrame extends javax.swing.JFrame {
     private int clientId;
     private String name;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(home.class.getName());
-    public home(int client_id) {
+    public searchFrame(int client_id) {
         this.clientId=client_id;
         initComponents();
     }
@@ -28,13 +30,21 @@ public class home extends javax.swing.JFrame {
         logoLabel = new javax.swing.JLabel(new ImageIcon(logoImage));
         HomeBtn=new javax.swing.JButton();
         profileBtn = new javax.swing.JButton();
-        searchBtn = new javax.swing.JButton();
+        searchBtn2 = new javax.swing.JButton();
         newListingBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
-        featuredLabel = new javax.swing.JLabel();
-        featuredPanel = new javax.swing.JPanel();
-        latestPanel =new javax.swing.JPanel();
+        searchtext = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
+        brandComboBox = new javax.swing.JComboBox<>();
+        brandLabel = new javax.swing.JLabel();
+        priceLaybel = new javax.swing.JLabel();
+        priceComboBox1 = new javax.swing.JComboBox<>();
+        yearLaybel = new javax.swing.JLabel();
+        yearComboBox2 = new javax.swing.JComboBox<>();
+        resultLabel=new javax.swing.JLabel();
+        resultScrollPane=new javax.swing.JScrollPane();
+        resultPanel =new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,24 +60,34 @@ public class home extends javax.swing.JFrame {
         });
 
         logoLabel.setBackground(new java.awt.Color(255, 0, 0));
-        logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
 
-        HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         HomeBtn.setText("Home");
         HomeBtn.setBorder(null);
-        HomeBtn.setFont(new Font(getName(),Font.BOLD,24));
+        HomeBtn.setBorderPainted(false);
+        HomeBtn.setContentAreaFilled(false);
         HomeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         HomeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                
+                HomeBtn.setBorderPainted(true);
+                HomeBtn.setContentAreaFilled(true);
+                HomeBtn.setFont(new Font(getName(),Font.BOLD,24));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                
+                HomeBtn.setBorderPainted(false);
+                HomeBtn.setContentAreaFilled(false);
+                HomeBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
         HomeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profileBtnActionPerformed(evt);
+                home home = new home(3);
+                setVisible(false);
+                home.setSize(1280, 750);
+                home.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                home.setVisible(true);
+                home.setLocationRelativeTo(null); 
             }
         });
 
@@ -104,29 +124,19 @@ public class home extends javax.swing.JFrame {
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         searchBtn.setText("Search");
         searchBtn.setBorder(null);
-        searchBtn.setBorderPainted(false);
-        searchBtn.setContentAreaFilled(false);
+        searchBtn.setFont(new Font(getName(),Font.BOLD,24));
         searchBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         searchBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                searchBtn.setBorderPainted(true);
-                searchBtn.setContentAreaFilled(true);
-                searchBtn.setFont(new Font(getName(),Font.BOLD,24));
+                
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                searchBtn.setBorderPainted(false);
-                searchBtn.setContentAreaFilled(false);
-                searchBtn.setFont(new Font(getName(),Font.PLAIN,18));
+                
             }
         });
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchFrame searchFrame = new searchFrame(clientId);
-                setVisible(false);
-                searchFrame.setLocationRelativeTo(null);
-                searchFrame.setSize(1280, 750);
-                searchFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                searchFrame.setVisible(true);
+                BuyBtnActionPerformed(evt);
             }
         });
 
@@ -150,7 +160,7 @@ public class home extends javax.swing.JFrame {
         });
         newListingBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+                sellBtnActionPerformed(evt);
             }
         });
 
@@ -162,7 +172,6 @@ public class home extends javax.swing.JFrame {
             .addComponent(profileBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(searchBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(newListingBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,12 +191,114 @@ public class home extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(newListingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        titleLabel.setText("Home");
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24));
+        titleLabel.setText("Search Cars ");
+
+        searchtext.setText("search");
+        searchtext.setBorder(BorderFactory.createLineBorder(new Color(79, 100, 111)));
+        searchtext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchtextActionPerformed(evt);
+            }
+        });
+
+        resultLabel.setText("Results: ");
+        resultLabel.setFont(new Font(getName(),Font.BOLD,24));
+        
+        resultPanel.setLayout(new GridLayout(0,4,10,10));
+
+        searchBtn2.setText("Search");
+        searchBtn2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        searchBtn2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                search search=new search();
+            try{
+                int carBrandIndex=brandComboBox.getSelectedIndex();
+                String carBrand=brandComboBox.getItemAt(carBrandIndex);
+                
+                int carYearIndex=yearComboBox2.getSelectedIndex();
+                int carYear=yearComboBox2.getItemAt(carYearIndex);
+
+                int carPriceIndex=priceComboBox1.getSelectedIndex();
+                double carPrice=priceComboBox1.getItemAt(carPriceIndex);
+                System.out.println("carBrand: "+carBrand+" carYear: "+carYear+" carPrice: "+carPrice);
+
+                ResultSet searchCar=search.searchCar(carBrand,carYear,carPrice);
+                
+                resultPanel.removeAll();
+
+                if(!searchCar.isBeforeFirst()){
+                    JLabel emptyLabel=new JLabel("NO Results Found...");
+                    emptyLabel.setFont(new Font(getName(),0,18));
+                    resultPanel.add(emptyLabel);
+                }else{
+                    while (searchCar.next()){
+                        RoundedPanel card=new RoundedPanel(10);
+                        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+                        String imageName=searchCar.getString("image_path");
+                        URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                        if(imageUrl != null){
+                            ImageIcon image=new ImageIcon(imageUrl);
+                            Image scaled=image.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+                            JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+                            imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                            card.add(imageLabel);
+                        }else{
+                            card.add(new JLabel("no image"));
+                        }
+                        JLabel cardBrandLabel=new JLabel(searchCar.getString("brand"));
+                        cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardBrandLabel);
+                        card.add(Box.createVerticalStrut(5));
+                        JLabel cardModelLbel=new JLabel(searchCar.getString("model"));
+                        cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardModelLbel);
+                        card.add(Box.createVerticalStrut(5));
+                        String year=Integer.toString(searchCar.getInt("year"));
+                        JLabel cardYearJlabel=new JLabel(year);
+                        cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardYearJlabel);
+                        card.add(Box.createVerticalStrut(10));
+                        card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                        JButton moreBtn = new JButton("Show More");
+                        moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                        moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(moreBtn);
+                        resultPanel.add(card);
+                    }
+                    
+                }
+                resultPanel.revalidate();// re-run layout manager
+                resultPanel.repaint();  // redraw
+            }catch(Exception ex){
+                System.out.println("Error getting search Result: "+ex.getMessage());
+            }}});
+
+            
+
+        brandComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Toyota", "BMW", "Ford", "Tesla", "Honda", "Mercedes-Benz", "Audi", "Nissan" }));
+
+        brandLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        brandLabel.setText("Brand:");
+
+        priceLaybel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        priceLaybel.setText("Price:");
+
+        priceComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new Double[] { 12000.50, 15000.00, 9500.75, 40000.00, 32000.99, 35000.00, 29.999, 33.200, 38.450, 42.000, 47.600, 53.900, 61.000, 74.500, 89.999 }));
+        priceComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceComboBox1ActionPerformed(evt);
+            }
+        });
+
+        yearLaybel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        yearLaybel.setText("Year:");
+
+        yearComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new Integer[] { 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -197,7 +308,22 @@ public class home extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(searchtext, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(brandLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(brandComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(priceLaybel, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(priceComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(yearLaybel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(yearComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -206,125 +332,27 @@ public class home extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchtext, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn2)
+                    .addComponent(brandComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brandLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(priceLaybel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(priceComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yearLaybel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yearComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        featuredLabel.setText("Featured Cars");
-        featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        featuredLabel.setText("Featured Cars");
-
-        featuredPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
-
-        getCars getCars=new getCars();
         
-        try{
-            ResultSet AllCars= getCars.getAllCars();
-            ResultSet AllPrimaryCarImages=getCars.getPrimaryCarImages();
-            while(AllCars.next() && AllPrimaryCarImages.next()){
-                RoundedPanel card=new RoundedPanel(10);
-                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        
 
-                String imageName=AllPrimaryCarImages.getString("image_path");
-                URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
-                if(imageUrl != null){
-                    ImageIcon image=new ImageIcon(imageUrl);
-                    Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
-                    JLabel imageLabel=new JLabel(new ImageIcon(scaled));
-                    imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(imageLabel);
-                }else{
-                    card.add(new JLabel("no image"));
-                }
-                JLabel cardBrandLabel=new JLabel(AllCars.getString("brand"));
-                cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardBrandLabel);
-                card.add(Box.createVerticalStrut(5));
-                JLabel cardModelLbel=new JLabel(AllCars.getString("model"));
-                cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardModelLbel);
-                card.add(Box.createVerticalStrut(5));
-                String year=Integer.toString(AllCars.getInt("year"));
-                JLabel cardYearJlabel=new JLabel(year);
-                cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardYearJlabel);
-                card.add(Box.createVerticalStrut(10));
-                card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
-                moreBtn=new JButton("Show More");
-                moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(moreBtn);
-                featuredPanel.add(card);
-            }
-            //refresh panel
-            featuredPanel.revalidate();
-            featuredPanel.repaint();
-        }catch(Exception e){
-            System.out.println("Featured Panel Error : "+e.getMessage());
-        }
-
-        featuredScrollPane=new JScrollPane(featuredPanel);
-        featuredScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        featuredScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        featuredScrollPane.setBorder(null);
-
-        LatestListingsLabel = new JLabel("Latest Listings");
-        LatestListingsLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
-
-        latestPanel = new JPanel();
-        latestPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
-
-        try{
-            ResultSet latestCars= getCars.getLatestCars();
-            ResultSet AllPrimaryLatestCarImages=getCars.getLatestPrimaryImages();
-            while(latestCars.next() && AllPrimaryLatestCarImages.next()){
-                RoundedPanel card=new RoundedPanel(10);
-                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-
-                String imageName=AllPrimaryLatestCarImages.getString("image_path");
-                URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
-                if(imageUrl != null){
-                    ImageIcon image=new ImageIcon(imageUrl);
-                    Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
-                    JLabel imageLabel=new JLabel(new ImageIcon(scaled));
-                    imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(imageLabel);
-                }else{
-                    card.add(new JLabel("no image"));
-                }
-                JLabel cardBrandLabel=new JLabel(latestCars.getString("brand"));
-                cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardBrandLabel);
-                card.add(Box.createVerticalStrut(5));
-                JLabel cardModelLbel=new JLabel(latestCars.getString("model"));
-                cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardModelLbel);
-                card.add(Box.createVerticalStrut(5));
-                String year=Integer.toString(latestCars.getInt("year"));
-                JLabel cardYearJlabel=new JLabel(year);
-                cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardYearJlabel);
-                card.add(Box.createVerticalStrut(10));
-                card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
-                moreBtn=new JButton("Show More");
-                moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(moreBtn);
-                latestPanel.add(card);
-            }
-            //refresh panel
-            featuredPanel.revalidate();
-            featuredPanel.repaint();
-        }catch(Exception e){
-            System.out.println("Featured Panel Error : "+e.getMessage());
-        }
-
-
-        latestScrollPane = new JScrollPane(latestPanel);
-        latestScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        latestScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        latestScrollPane.setBorder(null);
-
+        
+        resultScrollPane.setViewportView(resultPanel);
+        resultScrollPane.setBorder(null);
+        resultScrollPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        resultScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        resultScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -332,15 +360,10 @@ public class home extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(featuredScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
-                            .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(latestScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE))))
+                    .addComponent(resultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -348,14 +371,11 @@ public class home extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(latestScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(resultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(resultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
+                )
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -393,18 +413,23 @@ public class home extends javax.swing.JFrame {
     // Variables declaration - do not modify                     
     private javax.swing.JButton searchBtn;
     private javax.swing.JButton HomeBtn;
-    private javax.swing.JLabel featuredLabel;
-    private javax.swing.JPanel featuredPanel;
-    private javax.swing.JScrollPane featuredScrollPane;
-    private javax.swing.JLabel LatestListingsLabel;
-    private javax.swing.JScrollPane latestScrollPane;
-    private javax.swing.JPanel latestPanel;
+    private javax.swing.JComboBox<String> brandComboBox;
+    private javax.swing.JLabel brandLabel;
+    private javax.swing.JLabel resultLabel;
+    private javax.swing.JPanel resultPanel;
+    private javax.swing.JScrollPane resultScrollPane;
     private javax.swing.JButton moreBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel logoLabel;
+    private javax.swing.JComboBox<Double> priceComboBox1;
+    private javax.swing.JLabel priceLaybel;
     private javax.swing.JButton profileBtn;
+    private javax.swing.JButton searchBtn2;
+    private javax.swing.JTextField searchtext;
     private javax.swing.JButton newListingBtn;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JComboBox<Integer> yearComboBox2;
+    private javax.swing.JLabel yearLaybel;
     // End of variables declaration                   
 }

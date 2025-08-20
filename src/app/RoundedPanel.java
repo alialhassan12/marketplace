@@ -2,12 +2,12 @@ package app;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 class RoundedPanel extends JPanel {
     private int radius;
-
     public RoundedPanel(int radius) {
         this.radius = radius;
         setOpaque(false); // so background is painted manually

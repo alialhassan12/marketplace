@@ -17,9 +17,8 @@ import java.nio.file.*;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.swing.*;
-import javax.swing.border.Border;
+
 
 public class profileFrame extends javax.swing.JFrame {
     private int client_id;
@@ -31,6 +30,23 @@ public class profileFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    private void showProfileImage(File imageFile) {
+        try {
+            profilePicPanel.removeAll();
+            profilePicPanel.setLayout(new BorderLayout());
+
+            ImageIcon profilePic = new ImageIcon(imageFile.getAbsolutePath());
+            Image profileImage = profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            JLabel profilePicLabel = new JLabel(new ImageIcon(profileImage));
+
+            profilePicPanel.add(profilePicLabel, BorderLayout.CENTER);
+            profilePicPanel.revalidate();
+            profilePicPanel.repaint();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void initComponents() {
         
         jPanel1 = new javax.swing.JPanel();
@@ -40,9 +56,8 @@ public class profileFrame extends javax.swing.JFrame {
         HomeBtn = new javax.swing.JButton();
         profileBtn = new javax.swing.JButton();
         editProfileBtn = new javax.swing.JButton();
-        BuyBtn = new javax.swing.JButton();
-        sellBtn = new javax.swing.JButton();
-        rentBtn = new javax.swing.JButton();
+        searchBtn = new javax.swing.JButton();
+        newListingBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         userInfoPanel = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
@@ -131,73 +146,60 @@ public class profileFrame extends javax.swing.JFrame {
             }
         });
 
-        BuyBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        BuyBtn.setText("Buy");
-        BuyBtn.setBorder(null);
-        BuyBtn.setBorderPainted(false);
-        BuyBtn.setContentAreaFilled(false);
-        BuyBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BuyBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        searchBtn.setText("Search");
+        searchBtn.setBorder(null);
+        searchBtn.setBorderPainted(false);
+        searchBtn.setContentAreaFilled(false);
+        searchBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        searchBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                BuyBtn.setBorderPainted(true);
-                BuyBtn.setContentAreaFilled(true);
-                BuyBtn.setFont(new Font(getName(),Font.BOLD,24));
+                searchBtn.setBorderPainted(true);
+                searchBtn.setContentAreaFilled(true);
+                searchBtn.setFont(new Font(getName(),Font.BOLD,24));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                BuyBtn.setBorderPainted(false);
-                BuyBtn.setContentAreaFilled(false);
-                BuyBtn.setFont(new Font(getName(),Font.PLAIN,18));
+                searchBtn.setBorderPainted(false);
+                searchBtn.setContentAreaFilled(false);
+                searchBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
-        BuyBtn.addActionListener(new java.awt.event.ActionListener() {
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuyBtnActionPerformed(evt);
+                searchFrame searchFrame = new searchFrame(client_id);
+                setVisible(false);
+                searchFrame.setLocationRelativeTo(null);
+                searchFrame.setSize(1280, 750);
+                searchFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                searchFrame.setVisible(true);
             }
         });
 
-        sellBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sellBtn.setText("Sell");
-        sellBtn.setBorder(null);
-        sellBtn.setBorderPainted(false);
-        sellBtn.setContentAreaFilled(false);
-        sellBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sellBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        newListingBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        newListingBtn.setText("New Listing");
+        newListingBtn.setBorder(null);
+        newListingBtn.setBorderPainted(false);
+        newListingBtn.setContentAreaFilled(false);
+        newListingBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        newListingBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                sellBtn.setBorderPainted(true);
-                sellBtn.setContentAreaFilled(true);
-                sellBtn.setFont(new Font(getName(),Font.BOLD,24));
+                newListingBtn.setBorderPainted(true);
+                newListingBtn.setContentAreaFilled(true);
+                newListingBtn.setFont(new Font(getName(),Font.BOLD,24));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                sellBtn.setBorderPainted(false);
-                sellBtn.setContentAreaFilled(false);
-                sellBtn.setFont(new Font(getName(),Font.PLAIN,18));
+                newListingBtn.setBorderPainted(false);
+                newListingBtn.setContentAreaFilled(false);
+                newListingBtn.setFont(new Font(getName(),Font.PLAIN,18));
             }
         });
-        sellBtn.addActionListener(new java.awt.event.ActionListener() {
+        newListingBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sellBtnActionPerformed(evt);
             }
         });
 
-        rentBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        rentBtn.setText("Rent");
-        rentBtn.setBorder(null);
-        rentBtn.setBorderPainted(false);
-        rentBtn.setContentAreaFilled(false);
-        rentBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        rentBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                rentBtn.setBorderPainted(true);
-                rentBtn.setContentAreaFilled(true);
-                rentBtn.setFont(new Font(getName(),Font.BOLD,24));
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                rentBtn.setBorderPainted(false);
-                rentBtn.setContentAreaFilled(false);
-                rentBtn.setFont(new Font(getName(),Font.PLAIN,18));
-            }
-        });
-        rentBtn.addActionListener(new java.awt.event.ActionListener() {
+        newListingBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rentBtnActionPerformed(evt);
             }
@@ -209,9 +211,8 @@ public class profileFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(HomeBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(profileBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(BuyBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(sellBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(rentBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(searchBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(newListingBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,11 +228,10 @@ public class profileFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(profileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(BuyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(sellBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(newListingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(rentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -260,7 +260,7 @@ public class profileFrame extends javax.swing.JFrame {
             profile clientInfo=new profile(client_id);
             ResultSet result=clientInfo.getClientInfo();
             result.next();
-
+            profilePicPanel.removeAll();
             if(result.getString("profile_image") == null){
                 profilePicPanel.setLayout(new BoxLayout(profilePicPanel,BoxLayout.Y_AXIS));
                 profilePicPanel.add(new JLabel("No Profile"),Box.CENTER_ALIGNMENT);
@@ -269,16 +269,16 @@ public class profileFrame extends javax.swing.JFrame {
             }else{
                 profilePicPanel.setLayout(new BorderLayout());
                 String imagePath=new File(result.getString("profile_image")).getAbsolutePath();
-                System.out.println("Image path: "+imagePath);
             
                 ImageIcon profilePic = new ImageIcon(imagePath);
                 Image profileImage=profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
                 JLabel profilePicLabel = new JLabel(new ImageIcon(profileImage));
                 profilePicPanel.add(profilePicLabel,BorderLayout.CENTER);
                 
-                profilePicPanel.revalidate();
-                profilePicPanel.repaint();
+                
             }
+            profilePicPanel.revalidate();
+            profilePicPanel.repaint();
 
             usernameLabel.setText(result.getString("name"));
             usernameLabel.setFont(new Font(getName(),0,18));
@@ -321,6 +321,7 @@ public class profileFrame extends javax.swing.JFrame {
                     if(profile.profilePic(relativePath)){
                         JOptionPane.showMessageDialog(null, "profile aploaded!");
                     }
+                    showProfileImage(selected);
                 }
             }
         });
@@ -379,7 +380,7 @@ public class profileFrame extends javax.swing.JFrame {
         getCars getCars=new getCars();
         try{
             ResultSet MyListingCars=getCars.getMyListingsCars(client_id);
-            ResultSet MyListingPrimaryImages=getCars.getMyListingsCarsPrimaryImages(3);
+            ResultSet MyListingPrimaryImages=getCars.getMyListingsCarsPrimaryImages(client_id);
             
             if(!MyListingCars.isBeforeFirst()){//check if there a result
                 emptyLabel.setText("No Listings Yet...");
@@ -555,7 +556,7 @@ public class profileFrame extends javax.swing.JFrame {
     }                                     
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton BuyBtn;
+    private javax.swing.JButton searchBtn;
     private javax.swing.JButton HomeBtn;
     private javax.swing.JLabel MyListingsLabel;
     private javax.swing.JButton editProfileBtn;
@@ -572,8 +573,7 @@ public class profileFrame extends javax.swing.JFrame {
     private javax.swing.JLabel phone;
     private javax.swing.JButton profileBtn;
     private javax.swing.JPanel profilePicPanel;
-    private javax.swing.JButton rentBtn;
-    private javax.swing.JButton sellBtn;
+    private javax.swing.JButton newListingBtn;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel userInfoPanel;
     private javax.swing.JLabel usernameLabel; 

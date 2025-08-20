@@ -87,7 +87,7 @@ public class editProfileFrame extends javax.swing.JFrame {
                 String newEmail=emailField.getText();
                 String newPhone=phoneField.getText();
                 String newLocation=locationField.getText();
-                if(profile.editProfile(newLocation,newName, newEmail, newPhone)){
+                if(profile.editProfile(newName,newEmail, newPhone, newLocation)){
                     JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
                     setVisible(false);
                 }

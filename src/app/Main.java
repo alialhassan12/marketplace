@@ -20,11 +20,11 @@ public class Main {
             login.setVisible(true);
             login.setLocationRelativeTo(null);
 
-            // profileFrame login = new profileFrame(3);
+            // home login = new home(3);
             // login.setSize(1280, 750);
             // login.setExtendedState(JFrame.MAXIMIZED_BOTH);
             // login.setVisible(true);
-            // login.setLocationRelativeTo(null);
+            // login.setLocationRelativeTo(null);  
         });
     }
 }
