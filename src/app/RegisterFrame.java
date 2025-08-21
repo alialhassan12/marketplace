@@ -412,7 +412,9 @@ public class RegisterFrame extends javax.swing.JFrame {
                     LoginFrame login = new LoginFrame();
                     login.setVisible(true);
                     login.setLocationRelativeTo(null);
-                    login.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    login.setSize(1280, 750);
+                    login.setResizable(false);;
+                    
                 }
             }
         });
