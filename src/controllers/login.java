@@ -25,13 +25,24 @@ public class login {
 
         try {
             Statement stmt = connect.createStatement();
-            String query = "SELECT client_id, role, name FROM Client WHERE username='" + this.username + "' AND password_hash='" + this.password + "'";
+            String query = "SELECT client_id, role, name, is_approved FROM Client WHERE username='" + this.username + "' AND password_hash='" + this.password + "'";
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
                 int clientId = rs.getInt("client_id");
                 String role = rs.getString("role");
                 String name = rs.getString("name");
+                boolean isApproved = rs.getBoolean("is_approved");
+
+                // Check if client is approved (only for clients, not admins)
+                if (!"admin".equalsIgnoreCase(role) && !isApproved) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Your account is pending approval. Please wait for admin approval before signing in.",
+                            "Account Pending Approval",
+                            JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }
 
                 if ("admin".equalsIgnoreCase(role)) {
                     // Open admin home - now passing both clientId and name
@@ -41,7 +52,7 @@ public class login {
                     adminPage.setLocationRelativeTo(null);
                     adminPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 } else {
-                    // Open normal client home
+                    // Open normal client home (only if approved)
                     home clientHome = new home(clientId);
                     clientHome.setVisible(true);
                     clientHome.setSize(1280, 750);

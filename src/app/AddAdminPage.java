@@ -262,7 +262,7 @@ public class AddAdminPage extends javax.swing.JFrame {
         // Insert into database
         Connection connect = config.getConnection();
         try {
-            String query = "INSERT INTO Client (name, username, email, phone, password_hash, role, created_at) VALUES (?, ?, ?, ?, ?, 'admin', NOW())";
+            String query = "INSERT INTO Client (name, username, email, phone, password_hash, role, created_at,is_approved) VALUES (?, ?, ?, ?, ?, 'admin', NOW(),'true')";
             PreparedStatement pstmt = connect.prepareStatement(query);
 
             pstmt.setString(1, name);

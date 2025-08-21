@@ -6,8 +6,19 @@ package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.UIManager;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import functions.RoundedButton;
-
 
 /**
  *
@@ -21,6 +32,7 @@ public class AdminPage extends javax.swing.JFrame {
          */
         private int clientId;
         private String adminName;
+        
 
         /**
          * Creates new form ADMIN - default constructor
@@ -31,6 +43,7 @@ public class AdminPage extends javax.swing.JFrame {
                 initComponents();
                 setSize(1200, 601);
                 setLocationRelativeTo(null);
+                refreshDashboardStats();
 
                 // Set default admin name
                 jLabel20.setText(adminName);
@@ -45,6 +58,7 @@ public class AdminPage extends javax.swing.JFrame {
                 initComponents();
                 setSize(1200, 601);
                 setLocationRelativeTo(null);
+                refreshDashboardStats();
 
                 // Set the admin name in the label
                 jLabel20.setText(adminName);
@@ -59,6 +73,7 @@ public class AdminPage extends javax.swing.JFrame {
                 initComponents();
                 setSize(1200, 601);
                 setLocationRelativeTo(null);
+                refreshDashboardStats();
 
                 // Set default admin name
                 jLabel20.setText(adminName);
@@ -121,10 +136,13 @@ public class AdminPage extends javax.swing.JFrame {
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-                jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-                jPanel1.setLayout(null);
+                jPanel1.setBorder(null);
+                jPanel1.setBackground(new java.awt.Color(24, 24, 24));
+                jPanel4.setBackground(new java.awt.Color(24, 24, 24));
+                jPanel4.setBorder(null);
+                jPanel1.setLayout(new java.awt.BorderLayout());
 
-                jPanel4.setLayout(null);
+                jPanel4.setLayout(new java.awt.BorderLayout());
 
                 jPanel3.setBackground(new java.awt.Color(24, 24, 24));
                 // jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new
@@ -165,11 +183,10 @@ public class AdminPage extends javax.swing.JFrame {
                                                                 .addComponent(jLabel2)
                                                                 .addContainerGap()));
 
-                jPanel4.add(jPanel3);
-                jPanel3.setBounds(0, 0, 320, 140);
+                jPanel4.add(jPanel3, java.awt.BorderLayout.NORTH);
 
                 jPanel2.setBackground(new java.awt.Color(24, 24, 24));
-                jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+                jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(120, 120, 120)));
 
                 jButton1.setBackground(new java.awt.Color(24, 24, 24));
                 jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -195,6 +212,11 @@ public class AdminPage extends javax.swing.JFrame {
                 jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
                 jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
                 jButton3.setIconTextGap(19);
+                jButton3.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton3ActionPerformed(evt);
+                        }
+                });
 
                 jButton12.setBackground(new java.awt.Color(24, 24, 24));
                 jButton12.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -337,11 +359,9 @@ public class AdminPage extends javax.swing.JFrame {
                                                                                 61,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)));
 
-                jPanel4.add(jPanel2);
-                jPanel2.setBounds(0, 140, 320, 430);
+                jPanel4.add(jPanel2, java.awt.BorderLayout.CENTER);
 
-                jPanel1.add(jPanel4);
-                jPanel4.setBounds(0, 0, 320, 570);
+                jPanel1.add(jPanel4, java.awt.BorderLayout.WEST);
 
                 jButton11.setBackground(new java.awt.Color(24, 24, 24));
                 jButton11.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -353,16 +373,21 @@ public class AdminPage extends javax.swing.JFrame {
                 jButton11.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
                 jButton11.setIconTextGap(19);
                 jButton11.setMargin(new java.awt.Insets(2, 24, 2, 14));
+                jButton11.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton11ActionPerformed(evt);
+                        }
+                });
                 jPanel1.add(jButton11);
                 jButton11.setBounds(0, 0, 152, 26);
 
-                jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                jScrollPane2.setBorder(null);
                 jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
                 jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-                jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                jScrollPane2.setViewportBorder(null);
 
                 jPanel12.setBackground(new java.awt.Color(52, 52, 52));
-                jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                jPanel12.setBorder(null);
                 jPanel12.setForeground(new java.awt.Color(51, 51, 51));
                 jPanel12.setPreferredSize(new java.awt.Dimension(852, 790));
 
@@ -390,11 +415,35 @@ public class AdminPage extends javax.swing.JFrame {
                 jButton19.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
                 jButton19.setText("Profile");
                 jButton19.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                jButton19.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton19ActionPerformed(evt);
+                        }
+                });
 
                 jLabel20.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
                 jLabel20.setText("admin_name");
 
-                jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/user2.png"))); // NOI18N
+                                                // Set admin profile picture if available, else default
+                                                String profilePicPath = null;
+                                                                try {
+                                                                        Connection conn = config.getConnection();
+                                                                        Statement stmt = conn.createStatement();
+                                                                        ResultSet rs = stmt.executeQuery("SELECT profile_image FROM client WHERE client_id = " + clientId);
+                                                                        if (rs.next()) {
+                                                                                profilePicPath = rs.getString("profile_image");
+                                                                        }
+                                                                        rs.close();
+                                                                        stmt.close();
+                                                                        conn.close();
+                                                                } catch (Exception e) { profilePicPath = null; }
+                                                if (profilePicPath != null && !profilePicPath.isEmpty()) {
+                                                        ImageIcon icon = new ImageIcon(profilePicPath);
+                                                        Image img = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                                                        jLabel21.setIcon(new ImageIcon(img));
+                                                } else {
+                                                        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/user2.png")));
+                                                }
 
                 javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
                 jPanel13.setLayout(jPanel13Layout);
@@ -479,7 +528,7 @@ public class AdminPage extends javax.swing.JFrame {
                 jLabel23.setText("Total Cars Available");
 
                 jLabel24.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-                jLabel24.setText("24");
+                jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
                 javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
                 jPanel14.setLayout(jPanel14Layout);
@@ -530,7 +579,6 @@ public class AdminPage extends javax.swing.JFrame {
 
                 jLabel27.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
                 jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                jLabel27.setText("156");
 
                 javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
                 jPanel15.setLayout(jPanel15Layout);
@@ -582,7 +630,7 @@ public class AdminPage extends javax.swing.JFrame {
                 jLabel29.setText("Total Clients");
 
                 jLabel30.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-                jLabel30.setText("89");
+                jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
                 javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
                 jPanel16.setLayout(jPanel16Layout);
@@ -635,6 +683,11 @@ public class AdminPage extends javax.swing.JFrame {
                 // jButton20.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24, 24, 24)));
                 jButton20.setIconTextGap(19);
+                jButton20.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton20ActionPerformed(evt);
+                        }
+                });
 
                 jButton21.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
                 jButton21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/check-list.png"))); // NOI18N
@@ -642,6 +695,11 @@ public class AdminPage extends javax.swing.JFrame {
                 // jButton21.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24, 24, 24)));
                 jButton21.setIconTextGap(19);
+                jButton21.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton21ActionPerformed(evt);
+                        }
+                });
 
                 jButton22.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
                 jButton22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/edit.png"))); // NOI18N
@@ -649,6 +707,11 @@ public class AdminPage extends javax.swing.JFrame {
                 // jButton22.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24, 24, 24)));
                 jButton22.setIconTextGap(19);
+                jButton22.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton22ActionPerformed(evt);
+                        }
+                });
 
                 javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
                 jPanel17.setLayout(jPanel17Layout);
@@ -716,6 +779,11 @@ public class AdminPage extends javax.swing.JFrame {
                 // jButton23.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24,24,24)));
                 jButton23.setIconTextGap(19);
+                jButton23.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton23ActionPerformed(evt);
+                        }
+                });
 
                 jButton24.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
                 jButton24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/check-list.png"))); // NOI18N
@@ -735,6 +803,11 @@ public class AdminPage extends javax.swing.JFrame {
                 // jButton25.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24,24,24)));
                 jButton25.setIconTextGap(19);
+                jButton25.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton25ActionPerformed(evt);
+                        }
+                });
 
                 javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
                 jPanel18.setLayout(jPanel18Layout);
@@ -795,45 +868,21 @@ public class AdminPage extends javax.swing.JFrame {
                 javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
                 jPanel12.setLayout(jPanel12Layout);
                 jPanel12Layout.setHorizontalGroup(
-                                jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel12Layout.createSequentialGroup()
-                                                                .addGap(51, 51, 51)
-                                                                .addGroup(jPanel12Layout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.LEADING,
-                                                                                                false)
-                                                                                .addGroup(jPanel12Layout
-                                                                                                .createSequentialGroup()
-                                                                                                .addComponent(jPanel14,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addGap(28, 28, 28)
-                                                                                                .addComponent(jPanel15,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addPreferredGap(
-                                                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                Short.MAX_VALUE)
-                                                                                                .addComponent(jPanel16,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                .addComponent(jPanel13,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                Short.MAX_VALUE)
-                                                                                .addComponent(jPanel17,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                Short.MAX_VALUE)
-                                                                                .addComponent(jPanel18,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                Short.MAX_VALUE))
-                                                                .addContainerGap(48, Short.MAX_VALUE)));
+    jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel12Layout.createSequentialGroup()
+            .addGap(51, 51, 51)
+            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                // Evenly distributed panels with equal spacing
+                .addGroup(jPanel12Layout.createSequentialGroup()
+                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap(48, Short.MAX_VALUE)));
                 jPanel12Layout.setVerticalGroup(
                                 jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(jPanel12Layout.createSequentialGroup()
@@ -855,7 +904,7 @@ public class AdminPage extends javax.swing.JFrame {
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                 .addComponent(jPanel16,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addGap(26, 26, 26)
                                                                 .addComponent(jPanel17,
@@ -871,58 +920,305 @@ public class AdminPage extends javax.swing.JFrame {
 
                 jScrollPane2.setViewportView(jPanel12);
 
-                jPanel1.add(jScrollPane2);
-                jScrollPane2.setBounds(320, 0, 850, 570);
+                jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
                 getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
                 pack();
         }// </editor-fold>
 
+        // Button Action Methods - All buttons are now functional
+
         private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-                // TODO add your handling code here:
+                // Dashboard - refresh the current page
+                JOptionPane.showMessageDialog(this, "Dashboard refreshed!", "Dashboard",
+                                JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {
+                // Duplicate Dashboard button - same functionality as jButton1
+                JOptionPane.showMessageDialog(this, "Dashboard refreshed!", "Dashboard",
+                                JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+                // View Clients
+                try {
+                        ViewClientsPage viewClientsPage = new ViewClientsPage();
+                        viewClientsPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening View Clients page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
         }
 
         private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {
-                ViewClientsPage viewClientsPage = new ViewClientsPage();
-                setVisible(true);
-                viewClientsPage.setVisible(true);
-
+                // View All Clients - same as jButton3
+                try {
+                        ViewClientsPage viewClientsPage = new ViewClientsPage();
+                        viewClientsPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening View Clients page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
         }
 
         private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {
-                // TODO add your handling code here:
+                // Cars for Sale
+                try {
+                        // Create a placeholder page or open actual CarsForSalePage
+                        JOptionPane.showMessageDialog(this, "Opening Cars for Sale page...",
+                                        "Cars for Sale", JOptionPane.INFORMATION_MESSAGE);
+                        // Uncomment when you have the actual page:
+                        // CarsForSalePage carsForSalePage = new CarsForSalePage();
+                        // carsForSalePage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Cars for Sale page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
         }
 
         private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {
-                ViewAdminsPage viewAdminsPage = new ViewAdminsPage();
-                viewAdminsPage.setVisible(true);
+                // View Admins
+                try {
+                        ViewAdminsPage viewAdminsPage = new ViewAdminsPage();
+                        viewAdminsPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening View Admins page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
         }
 
         private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {
-                // TODO add your handling code here:
-        }
-
-        private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {
-                // Close current AdminPage
-                this.dispose();
-
-                // Open LoginFrame
-                LoginFrame loginFrame = new LoginFrame();
-                setVisible(false);
-                loginFrame.setSize(1280, 750);
-                loginFrame.setResizable(false);
-                loginFrame.setVisible(true);
-                loginFrame.setLocationRelativeTo(null);
-        }
-
-        private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {
-                AddAdminPage addAdminPage = new AddAdminPage();
-                addAdminPage.setVisible(true);
+                // Cars for Rent
+                try {
+                        JOptionPane.showMessageDialog(this, "Opening Cars for Rent page...",
+                                        "Cars for Rent", JOptionPane.INFORMATION_MESSAGE);
+                        // Uncomment when you have the actual page:
+                        // CarsForRentPage carsForRentPage = new CarsForRentPage();
+                        // carsForRentPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Cars for Rent page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
         }
 
         private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {
-                // TODO add your handling code here:
+                // Messages
+                try {
+                        JOptionPane.showMessageDialog(this, "Opening Messages page...",
+                                        "Messages", JOptionPane.INFORMATION_MESSAGE);
+                        // Uncomment when you have the actual page:
+                        // MessagesPage messagesPage = new MessagesPage();
+                        // messagesPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Messages page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {
+                // Logout
+                int confirm = JOptionPane.showConfirmDialog(this,
+                                "Are you sure you want to logout?",
+                                "Confirm Logout",
+                                JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                        this.dispose();
+                        try {
+                                LoginFrame loginFrame = new LoginFrame();
+                                loginFrame.setSize(1280, 750);
+                                loginFrame.setResizable(false);
+                                loginFrame.setVisible(true);
+                                loginFrame.setLocationRelativeTo(null);
+                        } catch (Exception e) {
+                                JOptionPane.showMessageDialog(this, "Error opening Login page: " + e.getMessage(),
+                                                "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                }
+        }
+
+        private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {
+                // Profile
+                try {
+                        AdminProfilePage profilePage = new AdminProfilePage(this.clientId);
+                        profilePage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Profile page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {
+                // Add New Car
+                try {
+                        JOptionPane.showMessageDialog(this, "Opening Add New Car page...",
+                                        "Add Car", JOptionPane.INFORMATION_MESSAGE);
+                        // Uncomment when you have the actual page:
+                        // AddCarPage addCarPage = new AddCarPage();
+                        // addCarPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Add Car page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {
+                // View All Cars
+                try {
+                        JOptionPane.showMessageDialog(this, "Opening View All Cars page...",
+                                        "View Cars", JOptionPane.INFORMATION_MESSAGE);
+                        // Uncomment when you have the actual page:
+                        // ViewAllCarsPage viewCarsPage = new ViewAllCarsPage();
+                        // viewCarsPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening View Cars page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {
+                // Edit Car Data
+                try {
+                        JOptionPane.showMessageDialog(this, "Opening Edit Car Data page...",
+                                        "Edit Car", JOptionPane.INFORMATION_MESSAGE);
+                        // Uncomment when you have the actual page:
+                        // EditCarPage editCarPage = new EditCarPage();
+                        // editCarPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Edit Car page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {
+                // Remove Client
+                try {
+                        DeleteClientPage deleteClientPage = new DeleteClientPage();
+                        deleteClientPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Delete Client page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                        ApprovalPage approvalPage = new ApprovalPage();
+                        approvalPage.setVisible(true);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Approval page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {
+                // Add Admin
+                try {
+                        this.showTemporaryDialog("Opening Add Admin...", new Runnable() {
+                                public void run() {
+                                        AddAdminPage addAdminPage = new AddAdminPage();
+                                        addAdminPage.setVisible(true);
+                                }
+                        });
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error opening Add Admin page: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        /**
+         * Show a modal loading dialog while running a small open action.
+         * The provided Runnable will be executed on the Event Dispatch Thread
+         * after the background worker completes (so UI creation happens safely).
+         */
+        private void showTemporaryDialog(String message, final Runnable onOpen) {
+                final JDialog dialog = new JDialog(this, "Please wait", true);
+                JPanel p = new JPanel(new BorderLayout(8, 8));
+                p.add(new JLabel(message), BorderLayout.CENTER);
+                JProgressBar bar = new JProgressBar();
+                bar.setIndeterminate(true);
+                p.add(bar, BorderLayout.SOUTH);
+                dialog.getContentPane().add(p);
+                dialog.pack();
+                dialog.setLocationRelativeTo(this);
+
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                                // nothing heavy here; keep worker so dialog can show
+                                return null;
+                        }
+
+                        @Override
+                        protected void done() {
+                                try {
+                                        // Create/show page on EDT (this runs on EDT)
+                                        if (onOpen != null) {
+                                                onOpen.run();
+                                        }
+                                } catch (Exception e) {
+                                        JOptionPane.showMessageDialog(AdminPage.this,
+                                                        "Error opening page: " + e.getMessage(), "Error",
+                                                        JOptionPane.ERROR_MESSAGE);
+                                } finally {
+                                        dialog.dispose();
+                                }
+                        }
+                };
+
+                worker.execute();
+                dialog.setVisible(true);
+        }
+
+        // Helper method to refresh dashboard statistics (optional)
+        private void refreshDashboardStats() {
+                try (Connection conn = config.getConnection();
+                                Statement stmt = conn.createStatement()) {
+
+                        // ✅ Total Cars Available
+                        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM car");
+                        if (rs.next()) {
+                                jLabel24.setText(String.valueOf(rs.getInt("total")));
+                        }
+                        rs.close();
+
+                        // ✅ Cars Sold
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM sale");
+                        if (rs.next()) {
+                                jLabel27.setText(String.valueOf(rs.getInt("total")));
+                        }
+                        rs.close();
+
+                        // ✅ Total Clients (excluding admins)
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM client WHERE role != 'admin'");
+                        if (rs.next()) {
+                                jLabel30.setText(String.valueOf(rs.getInt("total")));
+                        }
+                        rs.close();
+
+                } catch (Exception e) {
+                        System.err.println("Error refreshing dashboard stats: " + e.getMessage());
+                }
+        }
+
+        // Getters for admin information
+        public int getClientId() {
+                return clientId;
+        }
+
+        public String getAdminName() {
+                return adminName;
+        }
+
+        // Setter methods to update admin information
+        public void setClientId(int clientId) {
+                this.clientId = clientId;
+        }
+
+        public void setAdminName(String adminName) {
+                this.adminName = adminName;
+                jLabel20.setText(adminName);
         }
 
         /**

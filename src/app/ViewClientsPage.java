@@ -56,7 +56,7 @@ public class ViewClientsPage extends javax.swing.JFrame {
         headerPanel.setPreferredSize(new Dimension(0, 80));
         headerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
         
-        JLabel titleLabel = new JLabel("All Clients (Non-Admin Users)");
+        JLabel titleLabel = new JLabel("All Clients");
         titleLabel.setFont(new Font("Dialog", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         
@@ -193,7 +193,9 @@ public class ViewClientsPage extends javax.swing.JFrame {
                     rs.getString("username"),
                     rs.getString("email"),
                     rs.getString("phone"),
-                    rs.getTimestamp("created_at") != null ? rs.getTimestamp("created_at").toString() : "N/A"
+                    rs.getTimestamp("created_at") != null
+                        ? rs.getTimestamp("created_at").toLocalDateTime().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                        : "N/A"
                 };
                 tableModel.addRow(row);
                 clientCount++;

@@ -3,6 +3,41 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AdminProfilePage",
+      "request": "launch",
+      "mainClass": "app.AdminProfilePage",
+      "projectName": "marketplace_55d56175"
+    },
+    {
+      "type": "java",
+      "name": "ViewClientsPage",
+      "request": "launch",
+      "mainClass": "app.ViewClientsPage",
+      "projectName": "marketplace_55d56175"
+    },
+    {
+      "type": "java",
+      "name": "AddAdminPage",
+      "request": "launch",
+      "mainClass": "app.AddAdminPage",
+      "projectName": "marketplace_55d56175"
+    },
+    {
+      "type": "java",
+      "name": "AdminPage",
+      "request": "launch",
+      "mainClass": "app.AdminPage",
+      "projectName": "marketplace_55d56175"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "app.Main",
+      "projectName": "marketplace_55d56175"
+    },
+    {
+      "type": "java",
       "name": "AddAdminPage",
       "request": "launch",
       "mainClass": "app.AddAdminPage",

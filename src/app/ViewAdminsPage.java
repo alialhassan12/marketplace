@@ -193,7 +193,9 @@ public class ViewAdminsPage extends javax.swing.JFrame {
                     rs.getString("email"),
                     rs.getString("phone") != null ? rs.getString("phone") : "N/A",
                     "Active",
-                    rs.getTimestamp("created_at") != null ? rs.getTimestamp("created_at").toString() : "N/A"
+                    rs.getTimestamp("created_at") != null
+                        ? rs.getTimestamp("created_at").toLocalDateTime().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                        : "N/A"
                 };
                 tableModel.addRow(row);
                 adminCount++;

@@ -26,11 +26,11 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextField1 = new functions.RoundedTextField(20, 20);
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new functions.RoundedButton(20);
         jLabel8 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        jPasswordField1 = new functions.RoundedPasswordField(20, 20);
         jLabel5 = new javax.swing.JLabel();
         jButton2 = new functions.RoundedButton(20);
         jLabel9 = new javax.swing.JLabel();
@@ -47,7 +47,7 @@ public class LoginFrame extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CarWay Login");
+        setTitle("S&A Motors Login");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel2.setLayout(null);
