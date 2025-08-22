@@ -208,7 +208,7 @@ public class searchFrame extends javax.swing.JFrame {
         resultLabel.setText("Results: ");
         resultLabel.setFont(new Font(getName(),Font.BOLD,24));
         
-        resultPanel.setLayout(new GridLayout(0,4,10,10));
+        resultPanel.setLayout(new GridLayout(0,3,10,10));
 
         searchBtn2.setText("Search");
         searchBtn2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -243,7 +243,7 @@ public class searchFrame extends javax.swing.JFrame {
                         URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
                         if(imageUrl != null){
                             ImageIcon image=new ImageIcon(imageUrl);
-                            Image scaled=image.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+                            Image scaled=image.getImage().getScaledInstance(250, 150, Image.SCALE_SMOOTH);
                             JLabel imageLabel=new JLabel(new ImageIcon(scaled));
                             imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                             card.add(imageLabel);
@@ -267,6 +267,7 @@ public class searchFrame extends javax.swing.JFrame {
                         JButton moreBtn = new JButton("Show More");
                         moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        // card.setPreferredSize(new Dimension(100,200));
                         card.add(moreBtn);
                         resultPanel.add(card);
                     }
@@ -307,7 +308,7 @@ public class searchFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(searchtext, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -363,7 +364,7 @@ public class searchFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(resultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

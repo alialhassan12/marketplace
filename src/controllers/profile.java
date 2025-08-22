@@ -76,4 +76,18 @@ public class profile {
             return false;
         }
     }
+    public ResultSet getMyListingsCars(int client_id){
+        try{
+            String query="Select * from car c "+
+                        "join carimage ci on c.car_id=ci.car_id"+
+                        " where owner_id="+client_id+" and is_primary=true";
+            Statement stmt=connect.createStatement();
+            ResultSet rs=stmt.executeQuery(query);
+            return rs;
+        }catch(Exception e){
+            ResultSet rs =null;    
+            System.out.println("Error primary images for latest Cars "+e.getMessage());
+            return rs;
+        }
+    }
 }

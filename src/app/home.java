@@ -185,7 +185,7 @@ public class home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24));
         titleLabel.setText("Home");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -218,13 +218,13 @@ public class home extends javax.swing.JFrame {
         getCars getCars=new getCars();
         
         try{
-            ResultSet AllCars= getCars.getAllCars();
-            ResultSet AllPrimaryCarImages=getCars.getPrimaryCarImages();
-            while(AllCars.next() && AllPrimaryCarImages.next()){
+            ResultSet featuredCars= getCars.getFeaturedCars();
+
+            while(featuredCars.next() ){
                 RoundedPanel card=new RoundedPanel(10);
                 card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
-                String imageName=AllPrimaryCarImages.getString("image_path");
+                String imageName=featuredCars.getString("image_path");
                 URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
                 if(imageUrl != null){
                     ImageIcon image=new ImageIcon(imageUrl);
@@ -235,15 +235,15 @@ public class home extends javax.swing.JFrame {
                 }else{
                     card.add(new JLabel("no image"));
                 }
-                JLabel cardBrandLabel=new JLabel(AllCars.getString("brand"));
+                JLabel cardBrandLabel=new JLabel(featuredCars.getString("brand"));
                 cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 card.add(cardBrandLabel);
                 card.add(Box.createVerticalStrut(5));
-                JLabel cardModelLbel=new JLabel(AllCars.getString("model"));
+                JLabel cardModelLbel=new JLabel(featuredCars.getString("model"));
                 cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 card.add(cardModelLbel);
                 card.add(Box.createVerticalStrut(5));
-                String year=Integer.toString(AllCars.getInt("year"));
+                String year=Integer.toString(featuredCars.getInt("year"));
                 JLabel cardYearJlabel=new JLabel(year);
                 cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 card.add(cardYearJlabel);
@@ -275,12 +275,12 @@ public class home extends javax.swing.JFrame {
 
         try{
             ResultSet latestCars= getCars.getLatestCars();
-            ResultSet AllPrimaryLatestCarImages=getCars.getLatestPrimaryImages();
-            while(latestCars.next() && AllPrimaryLatestCarImages.next()){
+            
+            while(latestCars.next()){
                 RoundedPanel card=new RoundedPanel(10);
                 card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
-                String imageName=AllPrimaryLatestCarImages.getString("image_path");
+                String imageName=latestCars.getString("image_path");
                 URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
                 if(imageUrl != null){
                     ImageIcon image=new ImageIcon(imageUrl);

@@ -1,5 +1,4 @@
 package app;
-import controllers.getCars;
 import controllers.profile;
 
 import java.awt.BorderLayout;
@@ -235,7 +234,7 @@ public class profileFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); 
+        titleLabel.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 24)); 
         titleLabel.setText("Profile");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -377,20 +376,18 @@ public class profileFrame extends javax.swing.JFrame {
 
         myListingsPanel.setLayout(new GridLayout(0,3,10,10));
 
-        getCars getCars=new getCars();
         try{
-            ResultSet MyListingCars=getCars.getMyListingsCars(client_id);
-            ResultSet MyListingPrimaryImages=getCars.getMyListingsCarsPrimaryImages(client_id);
+            ResultSet MyListingCars=profile.getMyListingsCars(this.client_id);
             
             if(!MyListingCars.isBeforeFirst()){//check if there a result
                 emptyLabel.setText("No Listings Yet...");
                 emptyLabel.setFont(new Font(getName(),Font.PLAIN,18));
                 myListingsPanel.add(emptyLabel);
             }else{
-                while(MyListingCars.next() && MyListingPrimaryImages.next()){
+                while(MyListingCars.next()){
                     RoundedPanel card=new RoundedPanel(10);
                     card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-                    String imageName=MyListingPrimaryImages.getString("image_path");
+                    String imageName=MyListingCars.getString("image_path");
                     URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
                     if(imageUrl != null){
                         ImageIcon image=new ImageIcon(imageUrl);
