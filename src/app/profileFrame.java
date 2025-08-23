@@ -254,52 +254,50 @@ public class profileFrame extends javax.swing.JFrame {
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         // profilePicLabel.setText("Profile Picture");
+        profile.getClientInfo().thenAccept(result->{
+            try{
+                result.next();
+                profilePicPanel.removeAll();
+                if(result.getString("profile_image") == null){
+                    profilePicPanel.setLayout(new BoxLayout(profilePicPanel,BoxLayout.Y_AXIS));
+                    profilePicPanel.add(new JLabel("No Profile"),Box.CENTER_ALIGNMENT);
+                    profilePicPanel.add(Box.createVerticalStrut(10));
+                    profilePicPanel.add(addProfileImgBtn,Box.CENTER_ALIGNMENT);
+                }else{
+                    profilePicPanel.setLayout(new BorderLayout());
+                    String imagePath=new File(result.getString("profile_image")).getAbsolutePath();
+                
+                    ImageIcon profilePic = new ImageIcon(imagePath);
+                    Image profileImage=profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                    JLabel profilePicLabel = new JLabel(new ImageIcon(profileImage));
+                    profilePicPanel.add(profilePicLabel,BorderLayout.CENTER);
+                }
+                profilePicPanel.revalidate();
+                profilePicPanel.repaint();
+
+                usernameLabel.setText(result.getString("name"));
+                usernameLabel.setFont(new Font(getName(),0,18));
+                
+                emailLabel.setText(result.getString("email"));
+                emailLabel.setFont(new Font(getName(),0,18));
+                
+                phone.setText(result.getString("phone"));
+                phone.setFont(new Font(getName(),0,18));
+
+                createdAtLabel.setText("Account Created At: "+result.getString("created_at"));
+                if(result.getString("location") == null){
+                    locationLabel.setText("Unknown");
+                }else{
+                    locationLabel.setText(result.getString("location"));
+                }
+                locationLabel.setFont(new Font(getName(),0,18));
+
+            
+            }catch(SQLException e){
+                System.out.println(e.getMessage());
+            }
+        });
         
-        try{
-            profile clientInfo=new profile(client_id);
-            ResultSet result=clientInfo.getClientInfo();
-            result.next();
-            profilePicPanel.removeAll();
-            if(result.getString("profile_image") == null){
-                profilePicPanel.setLayout(new BoxLayout(profilePicPanel,BoxLayout.Y_AXIS));
-                profilePicPanel.add(new JLabel("No Profile"),Box.CENTER_ALIGNMENT);
-                profilePicPanel.add(Box.createVerticalStrut(10));
-                profilePicPanel.add(addProfileImgBtn,Box.CENTER_ALIGNMENT);
-            }else{
-                profilePicPanel.setLayout(new BorderLayout());
-                String imagePath=new File(result.getString("profile_image")).getAbsolutePath();
-            
-                ImageIcon profilePic = new ImageIcon(imagePath);
-                Image profileImage=profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-                JLabel profilePicLabel = new JLabel(new ImageIcon(profileImage));
-                profilePicPanel.add(profilePicLabel,BorderLayout.CENTER);
-                
-                
-            }
-            profilePicPanel.revalidate();
-            profilePicPanel.repaint();
-
-            usernameLabel.setText(result.getString("name"));
-            usernameLabel.setFont(new Font(getName(),0,18));
-            
-            emailLabel.setText(result.getString("email"));
-            emailLabel.setFont(new Font(getName(),0,18));
-            
-            phone.setText(result.getString("phone"));
-            phone.setFont(new Font(getName(),0,18));
-
-            createdAtLabel.setText("Account Created At: "+result.getString("created_at"));
-            if(result.getString("location") == null){
-                locationLabel.setText("Unknown");
-            }else{
-                locationLabel.setText(result.getString("location"));
-            }
-            locationLabel.setFont(new Font(getName(),0,18));
-
-            
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
 
         addProfileImgBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -375,53 +373,58 @@ public class profileFrame extends javax.swing.JFrame {
         MyListingsLabel.setText("My Listings");
 
         myListingsPanel.setLayout(new GridLayout(0,3,10,10));
+        profile.getMyListingsCars(this.client_id).thenAccept(result->{
+            try{
+                // ResultSet MyListingCars=profile.getMyListingsCars(this.client_id);
 
-        try{
-            ResultSet MyListingCars=profile.getMyListingsCars(this.client_id);
-            
-            if(!MyListingCars.isBeforeFirst()){//check if there a result
-                emptyLabel.setText("No Listings Yet...");
-                emptyLabel.setFont(new Font(getName(),Font.PLAIN,18));
-                myListingsPanel.add(emptyLabel);
-            }else{
-                while(MyListingCars.next()){
-                    RoundedPanel card=new RoundedPanel(10);
-                    card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-                    String imageName=MyListingCars.getString("image_path");
-                    URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
-                    if(imageUrl != null){
-                        ImageIcon image=new ImageIcon(imageUrl);
-                        Image scaled=image.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
-                        JLabel imageLabel=new JLabel(new ImageIcon(scaled));
-                        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                        card.add(imageLabel);
-                    }else{
-                        card.add(new JLabel("no image"));
+                if(!result.isBeforeFirst()){//check if there a result
+                    emptyLabel.setText("No Listings Yet...");
+                    emptyLabel.setFont(new Font(getName(),Font.PLAIN,18));
+                    myListingsPanel.add(emptyLabel);
+                }else{
+                    while(result.next()){
+                        RoundedPanel card=new RoundedPanel(10);
+                        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+                        String imageName=result.getString("image_path");
+                        URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                        if(imageUrl != null){
+                            ImageIcon image=new ImageIcon(imageUrl);
+                            Image scaled=image.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+                            JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+                            imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                            card.add(imageLabel);
+                        }else{
+                            card.add(new JLabel("no image"));
+                        }
+                        JLabel cardBrandLabel=new JLabel(result.getString("brand"));
+                        cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardBrandLabel);
+                        card.add(Box.createVerticalStrut(5));
+                        JLabel cardModelLbel=new JLabel(result.getString("model"));
+                        cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardModelLbel);
+                        card.add(Box.createVerticalStrut(5));
+                        String year=Integer.toString(result.getInt("year"));
+                        JLabel cardYearJlabel=new JLabel(year);
+                        cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardYearJlabel);
+                        card.add(Box.createVerticalStrut(10));
+                        card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                        JButton moreBtn = new JButton("Show More");
+                        moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                        moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                        SwingUtilities.invokeLater(()->{
+                            card.add(moreBtn);
+                            myListingsPanel.add(card);
+                        });
                     }
-                    JLabel cardBrandLabel=new JLabel(MyListingCars.getString("brand"));
-                    cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(cardBrandLabel);
-                    card.add(Box.createVerticalStrut(5));
-                    JLabel cardModelLbel=new JLabel(MyListingCars.getString("model"));
-                    cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(cardModelLbel);
-                    card.add(Box.createVerticalStrut(5));
-                    String year=Integer.toString(MyListingCars.getInt("year"));
-                    JLabel cardYearJlabel=new JLabel(year);
-                    cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(cardYearJlabel);
-                    card.add(Box.createVerticalStrut(10));
-                    card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
-                    JButton moreBtn = new JButton("Show More");
-                    moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(moreBtn);
-                    myListingsPanel.add(card);
                 }
+            }catch(Exception e){
+                System.out.println("Error getting My Listings: "+e.getMessage());
             }
-        }catch(Exception e){
-            System.out.println("Error getting My Listings: "+e.getMessage());
-        }
+        });
+        
 
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
         JLabel settingsTitle=new JLabel("Account Settings");

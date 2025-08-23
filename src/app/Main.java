@@ -14,18 +14,18 @@ public class Main {
             e.printStackTrace();
         }
         SwingUtilities.invokeLater(() -> {
-            // LoginFrame login = new LoginFrame();
-            // login.setSize(1280, 750);
-            // login.setResizable(false);
-            // login.setVisible(true);
-            // login.setLocationRelativeTo(null);
-
-            carInfoFrame login = new carInfoFrame(1,1,7);
-            login.setSize(959, 608);//car info frame size
-            // login.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            LoginFrame login = new LoginFrame();
+            login.setSize(1280, 750);
             login.setResizable(false);
             login.setVisible(true);
             login.setLocationRelativeTo(null);
+
+            // carInfoFrame login = new carInfoFrame(1,1,7);
+            // login.setSize(959, 608);//car info frame size
+            // // login.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            // login.setResizable(false);
+            // login.setVisible(true);
+            // login.setLocationRelativeTo(null);
         });
     }
 }

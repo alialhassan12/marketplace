@@ -12,7 +12,7 @@ public class search {
     public ResultSet searchCar(String brand,int year,double price){
         try{
             String query="Select c.*, ci.image_path From car c left join carimage ci on ci.car_id=c.car_id "+
-                            " where c.brand='"+brand+"' and year="+year+" and price="+price;
+                            " where c.brand='"+brand+"' and year="+year+" and price="+price +" and ci.is_primary=true";
             Statement stmt=connect.createStatement();
             ResultSet rs=stmt.executeQuery(query);
             return rs;

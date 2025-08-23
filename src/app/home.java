@@ -5,6 +5,8 @@ import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.ResultSet;
 
@@ -217,50 +219,69 @@ public class home extends javax.swing.JFrame {
 
         getCars getCars=new getCars();
         
-        try{
-            ResultSet featuredCars= getCars.getFeaturedCars();
-
-            while(featuredCars.next() ){
-                RoundedPanel card=new RoundedPanel(10);
-                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-
-                String imageName=featuredCars.getString("image_path");
-                URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
-                if(imageUrl != null){
-                    ImageIcon image=new ImageIcon(imageUrl);
-                    Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
-                    JLabel imageLabel=new JLabel(new ImageIcon(scaled));
-                    imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(imageLabel);
-                }else{
-                    card.add(new JLabel("no image"));
+        //getting featured cars
+        getCars.getFeaturedCars().thenAccept(result->{
+            try{
+                while(result.next() ){
+                    RoundedPanel card=new RoundedPanel(10);
+                    card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+                    
+                    String imageName=result.getString("image_path");
+                    URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                    if(imageUrl != null){
+                        ImageIcon image=new ImageIcon(imageUrl);
+                        Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
+                        JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+                        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(imageLabel);
+                    }else{
+                        card.add(new JLabel("no image"));
+                    }
+                    JLabel cardBrandLabel=new JLabel(result.getString("brand"));
+                    cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardBrandLabel);
+                    card.add(Box.createVerticalStrut(5));
+                    JLabel cardModelLbel=new JLabel(result.getString("model"));
+                    cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardModelLbel);
+                    card.add(Box.createVerticalStrut(5));
+                    String year=Integer.toString(result.getInt("year"));
+                    JLabel cardYearJlabel=new JLabel(year);
+                    cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardYearJlabel);
+                    card.add(Box.createVerticalStrut(10));
+                    card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                    moreBtn=new JButton("Show More");
+                    moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    int ownerId=result.getInt("owner_id");
+                    int carId=result.getInt("car_id");
+                    moreBtn.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e){
+                            try{
+                                System.out.println("owner: "+ownerId+" carId: "+carId);
+                                carInfoFrame carInfo = new carInfoFrame(ownerId,clientId,carId);
+                                carInfo.setSize(959, 608);//car info frame size
+                                carInfo.setResizable(false);
+                                carInfo.setVisible(true);
+                                carInfo.setLocationRelativeTo(null);
+                            }catch(Exception ex){
+                                System.out.println("error loading car Info "+ex.getMessage());
+                            }
+                        }
+                    });
+                    SwingUtilities.invokeLater(()->{
+                        card.add(moreBtn);
+                        featuredPanel.add(card);
+                        //refresh panel
+                        featuredPanel.revalidate();
+                        featuredPanel.repaint();
+                    });
                 }
-                JLabel cardBrandLabel=new JLabel(featuredCars.getString("brand"));
-                cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardBrandLabel);
-                card.add(Box.createVerticalStrut(5));
-                JLabel cardModelLbel=new JLabel(featuredCars.getString("model"));
-                cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardModelLbel);
-                card.add(Box.createVerticalStrut(5));
-                String year=Integer.toString(featuredCars.getInt("year"));
-                JLabel cardYearJlabel=new JLabel(year);
-                cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardYearJlabel);
-                card.add(Box.createVerticalStrut(10));
-                card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
-                moreBtn=new JButton("Show More");
-                moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(moreBtn);
-                featuredPanel.add(card);
-            }
-            //refresh panel
-            featuredPanel.revalidate();
-            featuredPanel.repaint();
-        }catch(Exception e){
-            System.out.println("Featured Panel Error : "+e.getMessage());
-        }
+            }catch(Exception e){
+                    System.out.println("error getting Featured cars "+e.getMessage());
+                }
+        });
 
         featuredScrollPane=new JScrollPane(featuredPanel);
         featuredScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -272,51 +293,74 @@ public class home extends javax.swing.JFrame {
 
         latestPanel = new JPanel();
         latestPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
-
-        try{
-            ResultSet latestCars= getCars.getLatestCars();
-            
-            while(latestCars.next()){
-                RoundedPanel card=new RoundedPanel(10);
-                card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-
-                String imageName=latestCars.getString("image_path");
-                URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
-                if(imageUrl != null){
-                    ImageIcon image=new ImageIcon(imageUrl);
-                    Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
-                    JLabel imageLabel=new JLabel(new ImageIcon(scaled));
-                    imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    card.add(imageLabel);
-                }else{
-                    card.add(new JLabel("no image"));
+        
+        //adding the Latset Listing
+            getCars.getLatestCars().thenAccept(result->{
+                try{
+                    while(result.next()){
+                        RoundedPanel card=new RoundedPanel(10);
+                        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+                        
+                        String imageName=result.getString("image_path");
+                        URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                        if(imageUrl != null){
+                            ImageIcon image=new ImageIcon(imageUrl);
+                            Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
+                            JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+                            imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                            card.add(imageLabel);
+                        }else{
+                            card.add(new JLabel("no image"));
+                        }
+                        JLabel cardBrandLabel=new JLabel(result.getString("brand"));
+                        cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardBrandLabel);
+                        card.add(Box.createVerticalStrut(5));
+                        JLabel cardModelLbel=new JLabel(result.getString("model"));
+                        cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardModelLbel);
+                        card.add(Box.createVerticalStrut(5));
+                        String year=Integer.toString(result.getInt("year"));
+                        JLabel cardYearJlabel=new JLabel(year);
+                        cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(cardYearJlabel);
+                        card.add(Box.createVerticalStrut(10));
+                        card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                        moreBtn=new JButton("Show More");
+                        moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                        moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        
+                        int ownerId=result.getInt("owner_id");
+                        int carId=result.getInt("car_id");
+                        moreBtn.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e){
+                                try{
+                                    // System.out.println("owner: "+ownerId+" carId: "+carId);
+                                    SwingUtilities.invokeLater(()->{
+                                        carInfoFrame carInfo = new carInfoFrame(ownerId,clientId,carId);
+                                        carInfo.setSize(959, 608);//car info frame size
+                                        carInfo.setResizable(false);
+                                        carInfo.setVisible(true);
+                                        carInfo.setLocationRelativeTo(null);
+                                    });
+                                }catch(Exception ex){
+                                    System.out.println("error loading car Info "+ex.getMessage());
+                                }
+                            }
+                        });
+                        SwingUtilities.invokeLater(()->{
+                            card.add(moreBtn);
+                            latestPanel.add(card);
+                            //refresh panel
+                            featuredPanel.revalidate();
+                            featuredPanel.repaint();
+                        });
+                    }
+                }catch(Exception e){
+                    System.out.println("Error getting latest listing "+e.getMessage());
                 }
-                JLabel cardBrandLabel=new JLabel(latestCars.getString("brand"));
-                cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardBrandLabel);
-                card.add(Box.createVerticalStrut(5));
-                JLabel cardModelLbel=new JLabel(latestCars.getString("model"));
-                cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardModelLbel);
-                card.add(Box.createVerticalStrut(5));
-                String year=Integer.toString(latestCars.getInt("year"));
-                JLabel cardYearJlabel=new JLabel(year);
-                cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(cardYearJlabel);
-                card.add(Box.createVerticalStrut(10));
-                card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
-                moreBtn=new JButton("Show More");
-                moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                card.add(moreBtn);
-                latestPanel.add(card);
-            }
-            //refresh panel
-            featuredPanel.revalidate();
-            featuredPanel.repaint();
-        }catch(Exception e){
-            System.out.println("Featured Panel Error : "+e.getMessage());
-        }
+            });
+            
 
 
         latestScrollPane = new JScrollPane(latestPanel);

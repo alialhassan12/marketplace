@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import controllers.carInfo;
 
@@ -44,74 +44,123 @@ public class carInfoFrame extends javax.swing.JFrame {
         locationValueLabel = new javax.swing.JLabel();
         vehicalDescriptionPanel = new javax.swing.JPanel();
         vehicalDescLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        vehicalDescValue = new javax.swing.JLabel();
         sellerInfoPanel = new javax.swing.JPanel();
         sellerInfoLabel = new javax.swing.JLabel();
         sellerNameLabel = new javax.swing.JLabel();
         phoneNumberLabel = new javax.swing.JLabel();
         contactBtn = new javax.swing.JButton();
         imagesPanel=new javax.swing.JPanel();
+        ownerPanel=new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24));
+        titleLabel.setText("Car Info");
+
+        cardetailslabel.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        cardetailslabel.setText("Car Details");
+
+        brandlabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        brandlabel.setText("Brand ");
+
+        brandValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+
+        modellabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        modellabel.setText("Model");
+
+        modelValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+
+        yearLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        yearLabel.setText("Year");
+
+        yearValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+
+        priceLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        priceLabel.setText("Price");
+
+        priceValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+
+        locationLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); 
+        locationLabel.setText("Location");
+
+        locationValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
 
         imagesPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
+
         carInfo carInfo=new carInfo(this.car_id);
 
-        try{
-            ResultSet carImages=carInfo.getCarImages();
-            while(carImages.next()){
-                String imageName=carImages.getString("image_path");
-                URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
-                ImageIcon image=new ImageIcon(imageUrl);
-                Image scaled=image.getImage().getScaledInstance(320, 220, Image.SCALE_SMOOTH);
-                JLabel imageLabel=new JLabel(new ImageIcon(scaled));
-                imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                imagesPanel.add(imageLabel);
-            }
-        }catch(Exception e){
-            System.out.println("Error imagesPanel "+e.getMessage());
-        }
+
+            // ResultSet carImages=carInfo.getCarImages();
+            carInfo.getCarImages().thenAccept(resultSet->{
+                try{
+                    while(resultSet.next()){
+                        String imageName=resultSet.getString("image_path");
+                        URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                        ImageIcon image=new ImageIcon(imageUrl);
+                        Image scaled=image.getImage().getScaledInstance(320, 220, Image.SCALE_SMOOTH);
+                        JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+                        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        SwingUtilities.invokeLater(()->{
+                            imagesPanel.add(imageLabel);
+                            imagesPanel.revalidate();
+                            imagesPanel.repaint();
+                        });
+                    }
+                }catch(Exception e){
+                    System.out.println("Error getting carImages "+e.getMessage());
+                }
+            });
+
+            // ResultSet carinfo=carInfo.getCarInfo();
+            carInfo.getCarInfo().thenAccept(resultSet->{
+                try{
+                    if(resultSet.next()){
+                        SwingUtilities.invokeLater(()->{
+                            try{
+                                brandValueLabel.setText(resultSet.getString("brand"));
+                                modelValueLabel.setText(resultSet.getString("model"));
+                                yearValueLabel.setText(resultSet.getString("year"));
+                                priceValueLabel.setText("$"+resultSet.getString("price"));
+                                locationValueLabel.setText(resultSet.getString("location"));
+                                vehicalDescValue.setText(resultSet.getString("description"));
+                            }catch(Exception e){
+                            System.out.println(e.getMessage());
+                            }
+                        });
+                    }
+                }catch(Exception e){
+                    System.out.println("Error getting car details "+e.getMessage());
+                }
+            });
+
+            // ResultSet ownerInfo=carInfo.getOwnerInfo(this.owner_id);
+            carInfo.getOwnerInfo(this.owner_id).thenAccept(resultSet->{
+                try{
+                    if(resultSet.next()){
+                        SwingUtilities.invokeLater(()->{
+                            try{
+                                sellerNameLabel.setText(resultSet.getString("name"));
+                                phoneNumberLabel.setText(resultSet.getString("phone"));
+                                ImageIcon ownerImage=new ImageIcon(resultSet.getString("profile_image"));
+                                Image scaled=ownerImage.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                                JLabel profileLabel=new JLabel(new ImageIcon(scaled));
+                                ownerPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,5));
+                                ownerPanel.add(profileLabel);
+                                ownerPanel.add(sellerNameLabel);
+                            }catch(Exception e){
+                                System.out.println(e.getMessage());
+                            }
+                        });
+                    }
+                }catch(Exception e){
+                    System.out.println("Error seller info"+e.getMessage());
+                }
+            });
 
         jScrollPane1.setViewportView(imagesPanel);
         jScrollPane1.setBorder(null);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        titleLabel.setText("Car Info");
-
-        cardetailslabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        cardetailslabel.setText("Car Details");
-
-        brandlabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        brandlabel.setText("Brand ");
-
-        brandValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        brandValueLabel.setText("Brand Value");
-
-        modellabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        modellabel.setText("Model");
-
-        modelValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        modelValueLabel.setText("Model Value");
-
-        yearLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        yearLabel.setText("Year");
-
-        yearValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        yearValueLabel.setText("Year Value");
-
-        priceLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        priceLabel.setText("Price");
-
-        priceValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        priceValueLabel.setText("Price Value");
-
-        locationLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        locationLabel.setText("Location");
-
-        locationValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        locationValueLabel.setText("location Value");
 
         javax.swing.GroupLayout carDetailsPanelLayout = new javax.swing.GroupLayout(carDetailsPanel);
         carDetailsPanel.setLayout(carDetailsPanelLayout);
@@ -166,11 +215,10 @@ public class carInfoFrame extends javax.swing.JFrame {
                 .addGap(15, 15, 15))
         );
 
-        vehicalDescLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        vehicalDescLabel.setFont(new java.awt.Font("Segoe UI", 1, 18));
         vehicalDescLabel.setText("Vehical Description");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Luxury SUV, in excellent condition.");
+        vehicalDescValue.setFont(new java.awt.Font("Segoe UI", 0, 14));
 
         javax.swing.GroupLayout vehicalDescriptionPanelLayout = new javax.swing.GroupLayout(vehicalDescriptionPanel);
         vehicalDescriptionPanel.setLayout(vehicalDescriptionPanelLayout);
@@ -180,7 +228,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(vehicalDescriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(vehicalDescLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(vehicalDescValue, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         vehicalDescriptionPanelLayout.setVerticalGroup(
@@ -189,18 +237,18 @@ public class carInfoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(vehicalDescLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(vehicalDescValue, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        sellerInfoLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        sellerInfoLabel.setFont(new java.awt.Font("Segoe UI", 1, 18));
         sellerInfoLabel.setText("Seller Information");
 
-        sellerNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sellerNameLabel.setText("Seller Name");
+        sellerNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        // sellerNameLabel.setText("Seller Name");
 
-        phoneNumberLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        phoneNumberLabel.setText("Phone number");
+        phoneNumberLabel.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        // phoneNumberLabel.setText("Phone number");
 
         contactBtn.setText("Contact Seller");
         contactBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -219,7 +267,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                     .addComponent(sellerInfoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(sellerInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(phoneNumberLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sellerNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+                        .addComponent(ownerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
                     .addComponent(contactBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(103, Short.MAX_VALUE))
         );
@@ -229,7 +277,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(sellerInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(sellerNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ownerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(phoneNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -286,7 +334,7 @@ public class carInfoFrame extends javax.swing.JFrame {
     private javax.swing.JPanel carDetailsPanel;
     private javax.swing.JLabel cardetailslabel;
     private javax.swing.JButton contactBtn;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel vehicalDescValue;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel locationLabel;
     private javax.swing.JLabel locationValueLabel;
@@ -304,6 +352,7 @@ public class carInfoFrame extends javax.swing.JFrame {
     private javax.swing.JLabel yearLabel;
     private javax.swing.JLabel yearValueLabel;
     private javax.swing.JPanel imagesPanel;
+    private javax.swing.JPanel ownerPanel;
     // End of variables declaration                   
 }
 

@@ -267,7 +267,24 @@ public class searchFrame extends javax.swing.JFrame {
                         JButton moreBtn = new JButton("Show More");
                         moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                        // card.setPreferredSize(new Dimension(100,200));
+                        
+                        int ownerId=searchCar.getInt("owner_id");
+                        int carId=searchCar.getInt("car_id");
+                        moreBtn.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e){
+                                try{
+                                    System.out.println("owner: "+ownerId+" carId: "+carId);
+                                    carInfoFrame carInfo = new carInfoFrame(ownerId,clientId,carId);
+                                    carInfo.setSize(959, 608);//car info frame size
+                                    carInfo.setResizable(false);
+                                    carInfo.setVisible(true);
+                                    carInfo.setLocationRelativeTo(null);
+                                }catch(Exception ex){
+                                    System.out.println("error loading car Info "+ex.getMessage());
+                                }
+                            }
+                        });
+
                         card.add(moreBtn);
                         resultPanel.add(card);
                     }

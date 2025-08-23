@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.JOptionPane;
 
@@ -15,16 +16,29 @@ public class profile {
     public profile(int client_id){
         this.client_id=client_id;
     }
-    public ResultSet getClientInfo(){
-        try{
-            String query="Select * From client where client_id= "+this.client_id;
-            Statement stmt= connect.createStatement();
-            ResultSet rs=stmt.executeQuery(query);
-            return rs;
-        }catch(SQLException e){
-            System.out.println("Error getting client Info "+e.getMessage());
-            return null;
-        }
+    // public ResultSet getClientInfo(){
+    //     try{
+    //         String query="Select * From client where client_id= "+this.client_id;
+    //         Statement stmt= connect.createStatement();
+    //         ResultSet rs=stmt.executeQuery(query);
+    //         return rs;
+    //     }catch(SQLException e){
+    //         System.out.println("Error getting client Info "+e.getMessage());
+    //         return null;
+    //     }
+    // }
+    public CompletableFuture<ResultSet> getClientInfo(){
+        return CompletableFuture.supplyAsync(()->{
+            try{
+                String query="Select * From client where client_id= "+this.client_id;
+                Statement stmt= connect.createStatement();
+                ResultSet rs=stmt.executeQuery(query);
+                return rs;
+            }catch(SQLException e){
+                System.out.println("Error getting client Info "+e.getMessage());
+                return null;
+            }
+        });
     }
     public boolean editProfile(String name,String email,String phone,String location){
         String newName=name;
@@ -76,18 +90,48 @@ public class profile {
             return false;
         }
     }
-    public ResultSet getMyListingsCars(int client_id){
-        try{
-            String query="Select * from car c "+
-                        "join carimage ci on c.car_id=ci.car_id"+
-                        " where owner_id="+client_id+" and is_primary=true";
-            Statement stmt=connect.createStatement();
-            ResultSet rs=stmt.executeQuery(query);
-            return rs;
-        }catch(Exception e){
-            ResultSet rs =null;    
-            System.out.println("Error primary images for latest Cars "+e.getMessage());
-            return rs;
-        }
+    // public CompletableFuture<Boolean> profilePic(String destination){
+    //     return CompletableFuture.supplyAsync(()->{
+    //         try{
+    //             String query="update client set profile_image= '"+destination+ "'where client_id="+this.client_id;
+    //             Statement stmt=connect.createStatement();
+    //             stmt.executeUpdate(query);
+    //             return true;
+    //         }catch(Exception e){
+    //             System.out.println("Error updating profile pic: "+e.getMessage());
+    //             return false;
+    //         }
+    //     });
+    // }
+
+    // public ResultSet getMyListingsCars(int client_id){
+    //     try{
+    //         String query="Select * from car c "+
+    //                     "join carimage ci on c.car_id=ci.car_id"+
+    //                     " where owner_id="+client_id+" and is_primary=true";
+    //         Statement stmt=connect.createStatement();
+    //         ResultSet rs=stmt.executeQuery(query);
+    //         return rs;
+    //     }catch(Exception e){
+    //         ResultSet rs =null;    
+    //         System.out.println("Error primary images for latest Cars "+e.getMessage());
+    //         return rs;
+    //     }
+    // }
+    public CompletableFuture<ResultSet> getMyListingsCars(int client_id){
+        return CompletableFuture.supplyAsync(()->{
+            try{
+                String query="Select * from car c "+
+                            "join carimage ci on c.car_id=ci.car_id"+
+                            " where owner_id="+client_id+" and is_primary=true";
+                Statement stmt=connect.createStatement();
+                ResultSet rs=stmt.executeQuery(query);
+                return rs;
+            }catch(Exception e){
+                ResultSet rs =null;    
+                System.out.println("Error primary images for latest Cars "+e.getMessage());
+                return rs;
+            }
+        });
     }
 }
