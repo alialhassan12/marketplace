@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.sql.ResultSet;
 
 import javax.swing.*;
 

@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.net.URL;
-import java.sql.ResultSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
