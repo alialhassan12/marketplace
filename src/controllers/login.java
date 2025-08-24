@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import app.config;
-import app.home;
+import app.mainFrame;
 import app.AdminPage;
 
 public class login {
@@ -53,12 +53,12 @@ public class login {
                     adminPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 } else {
                     // Open normal client home (only if approved)
-                    home clientHome = new home(clientId);
-                    clientHome.setVisible(true);
-                    clientHome.setSize(1280, 750);
-                    clientHome.setLocationRelativeTo(null);
-                    clientHome.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    clientHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    mainFrame mainFrame=new mainFrame(clientId);
+                    mainFrame.setTitle("S&A MOTORS");
+                    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    mainFrame.setLocationRelativeTo(null);
+                    mainFrame.setVisible(true);
+                    mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 }
 
                 return true;

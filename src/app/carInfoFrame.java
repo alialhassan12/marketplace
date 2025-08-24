@@ -16,7 +16,7 @@ public class carInfoFrame extends javax.swing.JFrame {
     private int owner_id;
     private int client_id;
     private int car_id;
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(home.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(carInfoFrame.class.getName());
 
     public carInfoFrame(int owner_id,int client_id,int car_id) {
         this.owner_id=owner_id;
