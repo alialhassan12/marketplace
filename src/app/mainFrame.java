@@ -1,7 +1,9 @@
 package app;
 
 import java.awt.CardLayout;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -38,6 +40,9 @@ public class mainFrame extends JFrame{
         // setLocationRelativeTo(null);
         // setExtendedState(JFrame.MAXIMIZED_BOTH);
         // setVisible(true);
+        ImageIcon image=new ImageIcon(getClass().getResource("../layout/frameIcon.png"));
+        Image Icon=image.getImage();
+        setIconImage(Icon);
     }
     //added function to switch between panels in panel classes
     public void switchPages(String pageName){

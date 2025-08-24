@@ -1,12 +1,12 @@
 package app;
 
 import controllers.login;
-import functions.RoundedButton;
-
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import functions.*;
+
+import javax.swing.ImageIcon;
 
 public class LoginFrame extends javax.swing.JFrame {
 
@@ -46,6 +46,9 @@ public class LoginFrame extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
+        ImageIcon image=new ImageIcon(getClass().getResource("../layout/frameIcon.png"));
+        Image Icon=image.getImage();
+        setIconImage(Icon);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("S&A Motors Login");
 
