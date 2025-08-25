@@ -23,11 +23,13 @@ public class mainFrame extends JFrame{
         homePanel homePage=new homePanel(this,this.client_id);
         profilePanel profilePage=new profilePanel(this,this.client_id);
         searchPanel searchPage=new searchPanel(this,this.client_id);
+        newListingPanel newListingPage=new newListingPanel(this,this.client_id);
 
         //add panels to mainPanel
         mainPanel.add(homePage,"Home");
         mainPanel.add(profilePage,"Profile");
         mainPanel.add(searchPage,"Search");
+        mainPanel.add(newListingPage,"newListing");
         
         getContentPane().add(mainPanel);
         
@@ -40,6 +42,7 @@ public class mainFrame extends JFrame{
         // setLocationRelativeTo(null);
         // setExtendedState(JFrame.MAXIMIZED_BOTH);
         // setVisible(true);
+        setTitle("S&A Motors");
         ImageIcon image=new ImageIcon(getClass().getResource("../layout/frameIcon.png"));
         Image Icon=image.getImage();
         setIconImage(Icon);

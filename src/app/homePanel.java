@@ -94,14 +94,6 @@ public class homePanel extends javax.swing.JPanel {
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 parent.switchPages("Profile");
-                // System.out.println("clientId :"+clientId);
-                // profileFrame profile = new profileFrame(clientId);
-                //     profile.setVisible(true);
-                //     setVisible(false);
-                //     profile.setSize(1280, 750);
-                //     profile.setLocationRelativeTo(null);
-                //     profile.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                //     profile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });
 
@@ -126,12 +118,6 @@ public class homePanel extends javax.swing.JPanel {
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 parent.switchPages("Search");
-                // searchFrame searchFrame = new searchFrame(clientId);
-                // setVisible(false);
-                // searchFrame.setLocationRelativeTo(null);
-                // searchFrame.setSize(1280, 750);
-                // searchFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                // searchFrame.setVisible(true);
             }
         });
 
@@ -155,7 +141,7 @@ public class homePanel extends javax.swing.JPanel {
         });
         newListingBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+                parent.switchPages("newListing");
             }
         });
 

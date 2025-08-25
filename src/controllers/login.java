@@ -54,7 +54,6 @@ public class login {
                 } else {
                     // Open normal client home (only if approved)
                     mainFrame mainFrame=new mainFrame(clientId);
-                    mainFrame.setTitle("S&A MOTORS");
                     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     mainFrame.setLocationRelativeTo(null);
                     mainFrame.setVisible(true);
