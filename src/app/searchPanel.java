@@ -229,7 +229,7 @@ public class searchPanel extends javax.swing.JPanel {
                         RoundedPanel card=new RoundedPanel(10);
                         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
                         String imageName=searchCar.getString("image_path");
-                        URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                        URL imageUrl=getClass().getResource("../layout/uploads/carImages/"+imageName);
                         if(imageUrl != null){
                             ImageIcon image=new ImageIcon(imageUrl);
                             Image scaled=image.getImage().getScaledInstance(250, 150, Image.SCALE_SMOOTH);

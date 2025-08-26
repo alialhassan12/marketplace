@@ -1,21 +1,33 @@
 package app;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.ScrollPane;
-import java.net.URL;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.border.LineBorder;
 
 import controllers.newListing;
 import functions.RoundedPanel;
@@ -23,12 +35,37 @@ import functions.RoundedPanel;
 public class newListingPanel extends javax.swing.JPanel {
     private int client_id;
     private mainFrame parent;
-
+    private int car_id;
+    private String primaryRelativePath;
+    private String primaryImageName;
+    private ArrayList<String> ImageNames;
+    private int imageCount=0; 
     public newListingPanel(mainFrame parent,int client_id) {
         this.parent=parent;
         this.client_id=client_id;
         initComponents();
     }
+
+    //function to show Primary image after uploading
+    private void showPrimaryImage(File imageFile) {
+            try {
+                //remove old container
+                primaryImagePanel.remove(primaryImageContainer);
+                ImageIcon primaryPic = new ImageIcon(imageFile.getAbsolutePath());
+                Image primaryImg = primaryPic.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+                //make new one
+                primaryImageContainer =new RoundedPanel(10,primaryImg);
+                primaryImageContainer.setPreferredSize(new Dimension(300,200));
+                primaryImageContainer.setMaximumSize(new Dimension(300,200));
+                primaryImageContainer.setMinimumSize(new Dimension(300,200));
+                //add to the same place
+                primaryImagePanel.add(primaryImageContainer,1);
+                primaryImagePanel.revalidate();
+                primaryImagePanel.repaint();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     private void initComponents() {
 
@@ -62,14 +99,14 @@ public class newListingPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         addPhoto = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        addImagesPanel=new JPanel();
 
         newListing newListing=new newListing();
         jPanel1.setBackground(new java.awt.Color(79, 100, 111));
 
         logoLabel.setBackground(new java.awt.Color(255, 0, 0));
-        logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-
-        HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
+        HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         HomeBtn.setText("Home");
         HomeBtn.setBorder(null);
         HomeBtn.setBorderPainted(false);
@@ -93,7 +130,7 @@ public class newListingPanel extends javax.swing.JPanel {
             }
         });
 
-        profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); 
         profileBtn.setText("Profile");
         profileBtn.setBorder(null);
         profileBtn.setBorderPainted(false);
@@ -117,7 +154,7 @@ public class newListingPanel extends javax.swing.JPanel {
             }
         });
 
-        searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); 
         searchBtn.setText("Search");
         searchBtn.setBorder(null);
         searchBtn.setBorderPainted(false);
@@ -188,44 +225,35 @@ public class newListingPanel extends javax.swing.JPanel {
                 
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); 
         titleLabel.setText("Add New Listing");
 
-        brandlabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        brandlabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); 
         brandlabel.setText("Brand ");
 
-        brandTxtField.setText("jTextField1");
-
-        modelLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        modelLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); 
         modelLabel.setText("Model");
 
-        modelTxtField.setText("jTextField1");
-
-        yearLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        yearLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); 
         yearLabel.setText("Year");
         yearLabel.setMaximumSize(new java.awt.Dimension(69, 32));
         yearLabel.setMinimumSize(new java.awt.Dimension(69, 32));
         yearLabel.setPreferredSize(new java.awt.Dimension(69, 32));
 
-        yearTxtField.setText("jTextField1");
-
-        priceLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        priceLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); 
         priceLabel.setText("Price");
         priceLabel.setMaximumSize(new java.awt.Dimension(69, 32));
         priceLabel.setMinimumSize(new java.awt.Dimension(69, 32));
         priceLabel.setPreferredSize(new java.awt.Dimension(69, 32));
 
-        locationLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        locationLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); 
         locationLabel.setText("Location");
         locationLabel.setPreferredSize(new java.awt.Dimension(69, 32));
-
-        locationTxtField.setText("jTextField1");
         
-        descriptionLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        descriptionLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); 
         descriptionLabel.setText("Description");
         descriptionLabel.setPreferredSize(new java.awt.Dimension(69, 32));
 
-        descriptiontxtArea.setText("Description");
         descriptiontxtArea.setLineWrap(true);
         descriptiontxtArea.setWrapStyleWord(true);
         JScrollPane descriptionPane =new JScrollPane(
@@ -261,21 +289,7 @@ public class newListingPanel extends javax.swing.JPanel {
         addCarbtn.setFont(new java.awt.Font("Segoe UI", 0, 14));
         addCarbtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addCarbtn.setText("Add Car");
-        addCarbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                String brand =brandTxtField.getText();
-                String model =modelTxtField.getText();
-                String year =yearTxtField.getText();
-                double price=Double.parseDouble(priceTxtField.getText());
-                String location =locationTxtField.getText();
-                String description=descriptiontxtArea.getText();
-                String transaction= saleRadioBtn.isSelected() ? "sale" : "rent";
-                
-                if(newListing.addCar(brand, model, price, year, description, location, transaction)){
-                    
-                }
-            }
-        });
+        
 
         photosLabel.setFont(new java.awt.Font("Segoe UI", 0, 24));
         photosLabel.setText("Photos");
@@ -291,21 +305,24 @@ public class newListingPanel extends javax.swing.JPanel {
         Image sideImage=sideImageIcon.getImage();
         RoundedPanel right=new RoundedPanel(10,sideImage,false);
         
-
-        JPanel left=new JPanel();
+        //create left panel the cardLayout 
+        JPanel left=new JPanel(new CardLayout());
         left.setPreferredSize(new Dimension(200, 585));
         left.setMinimumSize(new Dimension(200, 585));
 
-        //left horizontal layout
-        javax.swing.GroupLayout leftLayout = new javax.swing.GroupLayout(left);
-        left.setLayout(leftLayout);
-        leftLayout.setHorizontalGroup(
-            leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(leftLayout.createSequentialGroup()
-                .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(leftLayout.createSequentialGroup()
+        JPanel FormPanel=new JPanel();
+        primaryImagePanel=new JPanel();
+
+        //formPanel horizontal layout
+        javax.swing.GroupLayout formPanelLayout = new javax.swing.GroupLayout(FormPanel);
+        FormPanel.setLayout(formPanelLayout);
+        formPanelLayout.setHorizontalGroup(
+            formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formPanelLayout.createSequentialGroup()
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(formPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(descriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                             .addComponent(locationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                             .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -314,51 +331,51 @@ public class newListingPanel extends javax.swing.JPanel {
                             .addComponent(brandlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(transactionLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(48, 48, 48)
-                        .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(brandTxtField, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                             .addComponent(modelTxtField)
                             .addComponent(yearTxtField)
                             .addComponent(priceTxtField)
                             .addComponent(locationTxtField)
                             .addComponent(descriptionPane)
-                            .addGroup(leftLayout.createSequentialGroup()
+                            .addGroup(formPanelLayout.createSequentialGroup()
                                 .addComponent(saleRadioBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(rentRadioBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(leftLayout.createSequentialGroup()
+                    .addGroup(formPanelLayout.createSequentialGroup()
                         .addGap(310, 310, 310)
                         .addComponent(addCarbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
             ));
-        //left vertical layout
-        leftLayout.setVerticalGroup(
-            leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftLayout.createSequentialGroup()
+        //formPanel vertical layout  
+        formPanelLayout.setVerticalGroup(
+            formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelLayout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(brandlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(brandTxtField))
                 .addGap(34, 34, 34)
-                .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(modelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(modelTxtField, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
                 .addGap(34, 34, 34)
-                .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(yearLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                     .addComponent(yearTxtField))
                 .addGap(34, 34, 34)
-                .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                     .addComponent(priceTxtField))
                 .addGap(34, 34, 34)
-                .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(locationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(locationTxtField))
                 .addGap(34, 34, 34)
-                .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(descriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(descriptionPane, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                 .addGap(34, 34, 34)
-                .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(transactionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(saleRadioBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(rentRadioBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -366,6 +383,172 @@ public class newListingPanel extends javax.swing.JPanel {
                 .addComponent(addCarbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 38, Short.MAX_VALUE))
         );
+
+        //primaryImagePanel layout
+        primaryImageContainer=new RoundedPanel(10);
+        primaryImageContainer.add(new JLabel("Here primary image"));
+        
+        primaryImageContainer.setPreferredSize(new Dimension(300,200));
+        primaryImageContainer.setMaximumSize(new Dimension(300,200));
+        primaryImageContainer.setMinimumSize(new Dimension(300,200));
+
+        JButton addPrimaryBtn=new JButton("Add image");
+        JButton submitPrimaryImgBtn =new JButton("Submit image");
+        addPrimaryBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        submitPrimaryImgBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        primaryImagePanel.setLayout(new BoxLayout(primaryImagePanel, BoxLayout.Y_AXIS));
+        primaryImagePanel.add(Box.createVerticalStrut(100));
+        primaryImageContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addPrimaryBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        submitPrimaryImgBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        primaryImagePanel.add(primaryImageContainer,Box.CENTER_ALIGNMENT);
+        primaryImagePanel.add(Box.createVerticalStrut(10));
+        primaryImagePanel.add(addPrimaryBtn,Box.CENTER_ALIGNMENT);
+        primaryImagePanel.add(Box.createVerticalStrut(5));
+        primaryImagePanel.add(submitPrimaryImgBtn,Box.CENTER_ALIGNMENT);
+
+        //addPrimaryImage actions
+        addPrimaryBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                JFileChooser image=new JFileChooser();
+                int choice=image.showOpenDialog(null);
+                if(choice==JFileChooser.APPROVE_OPTION){
+                    File selected=image.getSelectedFile();
+                    File uploadDir=new File("src/layout/uploads/carImages");
+                    primaryImageName="user_"+client_id+"_"+selected.getName();
+                    Path destination=Paths.get(uploadDir.getAbsolutePath(),primaryImageName);
+                    primaryRelativePath="src/layout/uploads/carImages/"+primaryImageName;
+                    try {
+                        Files.copy(selected.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    System.out.println("Image saved to: " + primaryRelativePath);
+
+                    showPrimaryImage(selected);
+                }
+            }
+        });
+
+        
+
+        //addImages Layout
+
+        addImagesPanel.setLayout(new BoxLayout(addImagesPanel, BoxLayout.Y_AXIS));
+        JPanel imagesContainer=new JPanel();
+
+        JScrollPane imageContainerScrollPane=new JScrollPane();
+        imageContainerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        imageContainerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        imageContainerScrollPane.setPreferredSize(new Dimension(left.getWidth(), 400));
+        imageContainerScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 400));
+        // imageContainerScrollPane.setBorder(null);
+        
+        JButton addImgBtn=new JButton("Add Image");
+        addImgBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        addImagesPanel.add(addImgBtn);
+        addImagesPanel.add(Box.createVerticalStrut(10));
+        JButton submitImgsBtn=new JButton("Submit Images");
+        submitImgsBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        imagesContainer.setLayout(new GridLayout(0, 2,10,10));
+
+        imageContainerScrollPane.setViewportView(imagesContainer);
+
+        addImagesPanel.add(imageContainerScrollPane);
+        addImagesPanel.add(Box.createVerticalStrut(10));
+        addImagesPanel.add(submitImgsBtn);
+
+        ImageNames=new ArrayList<String>();
+        //addImage button action
+        addImgBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                
+                    JFileChooser image=new JFileChooser();
+                    int choice=image.showOpenDialog(null);
+                    if(choice==JFileChooser.APPROVE_OPTION){
+                        File selected=image.getSelectedFile();
+                        File uploadDir=new File("src/layout/uploads/carImages");
+                        String ImageName="user_"+client_id+"_"+selected.getName();
+                        Path destination=Paths.get(uploadDir.getAbsolutePath(),ImageName);
+                        String imageRelativePath="src/layout/uploads/carImages/"+ImageName;
+                        ImageNames.add(ImageName);
+                        try {
+                            Files.copy(selected.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        System.out.println("Image saved to: " + imageRelativePath);
+
+                        ImageIcon newImg=new ImageIcon(selected.getAbsolutePath());
+                        Image scaleNewImg=newImg.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                        ImageIcon scaledIcon=new ImageIcon(scaleNewImg);
+                        RoundedPanel card=new RoundedPanel(10,scaledIcon.getImage(),false);
+                        
+                        card.setPreferredSize(new Dimension(150, 150));
+                        card.setMaximumSize(new Dimension(150, 150));
+
+                        imagesContainer.add(card);
+                        imagesContainer.revalidate();
+                        imagesContainer.repaint();
+                        imageCount++;
+                    }
+                
+            }
+        });
+        
+        //add the panels to cardLayout
+        left.add(FormPanel,"Form");
+        left.add(primaryImagePanel,"PrimaryImage");
+        left.add(addImagesPanel,"addImgsPanel");
+        CardLayout cl=(CardLayout) left.getLayout();
+        cl.show(left,"Form");
+        
+        //add Car btn
+        addCarbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String brand =brandTxtField.getText();
+                String model =modelTxtField.getText();
+                String year =yearTxtField.getText();
+                String price=priceTxtField.getText();
+                String location =locationTxtField.getText();
+                String description=descriptiontxtArea.getText();
+                String transaction= saleRadioBtn.isSelected() ? "sale" : "rent";
+                car_id=newListing.addCar(client_id,brand, model, price, year, description, location, transaction);
+                System.out.println(car_id);
+                if(car_id!=-1){
+                    //changing left content after submiting first
+                    brandTxtField.setText("");
+                    modelTxtField.setText("");
+                    yearTxtField.setText("");
+                    priceTxtField.setText("");
+                    locationTxtField.setText("");
+                    descriptiontxtArea.setText("");
+                    cl.show(left,"PrimaryImage");
+                }
+            }
+        });
+        //submit primaryImage
+        submitPrimaryImgBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                if(newListing.addPrimaryImage(car_id,primaryImageName)){
+                    JOptionPane.showMessageDialog(null,"Primary Image Set Succesfully");
+                    cl.show(left,"addImgsPanel");
+                };
+            }
+        });
+
+        //submit images
+        submitImgsBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                if(newListing.addImages(car_id, ImageNames)){
+                    JOptionPane.showMessageDialog(null, "Images added Successfully");
+                    cl.show(left,"Form");
+                }
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -427,7 +610,7 @@ public class newListingPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
-    }// </editor-fold>                        
+    }                       
 
 
 
@@ -460,5 +643,30 @@ public class newListingPanel extends javax.swing.JPanel {
     private javax.swing.JLabel transactionLabel;
     private javax.swing.JLabel yearLabel;
     private javax.swing.JTextField yearTxtField;
-    // End of variables declaration                   
+    private RoundedPanel primaryImageContainer;
+    private JPanel primaryImagePanel;
+    private JPanel addImagesPanel;
+    // End of variables declaration      
+    
+
+    private void showImageUploadPanel(JPanel panel) {
+        panel.removeAll();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        RoundedPanel primaryImage = new RoundedPanel(10);
+        primaryImage.setLayout(new BorderLayout());
+
+        JButton addImageBtn = new JButton(new ImageIcon("../layout/Icons/addIcon.jpeg"));
+        addImageBtn.setPreferredSize(new Dimension(100, 100));
+        JButton addPrimaryBtn = new JButton("Add Primary Image");
+
+        primaryImage.add(addImageBtn, BorderLayout.CENTER);
+
+        panel.add(primaryImage, Box.CENTER_ALIGNMENT);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(addPrimaryBtn, Box.CENTER_ALIGNMENT);
+
+        panel.revalidate();
+        panel.repaint();
+    }
 }

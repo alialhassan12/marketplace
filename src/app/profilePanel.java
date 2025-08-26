@@ -1,5 +1,6 @@
 package app;
 import controllers.profile;
+import functions.RoundedPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -84,7 +85,7 @@ public class profilePanel extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(79, 100, 111));
         jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jPanel1AncestorAdded(evt);
+                
             }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -134,7 +135,7 @@ public class profilePanel extends javax.swing.JPanel {
         });
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profileBtnActionPerformed(evt);
+                
             }
         });
 
@@ -235,12 +236,12 @@ public class profilePanel extends javax.swing.JPanel {
                 .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
-        // profilePicLabel.setText("Profile Picture");
         profile.getClientInfo().thenAccept(result->{
             try{
                 result.next();
                 profilePicPanel.removeAll();
                 if(result.getString("profile_image") == null){
+                    RoundedPanel profilePicPanel=new RoundedPanel(10);
                     profilePicPanel.setLayout(new BoxLayout(profilePicPanel,BoxLayout.Y_AXIS));
                     profilePicPanel.add(new JLabel("No Profile"),Box.CENTER_ALIGNMENT);
                     profilePicPanel.add(Box.createVerticalStrut(10));
@@ -368,7 +369,7 @@ public class profilePanel extends javax.swing.JPanel {
                         RoundedPanel card=new RoundedPanel(10);
                         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
                         String imageName=result.getString("image_path");
-                        URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                        URL imageUrl=getClass().getResource("../layout/uploads/carImages/"+imageName);
                         if(imageUrl != null){
                             ImageIcon image=new ImageIcon(imageUrl);
                             Image scaled=image.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
@@ -516,27 +517,7 @@ public class profilePanel extends javax.swing.JPanel {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-    }// </editor-fold>                        
-
-    private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void BuyBtnActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        // TODO add your handling code here:
-    }                                      
-
-    private void sellBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
-    }                                       
-
-    private void rentBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
-    }                                       
-
-    private void jPanel1AncestorAdded(javax.swing.event.AncestorEvent evt) {                                      
-        // TODO add your handling code here:
-    }                                     
+    }                              
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton searchBtn;

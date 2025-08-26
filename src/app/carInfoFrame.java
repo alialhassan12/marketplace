@@ -93,7 +93,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                 try{
                     while(resultSet.next()){
                         String imageName=resultSet.getString("image_path");
-                        URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                        URL imageUrl=getClass().getResource("../layout/uploads/carImages/"+imageName);
                         ImageIcon image=new ImageIcon(imageUrl);
                         Image scaled=image.getImage().getScaledInstance(320, 220, Image.SCALE_SMOOTH);
                         JLabel imageLabel=new JLabel(new ImageIcon(scaled));

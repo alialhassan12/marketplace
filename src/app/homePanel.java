@@ -216,7 +216,7 @@ public class homePanel extends javax.swing.JPanel {
                     card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
                     
                     String imageName=result.getString("image_path");
-                    URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                    URL imageUrl=getClass().getResource("../layout/uploads/carImages/"+imageName);
                     if(imageUrl != null){
                         ImageIcon image=new ImageIcon(imageUrl);
                         Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
@@ -290,7 +290,7 @@ public class homePanel extends javax.swing.JPanel {
                         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
                         
                         String imageName=result.getString("image_path");
-                        URL imageUrl=getClass().getResource("../layout/cars/"+imageName);
+                        URL imageUrl=getClass().getResource("../layout/uploads/carImages/"+imageName);
                         if(imageUrl != null){
                             ImageIcon image=new ImageIcon(imageUrl);
                             Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
@@ -336,13 +336,13 @@ public class homePanel extends javax.swing.JPanel {
                                 }
                             }
                         });
-                        SwingUtilities.invokeLater(()->{
+                        
                             card.add(moreBtn);
                             latestPanel.add(card);
                             //refresh panel
                             featuredPanel.revalidate();
                             featuredPanel.repaint();
-                        });
+                        
                     }
                 }catch(Exception e){
                     System.out.println("Error getting latest listing "+e.getMessage());

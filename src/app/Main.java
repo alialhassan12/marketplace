@@ -1,5 +1,6 @@
 package app;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -19,10 +20,9 @@ public class Main {
             login.setVisible(true);
             login.setLocationRelativeTo(null);
             
-            // carInfoFrame login = new carInfoFrame(1,1,7);
-            // login.setSize(959, 608);//car info frame size
-            // // login.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            // login.setResizable(false);
+            // mainFrame login = new mainFrame(1);
+            // // login.setSize(959, 608);//car info frame size
+            // login.setExtendedState(JFrame.MAXIMIZED_BOTH);
             // login.setVisible(true);
             // login.setLocationRelativeTo(null);
         });
