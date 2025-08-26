@@ -962,13 +962,13 @@ public class AdminPage extends javax.swing.JFrame {
 
         private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {
                 // Profile
-                try {
-                        AdminProfilePage profilePage = new AdminProfilePage(this.clientId);
-                        profilePage.setVisible(true);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Error opening Profile page: " + e.getMessage(),
-                                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                                        java.awt.EventQueue.invokeLater(new Runnable() {
+                                                public void run() {
+                                                        ProfilePanelsami profile = new ProfilePanelsami(clientId);
+                                                        profile.setLocationRelativeTo(AdminPage.this);
+                                                        profile.setVisible(true);
+                                                }
+                                        });
         }
 
         private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {
