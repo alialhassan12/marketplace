@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "ClientMessagesPanel",
+      "request": "launch",
+      "mainClass": "app.ClientMessagesPanel",
+      "projectName": "marketplace_3e2ba57f"
+    },
+    {
+      "type": "java",
+      "name": "ViewMessagesPanel",
+      "request": "launch",
+      "mainClass": "app.ViewMessagesPanel",
+      "projectName": "marketplace_3e2ba57f"
+    },
+    {
+      "type": "java",
       "name": "AdminPage",
       "request": "launch",
       "mainClass": "app.AdminPage",

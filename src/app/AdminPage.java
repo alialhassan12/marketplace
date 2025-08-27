@@ -37,7 +37,9 @@ public class AdminPage extends javax.swing.JFrame {
         private JPanel mainPanel;
         private ViewClientsPanel viewClientsPanel;
         private ViewAdminsPanel viewAdminsPanel;
+        private ViewCarsPanel viewCarsPanel;
         private AddAdminPanel addAdminPanel;
+        private ViewMessagesPanel viewMessagesPanel;
 
         /**
          * Creates new form ADMIN - default constructor
@@ -915,18 +917,8 @@ public class AdminPage extends javax.swing.JFrame {
         // jButton24 (View All Client) action removed
 
         private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {
-                // Cars for Sale
-                try {
-                        // Create a placeholder page or open actual CarsForSalePage
-                        JOptionPane.showMessageDialog(this, "Opening Cars for Sale page...",
-                                        "Cars for Sale", JOptionPane.INFORMATION_MESSAGE);
-                        // Uncomment when you have the actual page:
-                        // CarsForSalePage carsForSalePage = new CarsForSalePage();
-                        // carsForSalePage.setVisible(true);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Error opening Cars for Sale page: " + e.getMessage(),
-                                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                // Show ViewCarsPanel in mainPanel
+                showPanel("cars");
         }
 
         private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -935,17 +927,8 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {
-                // Messages
-                try {
-                        JOptionPane.showMessageDialog(this, "Opening Messages page...",
-                                        "Messages", JOptionPane.INFORMATION_MESSAGE);
-                        // Uncomment when you have the actual page:
-                        // MessagesPage messagesPage = new MessagesPage();
-                        // messagesPage.setVisible(true);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Error opening Messages page: " + e.getMessage(),
-                                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                // Show ViewMessagesPanel in mainPanel
+                showPanel("messages");
         }
 
         private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1079,66 +1062,66 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         // Helper method to refresh dashboard statistics (optional)
-private void refreshDashboardStats(int clientId) {
-    try (Connection conn = config.getConnection();
-         Statement stmt = conn.createStatement()) {
+        private void refreshDashboardStats(int clientId) {
+                try (Connection conn = config.getConnection();
+                                Statement stmt = conn.createStatement()) {
 
-        // Total Cars Available
-        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM car WHERE status = 'available'");
-        if (rs.next()) {
-            jLabel24.setText(String.valueOf(rs.getInt("total")));
-        }
-        rs.close();
+                        // Total Cars Available
+                        ResultSet rs = stmt
+                                        .executeQuery("SELECT COUNT(*) AS total FROM car WHERE status = 'available'");
+                        if (rs.next()) {
+                                jLabel24.setText(String.valueOf(rs.getInt("total")));
+                        }
+                        rs.close();
 
-        // Client Queue
-        rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM client WHERE is_approved = FALSE AND role != 'admin'");
-        if (rs.next()) {
-            jLabel27.setText(String.valueOf(rs.getInt("total")));
-        }
-        rs.close();
+                        // Client Queue
+                        rs = stmt.executeQuery(
+                                        "SELECT COUNT(*) AS total FROM client WHERE is_approved = FALSE AND role != 'admin'");
+                        if (rs.next()) {
+                                jLabel27.setText(String.valueOf(rs.getInt("total")));
+                        }
+                        rs.close();
 
-        // Total Clients
-        rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM client WHERE is_approved = TRUE AND role != 'admin'");
-        if (rs.next()) {
-            jLabel30.setText(String.valueOf(rs.getInt("total")));
-        }
-        rs.close();
+                        // Total Clients
+                        rs = stmt.executeQuery(
+                                        "SELECT COUNT(*) AS total FROM client WHERE is_approved = TRUE AND role != 'admin'");
+                        if (rs.next()) {
+                                jLabel30.setText(String.valueOf(rs.getInt("total")));
+                        }
+                        rs.close();
 
-        // Refresh Profile
-        rs = stmt.executeQuery("SELECT name, profile_image FROM client WHERE client_id = " + clientId);
-        if (rs.next()) {
-            String name = rs.getString("name");
-            String profilePicPath = rs.getString("profile_image");
+                        // Refresh Profile
+                        rs = stmt.executeQuery("SELECT name, profile_image FROM client WHERE client_id = " + clientId);
+                        if (rs.next()) {
+                                String name = rs.getString("name");
+                                String profilePicPath = rs.getString("profile_image");
 
-            
-            if (jLabel20 != null) {
-                jLabel20.setText(name);
-            }
+                                if (jLabel20 != null) {
+                                        jLabel20.setText(name);
+                                }
 
-            
-            if (profilePicPath != null && !profilePicPath.isEmpty()) {
-                File imgFile = new File(profilePicPath);
-                if (imgFile.exists()) {
-                    ImageIcon icon = new ImageIcon(imgFile.getAbsolutePath());
-                    Image img = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-                    jLabel21.setIcon(new ImageIcon(img));
-                } else {
-                    jLabel21.setIcon(new javax.swing.ImageIcon(
-                        getClass().getResource("/layout/Icons/user2.png")));
+                                if (profilePicPath != null && !profilePicPath.isEmpty()) {
+                                        File imgFile = new File(profilePicPath);
+                                        if (imgFile.exists()) {
+                                                ImageIcon icon = new ImageIcon(imgFile.getAbsolutePath());
+                                                Image img = icon.getImage().getScaledInstance(25, 25,
+                                                                Image.SCALE_SMOOTH);
+                                                jLabel21.setIcon(new ImageIcon(img));
+                                        } else {
+                                                jLabel21.setIcon(new javax.swing.ImageIcon(
+                                                                getClass().getResource("/layout/Icons/user2.png")));
+                                        }
+                                } else {
+                                        jLabel21.setIcon(new javax.swing.ImageIcon(
+                                                        getClass().getResource("/layout/Icons/user2.png")));
+                                }
+                        }
+                        rs.close();
+
+                } catch (Exception e) {
+                        System.err.println("Error refreshing dashboard stats: " + e.getMessage());
                 }
-            } else {
-                jLabel21.setIcon(new javax.swing.ImageIcon(
-                    getClass().getResource("/layout/Icons/user2.png")));
-            }
         }
-        rs.close();
-
-    } catch (Exception e) {
-        System.err.println("Error refreshing dashboard stats: " + e.getMessage());
-    }
-}
-
-
 
         // Getters for admin information
         public int getClientId() {
@@ -1246,11 +1229,14 @@ private void refreshDashboardStats(int clientId) {
                 }
                 viewClientsPanel = new ViewClientsPanel(dbConn);
                 viewAdminsPanel = new ViewAdminsPanel(dbConn);
+                viewCarsPanel = new ViewCarsPanel(dbConn);
+                viewMessagesPanel = new ViewMessagesPanel(dbConn);
                 approvalPanel = new ApprovalPanel(dbConn);
                 mainPanel.add(viewClientsPanel, "clients");
                 mainPanel.add(viewAdminsPanel, "admins");
+                mainPanel.add(viewCarsPanel, "cars");
+                mainPanel.add(viewMessagesPanel, "messages");
                 mainPanel.add(approvalPanel, "approvals");
-
         }
 
         /**
@@ -1262,6 +1248,10 @@ private void refreshDashboardStats(int clientId) {
                         viewClientsPanel.refreshData();
                 } else if ("admins".equals(name)) {
                         viewAdminsPanel.refreshData();
+                } else if ("cars".equals(name)) {
+                        viewCarsPanel.refreshData();
+                } else if ("approvals".equals(name)) {
+                        viewMessagesPanel.refreshData();
                 } else if ("approvals".equals(name)) {
                         // Refresh approval panel data when the card is shown
                         if (approvalPanel != null)
