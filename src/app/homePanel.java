@@ -1,5 +1,6 @@
 package app;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
@@ -39,8 +40,9 @@ public class homePanel extends javax.swing.JPanel {
         featuredPanel = new javax.swing.JPanel();
         latestPanel =new javax.swing.JPanel();
 
+        setBackground(new Color(52, 52, 52));
 
-        jPanel1.setBackground(new java.awt.Color(79, 100, 111));
+        jPanel1.setBackground(new java.awt.Color(24,24,24));
         jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jPanel1AncestorAdded(evt);
@@ -179,6 +181,8 @@ public class homePanel extends javax.swing.JPanel {
         titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24));
         titleLabel.setText("Home");
 
+        jPanel2.setBackground(new Color(52, 52, 52));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -199,10 +203,11 @@ public class homePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
         featuredLabel.setText("Featured Cars");
-        featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
         featuredLabel.setText("Featured Cars");
+        featuredPanel.setBackground(new Color(52,52,52));
 
         featuredPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
 
@@ -240,6 +245,7 @@ public class homePanel extends javax.swing.JPanel {
                     card.add(cardYearJlabel);
                     card.add(Box.createVerticalStrut(10));
                     card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                    card.setBackground(new Color(24, 24, 24));
                     moreBtn=new JButton("Show More");
                     moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                     moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -275,12 +281,14 @@ public class homePanel extends javax.swing.JPanel {
         featuredScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         featuredScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         featuredScrollPane.setBorder(null);
+        featuredScrollPane.getViewport().setBackground(new Color(52,52,52));
 
         LatestListingsLabel = new JLabel("Latest Listings");
         LatestListingsLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
 
         latestPanel = new JPanel();
         latestPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
+        latestPanel.setBackground(new Color(52,52,52));
         
         //adding the Latset Listing
             getCars.getLatestCars().thenAccept(result->{
@@ -314,6 +322,8 @@ public class homePanel extends javax.swing.JPanel {
                         card.add(cardYearJlabel);
                         card.add(Box.createVerticalStrut(10));
                         card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                        card.setBackground(new Color(24, 24, 24));
+                        
                         moreBtn=new JButton("Show More");
                         moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -351,7 +361,8 @@ public class homePanel extends javax.swing.JPanel {
             
 
 
-        latestScrollPane = new JScrollPane(latestPanel);
+        latestScrollPane = new JScrollPane();
+        latestScrollPane.setViewportView(latestPanel);
         latestScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         latestScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         latestScrollPane.setBorder(null);
@@ -379,13 +390,13 @@ public class homePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(latestScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(latestScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );

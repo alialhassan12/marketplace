@@ -2,13 +2,13 @@ package app;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -56,12 +56,12 @@ public class newListingPanel extends javax.swing.JPanel {
                 //remove old container
                 primaryImagePanel.remove(primaryImageContainer);
                 ImageIcon primaryPic = new ImageIcon(imageFile.getAbsolutePath());
-                Image primaryImg = primaryPic.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+                Image primaryImg = primaryPic.getImage().getScaledInstance(430, 300, Image.SCALE_SMOOTH);
                 //make new one
                 primaryImageContainer =new RoundedPanel(10,primaryImg);
-                primaryImageContainer.setPreferredSize(new Dimension(300,200));
-                primaryImageContainer.setMaximumSize(new Dimension(300,200));
-                primaryImageContainer.setMinimumSize(new Dimension(300,200));
+                primaryImageContainer.setPreferredSize(new Dimension(430,300));
+                primaryImageContainer.setMaximumSize(new Dimension(430,300));
+                primaryImageContainer.setMinimumSize(new Dimension(430,300));
                 //add to the same place
                 primaryImagePanel.add(primaryImageContainer,1);
                 primaryImagePanel.revalidate();
@@ -105,9 +105,11 @@ public class newListingPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         addImagesPanel=new JPanel();
 
-        newListing newListing=new newListing();
-        jPanel1.setBackground(new java.awt.Color(79, 100, 111));
+        setBackground(new Color(52,52,52));
 
+        newListing newListing=new newListing();
+        jPanel1.setBackground(new java.awt.Color(24,24,24));
+        
         logoLabel.setBackground(new java.awt.Color(255, 0, 0));
         logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
         HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
@@ -308,14 +310,18 @@ public class newListingPanel extends javax.swing.JPanel {
         ImageIcon sideImageIcon=new ImageIcon(getClass().getResource("../layout/newListingImg.png"));
         Image sideImage=sideImageIcon.getImage();
         RoundedPanel right=new RoundedPanel(10,sideImage,false);
-        
+        right.setBackground(new Color(52,52,52));
+
         //create left panel the cardLayout 
         JPanel left=new JPanel(new CardLayout());
         left.setPreferredSize(new Dimension(200, 585));
         left.setMinimumSize(new Dimension(200, 585));
+        left.setBackground(new Color(52,52,52));
 
         JPanel FormPanel=new JPanel();
+        FormPanel.setBackground(new Color(52,52,52));
         primaryImagePanel=new JPanel();
+        primaryImagePanel.setBackground(new Color(52,52,52));
 
         //formPanel horizontal layout
         javax.swing.GroupLayout formPanelLayout = new javax.swing.GroupLayout(FormPanel);
@@ -389,12 +395,14 @@ public class newListingPanel extends javax.swing.JPanel {
         );
 
         //primaryImagePanel layout
+        primaryImagePanel.setBackground(new Color(52,52,52));
+
         primaryImageContainer=new RoundedPanel(10);
         primaryImageContainer.add(new JLabel("Here primary image"));
         
-        primaryImageContainer.setPreferredSize(new Dimension(300,200));
-        primaryImageContainer.setMaximumSize(new Dimension(300,200));
-        primaryImageContainer.setMinimumSize(new Dimension(300,200));
+        primaryImageContainer.setPreferredSize(new Dimension(430,300));
+        primaryImageContainer.setMaximumSize(new Dimension(430,300));
+        primaryImageContainer.setMinimumSize(new Dimension(430,300));
 
         JButton addPrimaryBtn=new JButton("Add image");
         JButton submitPrimaryImgBtn =new JButton("Submit image");
@@ -439,14 +447,16 @@ public class newListingPanel extends javax.swing.JPanel {
 
         //addImages Layout
 
+        addImagesPanel.setBackground(new Color(52,52,52));
         addImagesPanel.setLayout(new BoxLayout(addImagesPanel, BoxLayout.Y_AXIS));
         JPanel imagesContainer=new JPanel();
+        imagesContainer.setBackground(new Color(52,52,52));
 
         JScrollPane imageContainerScrollPane=new JScrollPane();
         imageContainerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        imageContainerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        imageContainerScrollPane.setPreferredSize(new Dimension(left.getWidth(), 300));
-        imageContainerScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
+        imageContainerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        imageContainerScrollPane.setPreferredSize(new Dimension(left.getWidth(), 450));
+        imageContainerScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 450));
         // imageContainerScrollPane.setBorder(null);
         
         JButton addImgBtn=new JButton("Add Image");
@@ -525,7 +535,7 @@ public class newListingPanel extends javax.swing.JPanel {
         left.add(primaryImagePanel,"PrimaryImage");
         left.add(addImagesPanel,"addImgsPanel");
         CardLayout cl=(CardLayout) left.getLayout();
-        cl.show(left,"addImgsPanel");
+        cl.show(left,"Form");
         
         //add Car btn
         addCarbtn.addActionListener(new java.awt.event.ActionListener() {
@@ -571,15 +581,17 @@ public class newListingPanel extends javax.swing.JPanel {
             }
         });
 
+        jPanel2.setBackground(new Color(52,52,52));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,50,100)
+                .addComponent(left, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,30,50)
                 .addComponent(right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,50,100)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,30,50)
                 )
         );
         jPanel2Layout.setVerticalGroup(

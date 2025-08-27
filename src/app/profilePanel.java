@@ -80,9 +80,11 @@ public class profilePanel extends javax.swing.JPanel {
         emptyLabel = new javax.swing.JLabel();
         addProfileImgBtn=new javax.swing.JButton("Add Profile Picture");
 
+        setBackground(new Color(52,52,52));
+        
         profile profile=new profile(this.client_id);
 
-        jPanel1.setBackground(new java.awt.Color(79, 100, 111));
+        jPanel1.setBackground(new java.awt.Color(24,24,24));
         jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 
@@ -139,7 +141,7 @@ public class profilePanel extends javax.swing.JPanel {
             }
         });
 
-        searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         searchBtn.setText("Search");
         searchBtn.setBorder(null);
         searchBtn.setBorderPainted(false);
@@ -220,6 +222,7 @@ public class profilePanel extends javax.swing.JPanel {
         titleLabel.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 24)); 
         titleLabel.setText("Profile");
 
+        jPanel3.setBackground(new Color(52,52,52));
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -236,6 +239,7 @@ public class profilePanel extends javax.swing.JPanel {
                 .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
+        profilePicPanel.setBackground(new Color(52,52,52));
         profile.getClientInfo().thenAccept(result->{
             try{
                 result.next();
@@ -318,6 +322,8 @@ public class profilePanel extends javax.swing.JPanel {
             }
         });
 
+        userInfoPanel.setBackground(new Color(52,52,52));
+        
         javax.swing.GroupLayout userInfoPanelLayout = new javax.swing.GroupLayout(userInfoPanel);
         userInfoPanel.setLayout(userInfoPanelLayout);
         userInfoPanelLayout.setHorizontalGroup(
@@ -354,8 +360,9 @@ public class profilePanel extends javax.swing.JPanel {
 
         MyListingsLabel.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 24));
         MyListingsLabel.setText("My Listings");
-
         myListingsPanel.setLayout(new GridLayout(0,3,10,10));
+        myListingsPanel.setBackground(new Color(52,52,52));
+        
         profile.getMyListingsCars(this.client_id).thenAccept(result->{
             try{
                 // ResultSet MyListingCars=profile.getMyListingsCars(this.client_id);
@@ -395,6 +402,7 @@ public class profilePanel extends javax.swing.JPanel {
                         card.add(cardYearJlabel);
                         card.add(Box.createVerticalStrut(10));
                         card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                        card.setBackground(new Color(24,24,24));
                         JButton moreBtn = new JButton("Show More");
                         moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -443,12 +451,16 @@ public class profilePanel extends javax.swing.JPanel {
             }
         });
 
+        settingsPanel.setBackground(new Color(52,52,52));
         settingsPanel.add(Box.createVerticalStrut(10));
         settingsPanel.add(settingsTitle);
         settingsPanel.add(Box.createVerticalStrut(10));
         settingsPanel.add(changePassword);
         settingsPanel.add(Box.createVerticalStrut(5));
         settingsPanel.add(deleteAccount);
+
+
+        scrollPanel.setBackground(new Color(52,52,52));
 
         javax.swing.GroupLayout scrollPanelLayout = new javax.swing.GroupLayout(scrollPanel);
         scrollPanel.setLayout(scrollPanelLayout);

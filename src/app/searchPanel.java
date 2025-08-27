@@ -48,7 +48,9 @@ public class searchPanel extends javax.swing.JPanel {
         resultScrollPane=new javax.swing.JScrollPane();
         resultPanel =new javax.swing.JPanel();
 
-        jPanel1.setBackground(new java.awt.Color(79, 100, 111));
+        setBackground(new Color(52,52,52));
+
+        jPanel1.setBackground(new java.awt.Color(24,24,24));
         jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jPanel1AncestorAdded(evt);
@@ -195,7 +197,7 @@ public class searchPanel extends javax.swing.JPanel {
 
         resultLabel.setText("Results: ");
         resultLabel.setFont(new Font(getName(),Font.BOLD,24));
-        
+        resultPanel.setBackground(new Color(52,52,52));
         resultPanel.setLayout(new GridLayout(0,3,10,10));
 
         searchBtn2.setText("Search");
@@ -252,6 +254,7 @@ public class searchPanel extends javax.swing.JPanel {
                         card.add(cardYearJlabel);
                         card.add(Box.createVerticalStrut(10));
                         card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                        card.setBackground(new Color(24,24,24));
                         JButton moreBtn = new JButton("Show More");
                         moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -306,6 +309,7 @@ public class searchPanel extends javax.swing.JPanel {
 
         yearComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new Integer[] { 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 }));
 
+        jPanel2.setBackground(new Color(52,52,52));
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(

@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AdminPage",
+      "request": "launch",
+      "mainClass": "app.AdminPage",
+      "projectName": "marketplace_377d8c93"
+    },
+    {
+      "type": "java",
       "name": "ViewAdminsPage",
       "request": "launch",
       "mainClass": "app.ViewAdminsPage",
