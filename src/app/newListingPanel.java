@@ -6,8 +6,11 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,7 +42,8 @@ public class newListingPanel extends javax.swing.JPanel {
     private String primaryRelativePath;
     private String primaryImageName;
     private ArrayList<String> ImageNames;
-    private int imageCount=0; 
+    private int imageCount=0;
+    private int gbcCount=0; 
     public newListingPanel(mainFrame parent,int client_id) {
         this.parent=parent;
         this.client_id=client_id;
@@ -440,9 +444,9 @@ public class newListingPanel extends javax.swing.JPanel {
 
         JScrollPane imageContainerScrollPane=new JScrollPane();
         imageContainerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        imageContainerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        imageContainerScrollPane.setPreferredSize(new Dimension(left.getWidth(), 400));
-        imageContainerScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 400));
+        imageContainerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        imageContainerScrollPane.setPreferredSize(new Dimension(left.getWidth(), 300));
+        imageContainerScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
         // imageContainerScrollPane.setBorder(null);
         
         JButton addImgBtn=new JButton("Add Image");
@@ -453,7 +457,14 @@ public class newListingPanel extends javax.swing.JPanel {
         JButton submitImgsBtn=new JButton("Submit Images");
         submitImgsBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        imagesContainer.setLayout(new GridLayout(0, 2,10,10));
+        // imagesContainer.setLayout(new GridLayout(0, 2,10,10));
+        imagesContainer.setLayout(new GridBagLayout());
+        GridBagConstraints gbc=new GridBagConstraints();
+        gbc.gridx=0;
+        gbc.gridy=0;
+        gbc.weightx=1.0;
+        gbc.weighty=1.0;
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         imageContainerScrollPane.setViewportView(imagesContainer);
 
@@ -481,19 +492,29 @@ public class newListingPanel extends javax.swing.JPanel {
                             e1.printStackTrace();
                         }
                         System.out.println("Image saved to: " + imageRelativePath);
-
+                        
                         ImageIcon newImg=new ImageIcon(selected.getAbsolutePath());
-                        Image scaleNewImg=newImg.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                        Image scaleNewImg=newImg.getImage().getScaledInstance(320, 220, Image.SCALE_SMOOTH);
                         ImageIcon scaledIcon=new ImageIcon(scaleNewImg);
                         RoundedPanel card=new RoundedPanel(10,scaledIcon.getImage(),false);
                         
-                        card.setPreferredSize(new Dimension(150, 150));
-                        card.setMaximumSize(new Dimension(150, 150));
+                        card.setPreferredSize(new Dimension(320, 220));
+                        card.setMaximumSize(new Dimension(320, 220));
 
-                        imagesContainer.add(card);
+                        imagesContainer.add(card,gbc);
                         imagesContainer.revalidate();
                         imagesContainer.repaint();
+
+                        if(gbcCount == 1){
+                            gbcCount=0;
+                            gbc.gridx=0;
+                            gbc.gridy++;
+                        }else{
+                            gbc.gridx++;
+                            gbcCount++;
+                        }
                         imageCount++;
+                        System.out.println(imageCount);
                     }
                 
             }
@@ -504,7 +525,7 @@ public class newListingPanel extends javax.swing.JPanel {
         left.add(primaryImagePanel,"PrimaryImage");
         left.add(addImagesPanel,"addImgsPanel");
         CardLayout cl=(CardLayout) left.getLayout();
-        cl.show(left,"Form");
+        cl.show(left,"addImgsPanel");
         
         //add Car btn
         addCarbtn.addActionListener(new java.awt.event.ActionListener() {

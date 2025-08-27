@@ -186,7 +186,6 @@ public class searchPanel extends javax.swing.JPanel {
         titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24));
         titleLabel.setText("Search Cars ");
 
-        searchtext.setText("search");
         searchtext.setBorder(BorderFactory.createLineBorder(new Color(79, 100, 111)));
         searchtext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
