@@ -15,6 +15,7 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -47,7 +48,7 @@ public class AdminPage extends javax.swing.JFrame {
                 initComponents();
                 setSize(1200, 601);
                 setLocationRelativeTo(null);
-                refreshDashboardStats();
+                refreshDashboardStats(clientId);
                 jLabel20.setText(adminName);
                 setupMainPanel();
         }
@@ -61,7 +62,7 @@ public class AdminPage extends javax.swing.JFrame {
                 initComponents();
                 setSize(1200, 601);
                 setLocationRelativeTo(null);
-                refreshDashboardStats();
+                refreshDashboardStats(clientId);
                 jLabel20.setText(adminName);
                 setupMainPanel();
         }
@@ -75,7 +76,7 @@ public class AdminPage extends javax.swing.JFrame {
                 initComponents();
                 setSize(1200, 601);
                 setLocationRelativeTo(null);
-                refreshDashboardStats();
+                refreshDashboardStats(clientId);
                 jLabel20.setText(adminName);
                 setupMainPanel();
         }
@@ -196,20 +197,20 @@ public class AdminPage extends javax.swing.JFrame {
                 jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
                 jButton1.setIconTextGap(19);
                 jButton1.setMargin(new java.awt.Insets(2, 24, 2, 14));
-                                jButton1.addActionListener(new java.awt.event.ActionListener() {
-                                                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                                                // Show dashboard panel or perform intended action
-                                                                showPanel("dashboard");
-                                                                // Trigger an explicit refresh (async) when user clicks sidebar Dashboard
-                                                                new SwingWorker<Void, Void>() {
-                                                                        @Override
-                                                                        protected Void doInBackground() throws Exception {
-                                                                                refreshDashboardStats();
-                                                                                return null;
-                                                                        }
-                                                                }.execute();
-                                                }
-                                });
+                jButton1.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                // Show dashboard panel or perform intended action
+                                showPanel("dashboard");
+                                // Trigger an explicit refresh (async) when user clicks sidebar Dashboard
+                                new SwingWorker<Void, Void>() {
+                                        @Override
+                                        protected Void doInBackground() throws Exception {
+                                                refreshDashboardStats(clientId);
+                                                return null;
+                                        }
+                                }.execute();
+                        }
+                });
 
                 jButton3.setBackground(new java.awt.Color(24, 24, 24));
                 jButton3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -402,9 +403,15 @@ public class AdminPage extends javax.swing.JFrame {
                         profilePicPath = null;
                 }
                 if (profilePicPath != null && !profilePicPath.isEmpty()) {
-                        ImageIcon icon = new ImageIcon(profilePicPath);
-                        Image img = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-                        jLabel21.setIcon(new ImageIcon(img));
+                        File imgFile = new File(profilePicPath);
+                        if (imgFile.exists()) {
+                                ImageIcon icon = new ImageIcon(imgFile.getAbsolutePath());
+                                Image img = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                                jLabel21.setIcon(new ImageIcon(img));
+                        } else {
+                                jLabel21.setIcon(new javax.swing.ImageIcon(
+                                                getClass().getResource("/layout/Icons/user2.png")));
+                        }
                 } else {
                         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/user2.png")));
                 }
@@ -556,7 +563,8 @@ public class AdminPage extends javax.swing.JFrame {
                                                                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
                                                                                                 jPanel15Layout.createSequentialGroup()
                                                                                                                 .addComponent(jLabel27)
-                                                                                                                .addGap(111, 111, 111))
+                                                                                                                .addGap(111, 111,
+                                                                                                                                111))
                                                                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
                                                                                                 jPanel15Layout.createSequentialGroup()
                                                                                                                 .addComponent(jLabel25)
@@ -612,7 +620,7 @@ public class AdminPage extends javax.swing.JFrame {
                                                                                                 .createSequentialGroup()
                                                                                                 .addGap(100, 100, 100)
                                                                                                 .addComponent(jLabel30))
-                                                                                                
+
                                                                                 .addGroup(jPanel16Layout
                                                                                                 .createSequentialGroup()
                                                                                                 .addGap(79, 79, 79)
@@ -886,16 +894,17 @@ public class AdminPage extends javax.swing.JFrame {
         private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {
                 // Duplicate Dashboard button - same functionality as jButton1
                 // Show dashboard and refresh its stats/panels
-                                showPanel("dashboard");
-                                // Run refresh in background so the UI stays responsive and switching back is instant
-                                new SwingWorker<Void, Void>() {
-                                        @Override
-                                        protected Void doInBackground() throws Exception {
-                                                refreshDashboardStats();
-                                                return null;
-                                        }
+                showPanel("dashboard");
+                // Run refresh in background so the UI stays responsive and switching back is
+                // instant
+                new SwingWorker<Void, Void>() {
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                                refreshDashboardStats(clientId);
+                                return null;
+                        }
 
-                                }.execute();
+                }.execute();
         }
 
         private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -962,13 +971,13 @@ public class AdminPage extends javax.swing.JFrame {
 
         private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {
                 // Profile
-                                        java.awt.EventQueue.invokeLater(new Runnable() {
-                                                public void run() {
-                                                        ProfilePanelsami profile = new ProfilePanelsami(clientId);
-                                                        profile.setLocationRelativeTo(AdminPage.this);
-                                                        profile.setVisible(true);
-                                                }
-                                        });
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                                ProfilePanelsami profile = new ProfilePanelsami(clientId);
+                                profile.setLocationRelativeTo(AdminPage.this);
+                                profile.setVisible(true);
+                        }
+                });
         }
 
         private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1016,7 +1025,8 @@ public class AdminPage extends javax.swing.JFrame {
 
         private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                        // Show ApprovalPanel inside mainPanel (fast) - panel was created in setupMainPanel
+                        // Show ApprovalPanel inside mainPanel (fast) - panel was created in
+                        // setupMainPanel
                         showPanel("approvals");
                 } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Error opening Pending Approvals: " + e.getMessage(),
@@ -1069,38 +1079,66 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         // Helper method to refresh dashboard statistics (optional)
-        private void refreshDashboardStats() {
-                try (Connection conn = config.getConnection();
-                                Statement stmt = conn.createStatement()) {
+private void refreshDashboardStats(int clientId) {
+    try (Connection conn = config.getConnection();
+         Statement stmt = conn.createStatement()) {
 
-                        // ✅ Total Cars Available
-                        ResultSet rs = stmt
-                                        .executeQuery("SELECT COUNT(*) AS total FROM car WHERE status = 'available'");
-                        if (rs.next()) {
-                                jLabel24.setText(String.valueOf(rs.getInt("total")));
-                        }
-                        rs.close();
-
-                        // ✅ Client Queue (waiting for approval)
-                        rs = stmt.executeQuery(
-                                        "SELECT COUNT(*) AS total FROM client WHERE is_approved = FALSE AND role != 'admin'");
-                        if (rs.next()) {
-                                jLabel27.setText(String.valueOf(rs.getInt("total")));
-                        }
-                        rs.close();
-
-                        // ✅ Total Clients (approved only, excluding admins)
-                        rs = stmt.executeQuery(
-                                        "SELECT COUNT(*) AS total FROM client WHERE is_approved = TRUE AND role != 'admin'");
-                        if (rs.next()) {
-                                jLabel30.setText(String.valueOf(rs.getInt("total")));
-                        }
-                        rs.close();
-
-                } catch (Exception e) {
-                        System.err.println("Error refreshing dashboard stats: " + e.getMessage());
-                }
+        // Total Cars Available
+        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM car WHERE status = 'available'");
+        if (rs.next()) {
+            jLabel24.setText(String.valueOf(rs.getInt("total")));
         }
+        rs.close();
+
+        // Client Queue
+        rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM client WHERE is_approved = FALSE AND role != 'admin'");
+        if (rs.next()) {
+            jLabel27.setText(String.valueOf(rs.getInt("total")));
+        }
+        rs.close();
+
+        // Total Clients
+        rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM client WHERE is_approved = TRUE AND role != 'admin'");
+        if (rs.next()) {
+            jLabel30.setText(String.valueOf(rs.getInt("total")));
+        }
+        rs.close();
+
+        // Refresh Profile
+        rs = stmt.executeQuery("SELECT name, profile_image FROM client WHERE client_id = " + clientId);
+        if (rs.next()) {
+            String name = rs.getString("name");
+            String profilePicPath = rs.getString("profile_image");
+
+            
+            if (jLabel20 != null) {
+                jLabel20.setText(name);
+            }
+
+            
+            if (profilePicPath != null && !profilePicPath.isEmpty()) {
+                File imgFile = new File(profilePicPath);
+                if (imgFile.exists()) {
+                    ImageIcon icon = new ImageIcon(imgFile.getAbsolutePath());
+                    Image img = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                    jLabel21.setIcon(new ImageIcon(img));
+                } else {
+                    jLabel21.setIcon(new javax.swing.ImageIcon(
+                        getClass().getResource("/layout/Icons/user2.png")));
+                }
+            } else {
+                jLabel21.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/layout/Icons/user2.png")));
+            }
+        }
+        rs.close();
+
+    } catch (Exception e) {
+        System.err.println("Error refreshing dashboard stats: " + e.getMessage());
+    }
+}
+
+
 
         // Getters for admin information
         public int getClientId() {
@@ -1226,7 +1264,8 @@ public class AdminPage extends javax.swing.JFrame {
                         viewAdminsPanel.refreshData();
                 } else if ("approvals".equals(name)) {
                         // Refresh approval panel data when the card is shown
-                        if (approvalPanel != null) approvalPanel.refreshData();
+                        if (approvalPanel != null)
+                                approvalPanel.refreshData();
                 } else if ("dashboard".equals(name)) {
                         // Do not refresh dashboard automatically when switching back.
                         // The user requested manual refresh by clicking the Dashboard button.

@@ -6,6 +6,20 @@
       "name": "AdminPage",
       "request": "launch",
       "mainClass": "app.AdminPage",
+      "projectName": "marketplace_3e2ba57f"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "app.Main",
+      "projectName": "marketplace_3e2ba57f"
+    },
+    {
+      "type": "java",
+      "name": "AdminPage",
+      "request": "launch",
+      "mainClass": "app.AdminPage",
       "projectName": "marketplace_377d8c93"
     },
     {
