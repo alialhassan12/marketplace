@@ -34,6 +34,7 @@ public class homePanel extends javax.swing.JPanel {
         profileBtn = new javax.swing.JButton();
         searchBtn = new javax.swing.JButton();
         newListingBtn = new javax.swing.JButton();
+        supportBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
         featuredLabel = new javax.swing.JLabel();
@@ -54,10 +55,15 @@ public class homePanel extends javax.swing.JPanel {
         });
 
         logoLabel.setBackground(new java.awt.Color(255, 0, 0));
-        logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
 
-        HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        ImageIcon homeIcon=new ImageIcon(getClass().getResource("../layout/Icons/homeIcon.png"));
+        Image homeImage=homeIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon homeIconScaled=new ImageIcon(homeImage);
+        HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         HomeBtn.setText("Home");
+        HomeBtn.setIcon(homeIconScaled);
+        HomeBtn.setIconTextGap(10);
         HomeBtn.setBorder(null);
         HomeBtn.setFont(new Font(getName(),Font.BOLD,24));
         HomeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -75,8 +81,13 @@ public class homePanel extends javax.swing.JPanel {
             }
         });
 
-        profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        ImageIcon profileIcon=new ImageIcon(getClass().getResource("../layout/Icons/profileIcon.png"));
+        Image profileImageIcon=profileIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        ImageIcon profileIconScaled=new ImageIcon(profileImageIcon);
+        profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         profileBtn.setText("Profile");
+        profileBtn.setIcon(profileIconScaled);
+        profileBtn.setIconTextGap(10);
         profileBtn.setBorder(null);
         profileBtn.setBorderPainted(false);
         profileBtn.setContentAreaFilled(false);
@@ -99,8 +110,13 @@ public class homePanel extends javax.swing.JPanel {
             }
         });
 
-        searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        ImageIcon searchIcon=new ImageIcon(getClass().getResource("../layout/Icons/searchIcon.png"));
+        Image searchImage=searchIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        ImageIcon searchIconScaled=new ImageIcon(searchImage);
+        searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         searchBtn.setText("Search");
+        searchBtn.setIcon(searchIconScaled);
+        searchBtn.setIconTextGap(10);
         searchBtn.setBorder(null);
         searchBtn.setBorderPainted(false);
         searchBtn.setContentAreaFilled(false);
@@ -120,11 +136,17 @@ public class homePanel extends javax.swing.JPanel {
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 parent.switchPages("Search");
+
             }
         });
 
-        newListingBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        ImageIcon newListingIcon=new ImageIcon(getClass().getResource("../layout/Icons/addIcon.png"));
+        Image newListingImage=newListingIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon newListingIconScaled=new ImageIcon(newListingImage);
+        newListingBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         newListingBtn.setText("New Listing");
+        newListingBtn.setIcon(newListingIconScaled);
+        newListingBtn.setIconTextGap(10);
         newListingBtn.setBorder(null);
         newListingBtn.setBorderPainted(false);
         newListingBtn.setContentAreaFilled(false);
@@ -147,6 +169,37 @@ public class homePanel extends javax.swing.JPanel {
             }
         });
 
+        ImageIcon supportIcon=new ImageIcon(getClass().getResource("../layout/Icons/supportIcon.png"));
+        Image supportImageIcon=supportIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon supportIconScaled=new ImageIcon(supportImageIcon);
+        supportBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        supportBtn.setText("Profile");
+        supportBtn.setIcon(supportIconScaled);
+        supportBtn.setIconTextGap(10);
+        supportBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        supportBtn.setText("Support");
+        supportBtn.setBorder(null);
+        supportBtn.setBorderPainted(false);
+        supportBtn.setContentAreaFilled(false);
+        supportBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        supportBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                supportBtn.setBorderPainted(true);
+                supportBtn.setContentAreaFilled(true);
+                supportBtn.setFont(new Font(getName(),Font.BOLD,24));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                supportBtn.setBorderPainted(false);
+                supportBtn.setContentAreaFilled(false);
+                supportBtn.setFont(new Font(getName(),Font.PLAIN,18));
+            }
+        });
+        supportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parent.switchPages("Support");
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -159,6 +212,7 @@ public class homePanel extends javax.swing.JPanel {
                     .addComponent(profileBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(newListingBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(supportBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,6 +227,8 @@ public class homePanel extends javax.swing.JPanel {
                 .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(newListingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(supportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -445,6 +501,7 @@ public class homePanel extends javax.swing.JPanel {
     private javax.swing.JLabel logoLabel;
     private javax.swing.JButton profileBtn;
     private javax.swing.JButton newListingBtn;
+    private javax.swing.JButton supportBtn;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration                   
 }

@@ -31,13 +31,13 @@ public class changePasswordFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        titlelabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titlelabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
         titlelabel.setText("Change Password");
 
-        newPasswordLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        newPasswordLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); 
         newPasswordLabel.setText("New Password: ");
 
-        newPasswordLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        newPasswordLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); 
         newPasswordLabel1.setText("Confirm New Password:");
 
         confirmBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));

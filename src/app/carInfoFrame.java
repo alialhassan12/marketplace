@@ -1,11 +1,15 @@
 package app;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -28,6 +32,7 @@ public class carInfoFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         titleLabel = new javax.swing.JLabel();
+        titlePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         carDetailsPanel = new javax.swing.JPanel();
         cardetailslabel = new javax.swing.JLabel();
@@ -51,9 +56,22 @@ public class carInfoFrame extends javax.swing.JFrame {
         contactBtn = new javax.swing.JButton();
         imagesPanel=new javax.swing.JPanel();
         ownerPanel=new javax.swing.JPanel();
-
+        
+        JButton reportBtn =new JButton("Report Car");
+        
+        reportBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                new reportCarFrame(client_id,owner_id,car_id);
+            }
+        });
+        
+        titlePanel.setLayout(new BorderLayout());
+        
         titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24));
         titleLabel.setText("Car Info");
+
+        titlePanel.add(titleLabel,BorderLayout.LINE_START);
+        titlePanel.add(reportBtn,BorderLayout.LINE_END);
 
         cardetailslabel.setFont(new java.awt.Font("Segoe UI", 1, 18));
         cardetailslabel.setText("Car Details");
@@ -252,7 +270,7 @@ public class carInfoFrame extends javax.swing.JFrame {
         contactBtn.setText("Contact Seller");
         contactBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contactBtnActionPerformed(evt);
+                
             }
         });
 
@@ -293,7 +311,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(carDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,7 +325,7 @@ public class carInfoFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -322,10 +340,6 @@ public class carInfoFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                        
-
-    private void contactBtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel brandValueLabel;
@@ -346,6 +360,7 @@ public class carInfoFrame extends javax.swing.JFrame {
     private javax.swing.JPanel sellerInfoPanel;
     private javax.swing.JLabel sellerNameLabel;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JPanel titlePanel;
     private javax.swing.JLabel vehicalDescLabel;
     private javax.swing.JPanel vehicalDescriptionPanel;
     private javax.swing.JLabel yearLabel;
