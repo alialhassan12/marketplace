@@ -639,7 +639,7 @@ public class AdminPage extends javax.swing.JFrame {
                 AddCarsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
                 AddCarsBtn.setIcon(new javax.swing.ImageIcon(
                                 getClass().getResource("/layout/Icons/plusuuuuuuuuuuuuuu.png"))); // NOI18N
-                AddCarsBtn.setText("Add Car");
+                AddCarsBtn.setText("Add New Car");
                 // AddCarsBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24, 24, 24)));
                 AddCarsBtn.setIconTextGap(19);
@@ -713,12 +713,12 @@ public class AdminPage extends javax.swing.JFrame {
 
                 jLabel32.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
                 jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                jLabel32.setText("Quick Actions - Clients -");
+                jLabel32.setText("Quick Actions - Clients & Admins -");
 
                 AddAdminQuickActionsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
                 AddAdminQuickActionsBtn.setIcon(new javax.swing.ImageIcon(
                                 getClass().getResource("/layout/Icons/plusuuuuuuuuuuuuuu.png"))); // NOI18N
-                AddAdminQuickActionsBtn.setText("Add Admin");
+                AddAdminQuickActionsBtn.setText("Add New Admin");
                 // AddAdminQuickActionsBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24,24,24)));
                 AddAdminQuickActionsBtn.setIconTextGap(19);
@@ -974,9 +974,17 @@ public class AdminPage extends javax.swing.JFrame {
 
         private void AddAdminQuickActionsBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 JDialog dialog = new JDialog(this, "Add New Admin", true);
-                dialog.add(addAdminPanel);
-                dialog.pack();
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setSize(600, 650);
                 dialog.setLocationRelativeTo(this);
+                dialog.setLayout(new BorderLayout());
+                dialog.add(new AddAdminPanel(dbConn, new Runnable() {
+                    @Override
+                    public void run() {
+                        viewAdminsPanel.refreshData();
+                        dialog.dispose();
+                    }
+                }), BorderLayout.CENTER);
                 dialog.setVisible(true);
         }
 
@@ -1224,7 +1232,8 @@ public class AdminPage extends javax.swing.JFrame {
                 viewMessagesPanel = new ViewMessagesPanel(dbConn);
                 approvalPanel = new ApprovalPanel(dbConn);
                 addCarPanel = new AddCarPanel(dbConn, clientId);
-
+                addAdminPanel = new AddAdminPanel(dbConn, null);
+        
                 // Add all panels to mainPanel if needed
                 mainPanel.add(viewClientsPanel, "clients");
                 mainPanel.add(viewAdminsPanel, "admins");

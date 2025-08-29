@@ -40,11 +40,6 @@ public class ProfilePanelsami extends JFrame {
     private String selectedImagePath;
     private JLabel editImageLabel;
     
-    // Password Panel Components
-    private JPasswordField oldPasswordField;
-    private JPasswordField newPasswordField;
-    private JPasswordField confirmPasswordField;
-    
     // UI Component references for easier access
     private JButton editButton;
     private JButton deleteButton;
@@ -52,8 +47,6 @@ public class ProfilePanelsami extends JFrame {
     private JButton changePasswordButton;
     private JButton applyButton;
     private JButton cancelEditButton;
-    private JButton confirmPasswordButton;
-    private JButton cancelPasswordButton;
     
     public ProfilePanelsami() {
         initializeFrame();
@@ -82,26 +75,57 @@ public class ProfilePanelsami extends JFrame {
     }
     
     private void createPanels() {
-        // Create all three panels
+        // Create panels
         JPanel profileViewPanel = createProfileViewPanel();
         JPanel editProfilePanel = createEditProfilePanel();
-        JPanel changePasswordPanel = createChangePasswordPanel();
-        
+
         // Add panels to card layout
         mainPanel.add(profileViewPanel, "PROFILE_VIEW");
         mainPanel.add(editProfilePanel, "EDIT_PROFILE");
-        mainPanel.add(changePasswordPanel, "CHANGE_PASSWORD");
         
         // Show profile view by default
         cardLayout.show(mainPanel, "PROFILE_VIEW");
     }
     
+    private JPanel createProfileHeaderPanel() {
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(new Color(24, 24, 24));
+        headerPanel.setPreferredSize(new Dimension(0, 80));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+
+        JLabel titleLabel = new JLabel("Profile Information");
+        titleLabel.setFont(new Font("Dialog", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+
+        JButton backButton = new JButton("← Back to Dashboard");
+        backButton.setBackground(new Color(0, 102, 255));
+        backButton.setForeground(Color.WHITE);
+        backButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        backButton.setFocusPainted(false);
+        backButton.setBorderPainted(false);
+        backButton.setPreferredSize(new Dimension(180, 35));
+        backButton.addActionListener(e -> {
+            this.dispose(); // Close the profile frame
+        });
+
+        headerPanel.add(titleLabel);
+        headerPanel.add(Box.createHorizontalStrut(300));
+        headerPanel.add(backButton);
+
+        return headerPanel;
+    }
+
     private JPanel createProfileViewPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(24, 24, 24));
-        
+        panel.setBackground(new Color(52, 52, 52));
+
+        // Header Panel
+        JPanel headerPanel = createProfileHeaderPanel();
+        panel.add(headerPanel, BorderLayout.NORTH);
+
         JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(new Color(24, 24, 24));
+        contentPanel.setBackground(new Color(52, 52, 52));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         // Initialize components
         profileImageLabel = new JLabel("No Profile Picture");
@@ -134,13 +158,21 @@ public class ProfilePanelsami extends JFrame {
         createdAtLabel = createDataLabel("Loading...");
         
         editButton = new JButton("Edit Profile");
+        editButton.setBackground(new Color(0, 102, 255));
+        editButton.setForeground(Color.WHITE);
         editButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        editButton.setFocusPainted(false);
+        editButton.setBorderPainted(false);
+        editButton.setPreferredSize(new Dimension(120, 35));
         editButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
+
         deleteButton = new JButton("Delete Account");
-        deleteButton.setBackground(new Color(255, 0, 0));
+        deleteButton.setBackground(new Color(220, 20, 60));
         deleteButton.setForeground(Color.WHITE);
         deleteButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        deleteButton.setFocusPainted(false);
+        deleteButton.setBorderPainted(false);
+        deleteButton.setPreferredSize(new Dimension(140, 35));
         deleteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         // Layout using GroupLayout (keeping your existing layout structure)
@@ -218,12 +250,32 @@ public class ProfilePanelsami extends JFrame {
         return label;
     }
     
+    private JPanel createEditHeaderPanel() {
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(new Color(24, 24, 24));
+        headerPanel.setPreferredSize(new Dimension(0, 80));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+
+        JLabel titleLabel = new JLabel("Edit Profile");
+        titleLabel.setFont(new Font("Dialog", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+
+        headerPanel.add(titleLabel);
+
+        return headerPanel;
+    }
+
     private JPanel createEditProfilePanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(24, 24, 24));
-        
+        panel.setBackground(new Color(52, 52, 52));
+
+        // Header Panel
+        JPanel headerPanel = createEditHeaderPanel();
+        panel.add(headerPanel, BorderLayout.NORTH);
+
         JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(new Color(24, 24, 24));
+        contentPanel.setBackground(new Color(52, 52, 52));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         // Initialize components
         editImageLabel = new JLabel("No Profile Picture");
@@ -255,19 +307,39 @@ public class ProfilePanelsami extends JFrame {
         
         // Buttons
         addEditPictureButton = new JButton("Add/Edit Profile Picture");
+        addEditPictureButton.setBackground(new Color(0, 150, 0));
+        addEditPictureButton.setForeground(Color.WHITE);
         addEditPictureButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        addEditPictureButton.setFocusPainted(false);
+        addEditPictureButton.setBorderPainted(false);
+        addEditPictureButton.setPreferredSize(new Dimension(200, 35));
         addEditPictureButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
+
         changePasswordButton = new JButton("Change Password");
+        changePasswordButton.setBackground(new Color(255, 204, 0));
+        changePasswordButton.setForeground(Color.WHITE);
         changePasswordButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        changePasswordButton.setFocusPainted(false);
+        changePasswordButton.setBorderPainted(false);
+        changePasswordButton.setPreferredSize(new Dimension(150, 35));
         changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
+
         applyButton = new JButton("Apply");
+        applyButton.setBackground(new Color(0, 150, 0));
+        applyButton.setForeground(Color.WHITE);
         applyButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        applyButton.setFocusPainted(false);
+        applyButton.setBorderPainted(false);
+        applyButton.setPreferredSize(new Dimension(80, 35));
         applyButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
+
         cancelEditButton = new JButton("Cancel");
+        cancelEditButton.setBackground(new Color(128, 128, 128));
+        cancelEditButton.setForeground(Color.WHITE);
         cancelEditButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        cancelEditButton.setFocusPainted(false);
+        cancelEditButton.setBorderPainted(false);
+        cancelEditButton.setPreferredSize(new Dimension(80, 35));
         cancelEditButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         // Initialize file chooser
@@ -343,7 +415,8 @@ public class ProfilePanelsami extends JFrame {
         panel.add(contentPanel, BorderLayout.CENTER);
         return panel;
     }
-    
+
+
     private JTextField createTextField() {
         JTextField field = new JTextField();
         field.setBackground(new Color(40, 40, 40));
@@ -351,103 +424,9 @@ public class ProfilePanelsami extends JFrame {
         field.setFont(new Font("Dialog", Font.PLAIN, 16));
         return field;
     }
+
     
-    private JPanel createChangePasswordPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(24, 24, 24));
-        
-        JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(new Color(24, 24, 24));
-
-        // Title
-        JLabel titleLabel = new JLabel("Change Password");
-        titleLabel.setFont(new Font("Dialog", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE);
-
-        // Labels
-        JLabel oldPasswordLabel = new JLabel("Old Password:");
-        oldPasswordLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
-        oldPasswordLabel.setForeground(Color.WHITE);
-
-        JLabel newPasswordLabel = new JLabel("New Password:");
-        newPasswordLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
-        newPasswordLabel.setForeground(Color.WHITE);
-
-        JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
-        confirmPasswordLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
-        confirmPasswordLabel.setForeground(Color.WHITE);
-
-        // Password fields
-        oldPasswordField = createPasswordField();
-        newPasswordField = createPasswordField();
-        confirmPasswordField = createPasswordField();
-
-        // Buttons
-        confirmPasswordButton = new JButton("Confirm");
-        confirmPasswordButton.setFont(new Font("Dialog", Font.PLAIN, 14));
-        confirmPasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        cancelPasswordButton = new JButton("Cancel");
-        cancelPasswordButton.setFont(new Font("Dialog", Font.PLAIN, 14));
-        cancelPasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        // Layout (keeping your existing structure)
-        GroupLayout layout = new GroupLayout(contentPanel);
-        contentPanel.setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(titleLabel)
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(oldPasswordLabel)
-                        .addComponent(newPasswordLabel)
-                        .addComponent(confirmPasswordLabel))
-                    .addGap(20)
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(oldPasswordField, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(newPasswordField, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(confirmPasswordField, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(confirmPasswordButton)
-                    .addGap(10)
-                    .addComponent(cancelPasswordButton))
-        );
-
-        layout.setVerticalGroup(
-            layout.createSequentialGroup()
-                .addComponent(titleLabel)
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(oldPasswordLabel)
-                    .addComponent(oldPasswordField))
-                .addGap(20)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(newPasswordLabel)
-                    .addComponent(newPasswordField))
-                .addGap(20)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(confirmPasswordLabel)
-                    .addComponent(confirmPasswordField))
-                .addGap(40)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(confirmPasswordButton)
-                    .addComponent(cancelPasswordButton))
-        );
-
-        panel.add(contentPanel, BorderLayout.CENTER);
-        return panel;
-    }
     
-    private JPasswordField createPasswordField() {
-        JPasswordField field = new JPasswordField();
-        field.setFont(new Font("Dialog", Font.PLAIN, 18));
-        field.setBackground(new Color(40, 40, 40));
-        field.setForeground(Color.WHITE);
-        return field;
-    }
 
     public void loadProfile(int clientId) {
         if (profileController == null) {
@@ -579,7 +558,8 @@ public class ProfilePanelsami extends JFrame {
         
         // Change Password button
         changePasswordButton.addActionListener(e -> {
-            cardLayout.show(mainPanel, "CHANGE_PASSWORD");
+            changePasswordFrame frame = new changePasswordFrame(clientId);
+            frame.setVisible(true);
         });
         
         // Add/Edit Profile Picture button
@@ -658,56 +638,8 @@ public class ProfilePanelsami extends JFrame {
             loadProfile(clientId);
             cardLayout.show(mainPanel, "PROFILE_VIEW");
         });
+
         
-        // Confirm button (in change password)
-        confirmPasswordButton.addActionListener(e -> {
-            String oldPassword = new String(oldPasswordField.getPassword());
-            String newPassword = new String(newPasswordField.getPassword());
-            String confirmPassword = new String(confirmPasswordField.getPassword());
-
-            if (oldPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-                JOptionPane.showMessageDialog(ProfilePanelsami.this, "Please fill all password fields!");
-                return;
-            }
-
-            if (!newPassword.equals(confirmPassword)) {
-                JOptionPane.showMessageDialog(ProfilePanelsami.this, "New password and confirm password don't match!");
-                return;
-            }
-
-            if (newPassword.length() < 6) {
-                JOptionPane.showMessageDialog(ProfilePanelsami.this, "Password must be at least 6 characters long!");
-                return;
-            }
-
-            // Update password in database using the profile controller
-            try {
-                if (profileController.changePassword(oldPassword, newPassword)) {
-                    JOptionPane.showMessageDialog(ProfilePanelsami.this, "Password changed successfully!");
-                    
-                    // Clear password fields
-                    oldPasswordField.setText("");
-                    newPasswordField.setText("");
-                    confirmPasswordField.setText("");
-
-                    cardLayout.show(mainPanel, "EDIT_PROFILE");
-                } else {
-                    JOptionPane.showMessageDialog(ProfilePanelsami.this, "Failed to change password. Please check your old password and try again.");
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(ProfilePanelsami.this, "Database error: " + ex.getMessage());
-            }
-        });
-        
-        // Cancel button (in change password)
-        cancelPasswordButton.addActionListener(e -> {
-            // Clear password fields
-            oldPasswordField.setText("");
-            newPasswordField.setText("");
-            confirmPasswordField.setText("");
-
-            cardLayout.show(mainPanel, "EDIT_PROFILE");
-        });
     }
     
     private void showProfileImage(File imageFile) {
