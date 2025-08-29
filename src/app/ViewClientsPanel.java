@@ -84,6 +84,24 @@ public class ViewClientsPanel extends JPanel {
             }
         });
 
+        JButton pendingButton = new JButton("🕒 Pending Approvals");
+        pendingButton.setBackground(new Color(255, 204, 0)); // Yellow
+        pendingButton.setForeground(Color.WHITE); // better contrast on yellow
+        pendingButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        pendingButton.setFocusPainted(false);
+        pendingButton.setBorderPainted(false);
+        pendingButton.setPreferredSize(new Dimension(180, 35));
+
+        pendingButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                java.awt.Container parent = getTopLevelAncestor();
+                if (parent instanceof AdminPage) {
+                    ((AdminPage) parent).showPanel("approvals");
+                }
+            }
+        });
+
         JButton backButton = new JButton("← Back to Dashboard");
         backButton.setBackground(new Color(0, 102, 255));
         backButton.setForeground(Color.WHITE);
@@ -104,6 +122,7 @@ public class ViewClientsPanel extends JPanel {
         headerPanel.add(titleLabel);
         headerPanel.add(Box.createHorizontalStrut(200));
         headerPanel.add(deleteButton);
+        headerPanel.add(pendingButton);
         headerPanel.add(refreshButton);
         headerPanel.add(backButton);
 
@@ -116,7 +135,7 @@ public class ViewClientsPanel extends JPanel {
         tablePanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         String[] columnNames = {
-            "Client ID", "Name", "Username", "Email", "Phone", "Registration Date"
+                "Client ID", "Name", "Username", "Email", "Phone", "Registration Date"
         };
 
         tableModel = new DefaultTableModel(columnNames, 0) {
@@ -189,14 +208,15 @@ public class ViewClientsPanel extends JPanel {
             int clientCount = 0;
             while (rs.next()) {
                 Object[] row = {
-                    rs.getInt("client_id"),
-                    rs.getString("name"),
-                    rs.getString("username"),
-                    rs.getString("email"),
-                    rs.getString("phone"),
-                    rs.getTimestamp("created_at") != null
-                        ? rs.getTimestamp("created_at").toLocalDateTime().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-                        : "N/A"
+                        rs.getInt("client_id"),
+                        rs.getString("name"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getTimestamp("created_at") != null
+                                ? rs.getTimestamp("created_at").toLocalDateTime()
+                                        .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                                : "N/A"
                 };
                 tableModel.addRow(row);
                 clientCount++;
@@ -205,19 +225,23 @@ public class ViewClientsPanel extends JPanel {
             rs.close();
             stmt.close();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error loading clients data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error loading clients data: " + ex.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void deleteSelectedClient() {
         int selectedRow = clientsTable.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a client to delete.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a client to delete.", "No Selection",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
         int clientId = (int) tableModel.getValueAt(selectedRow, 0);
-        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete client ID " + clientId + "?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) return;
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete client ID " + clientId + "?",
+                "Confirm Delete", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION)
+            return;
         Connection connect = config.getConnection();
         try {
             String sql = "DELETE FROM Client WHERE client_id = ?";
@@ -226,13 +250,16 @@ public class ViewClientsPanel extends JPanel {
             int affected = pstmt.executeUpdate();
             pstmt.close();
             if (affected > 0) {
-                JOptionPane.showMessageDialog(this, "Client deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Client deleted successfully.", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
                 loadClientsData();
             } else {
-                JOptionPane.showMessageDialog(this, "Client not found or could not be deleted.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Client not found or could not be deleted.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error deleting client: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error deleting client: " + ex.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

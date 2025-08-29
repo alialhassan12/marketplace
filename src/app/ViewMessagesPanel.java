@@ -87,7 +87,8 @@ public class ViewMessagesPanel extends JPanel {
         filterLabel.setForeground(Color.WHITE);
         filterLabel.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        String[] filterOptions = { "All", "Report", "Support", "Inquiry", "Complaint" };
+        // Filter options based on your table's message_type values
+        String[] filterOptions = { "All", "support", "inquiry", "complaint", "feedback" };
         filterComboBox = new JComboBox<>(filterOptions);
         filterComboBox.setBackground(new Color(40, 40, 40));
         filterComboBox.setForeground(Color.WHITE);
@@ -192,9 +193,9 @@ public class ViewMessagesPanel extends JPanel {
         tablePanel.setBackground(new Color(52, 52, 52));
         tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Create table model with columns
+        // Create table model with columns (adjusted for existing table structure)
         String[] columnNames = {
-                "Message ID", "From", "Client Name", "Subject", "Type", "Status", "Priority", "Date"
+                "Message ID", "Client ID", "Message Type", "Content Preview", "Date"
         };
 
         tableModel = new DefaultTableModel(columnNames, 0) {
@@ -266,15 +267,12 @@ public class ViewMessagesPanel extends JPanel {
         header.setFont(new Font("Dialog", Font.BOLD, 13));
         header.setPreferredSize(new Dimension(0, 35));
 
-        // Column widths
+        // Column widths (adjusted for existing table structure)
         messagesTable.getColumnModel().getColumn(0).setPreferredWidth(80); // Message ID
-        messagesTable.getColumnModel().getColumn(1).setPreferredWidth(100); // From
-        messagesTable.getColumnModel().getColumn(2).setPreferredWidth(120); // Client Name
-        messagesTable.getColumnModel().getColumn(3).setPreferredWidth(200); // Subject
-        messagesTable.getColumnModel().getColumn(4).setPreferredWidth(80); // Type
-        messagesTable.getColumnModel().getColumn(5).setPreferredWidth(80); // Status
-        messagesTable.getColumnModel().getColumn(6).setPreferredWidth(80); // Priority
-        messagesTable.getColumnModel().getColumn(7).setPreferredWidth(120); // Date
+        messagesTable.getColumnModel().getColumn(1).setPreferredWidth(80); // Client ID
+        messagesTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Message Type
+        messagesTable.getColumnModel().getColumn(3).setPreferredWidth(250); // Content Preview
+        messagesTable.getColumnModel().getColumn(4).setPreferredWidth(120); // Date
     }
 
     private JPanel createFooterPanel() {
@@ -300,13 +298,9 @@ public class ViewMessagesPanel extends JPanel {
 
         try {
             if (dbConnection != null && !dbConnection.isClosed()) {
-                // Note: This query assumes you have a 'messages' table
-                // You may need to create this table or modify the query based on your actual
-                // schema
-                String query = "SELECT m.message_id, c.username, c.name, m.subject, m.message_type, " +
-                        "m.status, m.priority, m.created_at " +
-                        "FROM messages m " +
-                        "JOIN client c ON m.client_id = c.client_id ";
+                // Query adjusted for existing table structure
+                String query = "SELECT m.message_id, m.client_id, m.message_content, m.message_type, m.created_at " +
+                        "FROM messages m ";
 
                 // Apply filter if not "All"
                 if (!"All".equals(currentFilter)) {
@@ -320,14 +314,17 @@ public class ViewMessagesPanel extends JPanel {
                 int messageCount = 0;
 
                 while (rs.next()) {
+                    // Create content preview (first 50 characters)
+                    String fullContent = rs.getString("message_content");
+                    String contentPreview = (fullContent != null && fullContent.length() > 50)
+                            ? fullContent.substring(0, 50) + "..."
+                            : fullContent;
+
                     Object[] row = {
                             rs.getInt("message_id"),
-                            rs.getString("username") != null ? rs.getString("username") : "N/A",
-                            rs.getString("name") != null ? rs.getString("name") : "N/A",
-                            rs.getString("subject") != null ? rs.getString("subject") : "No Subject",
+                            rs.getInt("client_id"),
                             rs.getString("message_type") != null ? rs.getString("message_type") : "N/A",
-                            rs.getString("status") != null ? rs.getString("status") : "N/A",
-                            rs.getString("priority") != null ? rs.getString("priority") : "Normal",
+                            contentPreview != null ? contentPreview : "No content",
                             rs.getTimestamp("created_at") != null
                                     ? rs.getTimestamp("created_at").toLocalDateTime()
                                             .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
@@ -347,25 +344,11 @@ public class ViewMessagesPanel extends JPanel {
                 stmt.close();
             }
         } catch (Exception ex) {
-            // If messages table doesn't exist, show placeholder data
-            JOptionPane.showMessageDialog(this,
-                    "Messages table not found. Please create the messages table first.\n" +
-                            "Suggested schema:\n" +
-                            "CREATE TABLE messages (\n" +
-                            "  message_id INT PRIMARY KEY AUTO_INCREMENT,\n" +
-                            "  client_id INT,\n" +
-                            "  subject VARCHAR(255),\n" +
-                            "  message_content TEXT,\n" +
-                            "  message_type VARCHAR(50),\n" +
-                            "  status VARCHAR(50) DEFAULT 'Unread',\n" +
-                            "  priority VARCHAR(50) DEFAULT 'Normal',\n" +
-                            "  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n" +
-                            "  FOREIGN KEY (client_id) REFERENCES client(client_id)\n" +
-                            ");",
-                    "Table Not Found",
-                    JOptionPane.INFORMATION_MESSAGE);
+            // If there's an error loading messages, show sample data
+            System.err.println("Error loading messages from database: " + ex.getMessage());
+            System.err.println("Showing sample data instead.");
 
-            // Show sample data
+            // Show sample data without error dialog
             loadSampleData();
         }
     }
@@ -386,26 +369,40 @@ public class ViewMessagesPanel extends JPanel {
         for (Object[] row : sampleData) {
             tableModel.addRow(row);
         }
-        statusLabel.setText("Total Messages: " + sampleData.length + " (Sample Data)");
+        statusLabel.setText("Total Messages: " + sampleData.length + " (Sample Data - Messages table not found)");
     }
 
     private void showSelectedMessageContent() {
         int selectedRow = messagesTable.getSelectedRow();
         if (selectedRow >= 0) {
-            // This would normally fetch the actual message content from the database
-            String subject = (String) tableModel.getValueAt(selectedRow, 3);
-            String type = (String) tableModel.getValueAt(selectedRow, 4);
-            String clientName = (String) tableModel.getValueAt(selectedRow, 2);
+            try {
+                // Get message ID from the selected row
+                int messageId = (Integer) tableModel.getValueAt(selectedRow, 0);
+                int clientId = (Integer) tableModel.getValueAt(selectedRow, 1);
+                String messageType = (String) tableModel.getValueAt(selectedRow, 2);
 
-            // Sample content - in real implementation, fetch from database
-            String sampleContent = "Dear Admin,\n\n" +
-                    "This is a sample message content for: " + subject + "\n\n" +
-                    "Message Type: " + type + "\n" +
-                    "From: " + clientName + "\n\n" +
-                    "Please replace this with actual message content from your database.\n\n" +
-                    "Best regards,\n" + clientName;
+                // Fetch the full message content from database
+                String query = "SELECT message_content FROM messages WHERE message_id = " + messageId;
+                Statement stmt = dbConnection.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
 
-            messageContentArea.setText(sampleContent);
+                if (rs.next()) {
+                    String fullContent = rs.getString("message_content");
+                    messageContentArea.setText("Message ID: " + messageId + "\n" +
+                                             "Client ID: " + clientId + "\n" +
+                                             "Type: " + messageType + "\n" +
+                                             "Date: " + tableModel.getValueAt(selectedRow, 4) + "\n\n" +
+                                             "Content:\n" + fullContent);
+                } else {
+                    messageContentArea.setText("Message content not found.");
+                }
+
+                rs.close();
+                stmt.close();
+
+            } catch (Exception ex) {
+                messageContentArea.setText("Error loading message content: " + ex.getMessage());
+            }
         } else {
             messageContentArea.setText("Select a message to view its content.");
         }
@@ -421,12 +418,13 @@ public class ViewMessagesPanel extends JPanel {
             return;
         }
 
-        String clientName = (String) tableModel.getValueAt(selectedRow, 2);
-        String subject = (String) tableModel.getValueAt(selectedRow, 3);
+        int messageId = (Integer) tableModel.getValueAt(selectedRow, 0);
+        int clientId = (Integer) tableModel.getValueAt(selectedRow, 1);
+        String messageType = (String) tableModel.getValueAt(selectedRow, 2);
 
         // Create reply dialog
-        JDialog replyDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Reply to " + clientName,
-                true);
+        JDialog replyDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),
+                "Reply to Message #" + messageId + " (Client ID: " + clientId + ")", true);
         replyDialog.setSize(500, 400);
         replyDialog.setLocationRelativeTo(this);
         replyDialog.setLayout(new BorderLayout());
@@ -435,7 +433,7 @@ public class ViewMessagesPanel extends JPanel {
         replyPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         replyPanel.setBackground(new Color(52, 52, 52));
 
-        JLabel replyLabel = new JLabel("Reply to: " + subject);
+        JLabel replyLabel = new JLabel("Reply to Message #" + messageId + " (" + messageType + ")");
         replyLabel.setForeground(Color.WHITE);
         replyLabel.setFont(new Font("Dialog", Font.BOLD, 14));
 
@@ -489,13 +487,16 @@ public class ViewMessagesPanel extends JPanel {
         }
 
         try {
-
             int messageId = (Integer) tableModel.getValueAt(selectedRow, 0);
 
-            tableModel.setValueAt("Read", selectedRow, 5);
-            JOptionPane.showMessageDialog(this, "Message marked as read!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            // Since your table doesn't have a status column, we'll just show a confirmation
+            JOptionPane.showMessageDialog(this,
+                    "Message #" + messageId + " viewed successfully!\n\n" +
+                    "Note: Your messages table doesn't have a status column, so messages cannot be marked as read in the database.",
+                    "Message Viewed",
+                    JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error updating message status: " + ex.getMessage(), "Error",
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -511,23 +512,36 @@ public class ViewMessagesPanel extends JPanel {
         }
 
         int messageId = (Integer) tableModel.getValueAt(selectedRow, 0);
-        String subject = (String) tableModel.getValueAt(selectedRow, 3);
+        int clientId = (Integer) tableModel.getValueAt(selectedRow, 1);
+        String messageType = (String) tableModel.getValueAt(selectedRow, 2);
 
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to delete this message?\n" +
                         "Message ID: " + messageId + "\n" +
-                        "Subject: " + subject,
+                        "Client ID: " + clientId + "\n" +
+                        "Type: " + messageType,
                 "Confirm Deletion",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
+                // Delete from database
+                String deleteQuery = "DELETE FROM messages WHERE message_id = " + messageId;
+                Statement stmt = dbConnection.createStatement();
+                int rowsAffected = stmt.executeUpdate(deleteQuery);
+                stmt.close();
 
-                tableModel.removeRow(selectedRow);
-                messageContentArea.setText("Select a message to view its content.");
-                JOptionPane.showMessageDialog(this, "Message deleted successfully!", "Success",
-                        JOptionPane.INFORMATION_MESSAGE);
+                if (rowsAffected > 0) {
+                    // Remove from table model
+                    tableModel.removeRow(selectedRow);
+                    messageContentArea.setText("Select a message to view its content.");
+                    JOptionPane.showMessageDialog(this, "Message deleted successfully!", "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Message not found in database.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Error deleting message: " + ex.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);

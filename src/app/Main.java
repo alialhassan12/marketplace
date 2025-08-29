@@ -19,7 +19,6 @@ public class Main {
             login.setResizable(false);
             login.setVisible(true);
             login.setLocationRelativeTo(null);
-            
             // mainFrame login = new mainFrame(1);
             // // login.setSize(959, 608);//car info frame size
             // login.setExtendedState(JFrame.MAXIMIZED_BOTH);

@@ -13,24 +13,27 @@ import java.net.URL;
 import javax.swing.*;
 
 import controllers.getCars;
+
 public class homePanel extends javax.swing.JPanel {
     private mainFrame parent;
     private int clientId;
     private String name;
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(homePanel.class.getName());
-    public homePanel(mainFrame parent,int client_id) {
-        this.parent=parent;
-        this.clientId=client_id;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger
+            .getLogger(homePanel.class.getName());
+
+    public homePanel(mainFrame parent, int client_id) {
+        this.parent = parent;
+        this.clientId = client_id;
         initComponents();
     }
 
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        ImageIcon logo=new ImageIcon(getClass().getResource("../layout/logo2.png"));
-        Image logoImage=logo.getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH);
+        ImageIcon logo = new ImageIcon(getClass().getResource("../layout/logo2.png"));
+        Image logoImage = logo.getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH);
         logoLabel = new javax.swing.JLabel(new ImageIcon(logoImage));
-        HomeBtn=new javax.swing.JButton();
+        HomeBtn = new javax.swing.JButton();
         profileBtn = new javax.swing.JButton();
         searchBtn = new javax.swing.JButton();
         newListingBtn = new javax.swing.JButton();
@@ -39,17 +42,19 @@ public class homePanel extends javax.swing.JPanel {
         titleLabel = new javax.swing.JLabel();
         featuredLabel = new javax.swing.JLabel();
         featuredPanel = new javax.swing.JPanel();
-        latestPanel =new javax.swing.JPanel();
+        latestPanel = new javax.swing.JPanel();
 
         setBackground(new Color(52, 52, 52));
 
-        jPanel1.setBackground(new java.awt.Color(24,24,24));
+        jPanel1.setBackground(new java.awt.Color(24, 24, 24));
         jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jPanel1AncestorAdded(evt);
             }
+
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
+
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
@@ -57,33 +62,38 @@ public class homePanel extends javax.swing.JPanel {
         logoLabel.setBackground(new java.awt.Color(255, 0, 0));
         logoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
 
-        ImageIcon homeIcon=new ImageIcon(getClass().getResource("../layout/Icons/homeIcon.png"));
-        Image homeImage=homeIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-        ImageIcon homeIconScaled=new ImageIcon(homeImage);
+        ImageIcon homeIcon = new ImageIcon(getClass().getResource("../layout/Icons/homeIcon.png"));
+        Image homeImage = homeIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon homeIconScaled = new ImageIcon(homeImage);
         HomeBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         HomeBtn.setText("Home");
         HomeBtn.setIcon(homeIconScaled);
         HomeBtn.setIconTextGap(10);
         HomeBtn.setBorder(null);
-        HomeBtn.setFont(new Font(getName(),Font.BOLD,24));
+        HomeBtn.setFont(new Font(getName(), Font.BOLD, 24));
         HomeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         HomeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                
+
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                
+
             }
         });
         HomeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profileBtnActionPerformed(evt);
+                if (parent != null) {
+                    parent.switchPages("Home");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Navigation not available in this context");
+                }
             }
         });
 
-        ImageIcon profileIcon=new ImageIcon(getClass().getResource("../layout/Icons/profileIcon.png"));
-        Image profileImageIcon=profileIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        ImageIcon profileIconScaled=new ImageIcon(profileImageIcon);
+        ImageIcon profileIcon = new ImageIcon(getClass().getResource("../layout/Icons/profileIcon.png"));
+        Image profileImageIcon = profileIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        ImageIcon profileIconScaled = new ImageIcon(profileImageIcon);
         profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         profileBtn.setText("Profile");
         profileBtn.setIcon(profileIconScaled);
@@ -96,12 +106,13 @@ public class homePanel extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 profileBtn.setBorderPainted(true);
                 profileBtn.setContentAreaFilled(true);
-                profileBtn.setFont(new Font(getName(),Font.BOLD,24));
+                profileBtn.setFont(new Font(getName(), Font.BOLD, 24));
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 profileBtn.setBorderPainted(false);
                 profileBtn.setContentAreaFilled(false);
-                profileBtn.setFont(new Font(getName(),Font.PLAIN,18));
+                profileBtn.setFont(new Font(getName(), Font.PLAIN, 18));
             }
         });
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -110,9 +121,9 @@ public class homePanel extends javax.swing.JPanel {
             }
         });
 
-        ImageIcon searchIcon=new ImageIcon(getClass().getResource("../layout/Icons/searchIcon.png"));
-        Image searchImage=searchIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        ImageIcon searchIconScaled=new ImageIcon(searchImage);
+        ImageIcon searchIcon = new ImageIcon(getClass().getResource("../layout/Icons/searchIcon.png"));
+        Image searchImage = searchIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        ImageIcon searchIconScaled = new ImageIcon(searchImage);
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         searchBtn.setText("Search");
         searchBtn.setIcon(searchIconScaled);
@@ -125,12 +136,13 @@ public class homePanel extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 searchBtn.setBorderPainted(true);
                 searchBtn.setContentAreaFilled(true);
-                searchBtn.setFont(new Font(getName(),Font.BOLD,24));
+                searchBtn.setFont(new Font(getName(), Font.BOLD, 24));
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 searchBtn.setBorderPainted(false);
                 searchBtn.setContentAreaFilled(false);
-                searchBtn.setFont(new Font(getName(),Font.PLAIN,18));
+                searchBtn.setFont(new Font(getName(), Font.PLAIN, 18));
             }
         });
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -140,9 +152,9 @@ public class homePanel extends javax.swing.JPanel {
             }
         });
 
-        ImageIcon newListingIcon=new ImageIcon(getClass().getResource("../layout/Icons/addIcon.png"));
-        Image newListingImage=newListingIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-        ImageIcon newListingIconScaled=new ImageIcon(newListingImage);
+        ImageIcon newListingIcon = new ImageIcon(getClass().getResource("../layout/Icons/addIcon.png"));
+        Image newListingImage = newListingIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon newListingIconScaled = new ImageIcon(newListingImage);
         newListingBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         newListingBtn.setText("New Listing");
         newListingBtn.setIcon(newListingIconScaled);
@@ -155,12 +167,13 @@ public class homePanel extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 newListingBtn.setBorderPainted(true);
                 newListingBtn.setContentAreaFilled(true);
-                newListingBtn.setFont(new Font(getName(),Font.BOLD,24));
+                newListingBtn.setFont(new Font(getName(), Font.BOLD, 24));
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 newListingBtn.setBorderPainted(false);
                 newListingBtn.setContentAreaFilled(false);
-                newListingBtn.setFont(new Font(getName(),Font.PLAIN,18));
+                newListingBtn.setFont(new Font(getName(), Font.PLAIN, 18));
             }
         });
         newListingBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -169,9 +182,9 @@ public class homePanel extends javax.swing.JPanel {
             }
         });
 
-        ImageIcon supportIcon=new ImageIcon(getClass().getResource("../layout/Icons/supportIcon.png"));
-        Image supportImageIcon=supportIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-        ImageIcon supportIconScaled=new ImageIcon(supportImageIcon);
+        ImageIcon supportIcon = new ImageIcon(getClass().getResource("../layout/Icons/supportIcon.png"));
+        Image supportImageIcon = supportIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon supportIconScaled = new ImageIcon(supportImageIcon);
         supportBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         supportBtn.setText("Profile");
         supportBtn.setIcon(supportIconScaled);
@@ -186,12 +199,13 @@ public class homePanel extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 supportBtn.setBorderPainted(true);
                 supportBtn.setContentAreaFilled(true);
-                supportBtn.setFont(new Font(getName(),Font.BOLD,24));
+                supportBtn.setFont(new Font(getName(), Font.BOLD, 24));
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 supportBtn.setBorderPainted(false);
                 supportBtn.setContentAreaFilled(false);
-                supportBtn.setFont(new Font(getName(),Font.PLAIN,18));
+                supportBtn.setFont(new Font(getName(), Font.PLAIN, 18));
             }
         });
         supportBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -204,36 +218,46 @@ public class homePanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE) // push to center
-                        .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(HomeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(profileBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(newListingBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(supportBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE) // push to center
+                                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 85,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(HomeBtn, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(profileBtn, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(newListingBtn, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(supportBtn, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(HomeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(profileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(newListingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(supportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(HomeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(profileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(newListingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(supportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24));
         titleLabel.setText("Home");
@@ -243,180 +267,177 @@ public class homePanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    )
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(35, Short.MAX_VALUE)));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
         featuredLabel.setText("Featured Cars");
         featuredLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
         featuredLabel.setText("Featured Cars");
-        featuredPanel.setBackground(new Color(52,52,52));
+        featuredPanel.setBackground(new Color(52, 52, 52));
 
-        featuredPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
+        featuredPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
 
-        getCars getCars=new getCars();
-        
-        //getting featured cars
-        getCars.getFeaturedCars().thenAccept(result->{
-            try{
-                while(result.next() ){
-                    RoundedPanel card=new RoundedPanel(10);
+        getCars getCars = new getCars();
+
+        // getting featured cars
+        getCars.getFeaturedCars().thenAccept(result -> {
+            try {
+                while (result.next()) {
+                    RoundedPanel card = new RoundedPanel(10);
                     card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-                    
-                    String imageName=result.getString("image_path");
-                    URL imageUrl=getClass().getResource("../layout/uploads/carImages/"+imageName);
-                    if(imageUrl != null){
-                        ImageIcon image=new ImageIcon(imageUrl);
-                        Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
-                        JLabel imageLabel=new JLabel(new ImageIcon(scaled));
+
+                    String imageName = result.getString("image_path");
+                    URL imageUrl = getClass().getResource("../layout/uploads/carImages/" + imageName);
+                    if (imageUrl != null) {
+                        ImageIcon image = new ImageIcon(imageUrl);
+                        Image scaled = image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
+                        JLabel imageLabel = new JLabel(new ImageIcon(scaled));
                         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                         card.add(imageLabel);
-                    }else{
+                    } else {
                         card.add(new JLabel("no image"));
                     }
-                    JLabel cardBrandLabel=new JLabel(result.getString("brand"));
+                    JLabel cardBrandLabel = new JLabel(result.getString("brand"));
                     cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                     card.add(cardBrandLabel);
                     card.add(Box.createVerticalStrut(5));
-                    JLabel cardModelLbel=new JLabel(result.getString("model"));
+                    JLabel cardModelLbel = new JLabel(result.getString("model"));
                     cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
                     card.add(cardModelLbel);
                     card.add(Box.createVerticalStrut(5));
-                    String year=Integer.toString(result.getInt("year"));
-                    JLabel cardYearJlabel=new JLabel(year);
+                    String year = Integer.toString(result.getInt("year"));
+                    JLabel cardYearJlabel = new JLabel(year);
                     cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                     card.add(cardYearJlabel);
                     card.add(Box.createVerticalStrut(10));
-                    card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
+                    card.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                     card.setBackground(new Color(24, 24, 24));
-                    moreBtn=new JButton("Show More");
+                    moreBtn = new JButton("Show More");
                     moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                     moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    int ownerId=result.getInt("owner_id");
-                    int carId=result.getInt("car_id");
+                    int ownerId = result.getInt("owner_id");
+                    int carId = result.getInt("car_id");
                     moreBtn.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e){
-                            try{
+                        public void actionPerformed(ActionEvent e) {
+                            try {
                                 // System.out.println("owner: "+ownerId+" carId: "+carId);
-                                carInfoFrame carInfo = new carInfoFrame(ownerId,clientId,carId);
-                                carInfo.setSize(959, 608);//car info frame size
+                                carInfoFrame carInfo = new carInfoFrame(ownerId, clientId, carId);
+                                carInfo.setSize(959, 608);// car info frame size
                                 carInfo.setResizable(false);
                                 carInfo.setVisible(true);
                                 carInfo.setLocationRelativeTo(null);
-                            }catch(Exception ex){
-                                System.out.println("error loading car Info "+ex.getMessage());
+                            } catch (Exception ex) {
+                                System.out.println("error loading car Info " + ex.getMessage());
                             }
                         }
                     });
                     card.add(moreBtn);
                     featuredPanel.add(card);
-                    //refresh panel
+                    // refresh panel
                     featuredPanel.revalidate();
                     featuredPanel.repaint();
-                    
+
                 }
-            }catch(Exception e){
-                    System.out.println("error getting Featured cars "+e.getMessage());
-                }
+            } catch (Exception e) {
+                System.out.println("error getting Featured cars " + e.getMessage());
+            }
         });
 
-        featuredScrollPane=new JScrollPane(featuredPanel);
+        featuredScrollPane = new JScrollPane(featuredPanel);
         featuredScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         featuredScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         featuredScrollPane.setBorder(null);
-        featuredScrollPane.getViewport().setBackground(new Color(52,52,52));
+        featuredScrollPane.getViewport().setBackground(new Color(52, 52, 52));
 
         LatestListingsLabel = new JLabel("Latest Listings");
         LatestListingsLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
 
         latestPanel = new JPanel();
-        latestPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
-        latestPanel.setBackground(new Color(52,52,52));
-        
-        //adding the Latset Listing
-            getCars.getLatestCars().thenAccept(result->{
-                try{
-                    while(result.next()){
-                        RoundedPanel card=new RoundedPanel(10);
-                        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-                        
-                        String imageName=result.getString("image_path");
-                        URL imageUrl=getClass().getResource("../layout/uploads/carImages/"+imageName);
-                        if(imageUrl != null){
-                            ImageIcon image=new ImageIcon(imageUrl);
-                            Image scaled=image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
-                            JLabel imageLabel=new JLabel(new ImageIcon(scaled));
-                            imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                            card.add(imageLabel);
-                        }else{
-                            card.add(new JLabel("no image"));
-                        }
-                        JLabel cardBrandLabel=new JLabel(result.getString("brand"));
-                        cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                        card.add(cardBrandLabel);
-                        card.add(Box.createVerticalStrut(5));
-                        JLabel cardModelLbel=new JLabel(result.getString("model"));
-                        cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                        card.add(cardModelLbel);
-                        card.add(Box.createVerticalStrut(5));
-                        String year=Integer.toString(result.getInt("year"));
-                        JLabel cardYearJlabel=new JLabel(year);
-                        cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                        card.add(cardYearJlabel);
-                        card.add(Box.createVerticalStrut(10));
-                        card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
-                        card.setBackground(new Color(24, 24, 24));
-                        
-                        moreBtn=new JButton("Show More");
-                        moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                        moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                        
-                        int ownerId=result.getInt("owner_id");
-                        int carId=result.getInt("car_id");
-                        moreBtn.addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e){
-                                try{
-                                    // System.out.println("owner: "+ownerId+" carId: "+carId);
-                                    SwingUtilities.invokeLater(()->{
-                                        carInfoFrame carInfo = new carInfoFrame(ownerId,clientId,carId);
-                                        carInfo.setSize(959, 608);//car info frame size
-                                        carInfo.setResizable(false);
-                                        carInfo.setVisible(true);
-                                        carInfo.setLocationRelativeTo(null);
-                                    });
-                                }catch(Exception ex){
-                                    System.out.println("error loading car Info "+ex.getMessage());
-                                }
-                            }
-                        });
-                        
-                            card.add(moreBtn);
-                            latestPanel.add(card);
-                            //refresh panel
-                            featuredPanel.revalidate();
-                            featuredPanel.repaint();
-                        
-                    }
-                }catch(Exception e){
-                    System.out.println("Error getting latest listing "+e.getMessage());
-                }
-            });
-            
+        latestPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
+        latestPanel.setBackground(new Color(52, 52, 52));
 
+        // adding the Latset Listing
+        getCars.getLatestCars().thenAccept(result -> {
+            try {
+                while (result.next()) {
+                    RoundedPanel card = new RoundedPanel(10);
+                    card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+
+                    String imageName = result.getString("image_path");
+                    URL imageUrl = getClass().getResource("../layout/uploads/carImages/" + imageName);
+                    if (imageUrl != null) {
+                        ImageIcon image = new ImageIcon(imageUrl);
+                        Image scaled = image.getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
+                        JLabel imageLabel = new JLabel(new ImageIcon(scaled));
+                        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        card.add(imageLabel);
+                    } else {
+                        card.add(new JLabel("no image"));
+                    }
+                    JLabel cardBrandLabel = new JLabel(result.getString("brand"));
+                    cardBrandLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardBrandLabel);
+                    card.add(Box.createVerticalStrut(5));
+                    JLabel cardModelLbel = new JLabel(result.getString("model"));
+                    cardModelLbel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardModelLbel);
+                    card.add(Box.createVerticalStrut(5));
+                    String year = Integer.toString(result.getInt("year"));
+                    JLabel cardYearJlabel = new JLabel(year);
+                    cardYearJlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    card.add(cardYearJlabel);
+                    card.add(Box.createVerticalStrut(10));
+                    card.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                    card.setBackground(new Color(24, 24, 24));
+
+                    moreBtn = new JButton("Show More");
+                    moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                    int ownerId = result.getInt("owner_id");
+                    int carId = result.getInt("car_id");
+                    moreBtn.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                // System.out.println("owner: "+ownerId+" carId: "+carId);
+                                SwingUtilities.invokeLater(() -> {
+                                    carInfoFrame carInfo = new carInfoFrame(ownerId, clientId, carId);
+                                    carInfo.setSize(959, 608);// car info frame size
+                                    carInfo.setResizable(false);
+                                    carInfo.setVisible(true);
+                                    carInfo.setLocationRelativeTo(null);
+                                });
+                            } catch (Exception ex) {
+                                System.out.println("error loading car Info " + ex.getMessage());
+                            }
+                        }
+                    });
+
+                    card.add(moreBtn);
+                    latestPanel.add(card);
+                    // refresh panel
+                    featuredPanel.revalidate();
+                    featuredPanel.repaint();
+
+                }
+            } catch (Exception e) {
+                System.out.println("Error getting latest listing " + e.getMessage());
+            }
+        });
 
         latestScrollPane = new JScrollPane();
         latestScrollPane.setViewportView(latestPanel);
@@ -427,67 +448,84 @@ public class homePanel extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(featuredScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
-                            .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(latestScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE))))
-                .addContainerGap(136, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1000,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(23, 23, 23)
+                                                .addGroup(layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
+                                                                false)
+                                                        .addComponent(featuredScrollPane,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, 1000,
+                                                                Short.MAX_VALUE)
+                                                        .addComponent(featuredLabel,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 170,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(LatestListingsLabel,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 170,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(latestScrollPane,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, 1000,
+                                                                Short.MAX_VALUE))))
+                                .addContainerGap(136, Short.MAX_VALUE)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(latestScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-    }// </editor-fold>                        
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(featuredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(featuredScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 250,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(LatestListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(latestScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 250,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                Short.MAX_VALUE));
+    }// </editor-fold>
 
-    private void searchtextActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void searchtextActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                          
+    }
 
-    private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                          
+    }
 
-    private void BuyBtnActionPerformed(java.awt.event.ActionEvent evt) {                                       
+    private void BuyBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                      
+    }
 
-    private void sellBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void sellBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                       
+    }
 
-    private void rentBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void rentBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                       
+    }
 
-    private void priceComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void priceComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                              
+    }
 
-    private void jPanel1AncestorAdded(javax.swing.event.AncestorEvent evt) {                                      
+    private void jPanel1AncestorAdded(javax.swing.event.AncestorEvent evt) {
         // TODO add your handling code here:
-    }                                                                     
+    }
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify
     private javax.swing.JButton searchBtn;
     private javax.swing.JButton HomeBtn;
     private javax.swing.JLabel featuredLabel;
@@ -504,5 +542,5 @@ public class homePanel extends javax.swing.JPanel {
     private javax.swing.JButton newListingBtn;
     private javax.swing.JButton supportBtn;
     private javax.swing.JLabel titleLabel;
-    // End of variables declaration                   
+    // End of variables declaration
 }

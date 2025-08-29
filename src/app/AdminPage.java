@@ -35,11 +35,13 @@ public class AdminPage extends javax.swing.JFrame {
         private int clientId;
         private String adminName;
         private JPanel mainPanel;
+        private Connection dbConn;
         private ViewClientsPanel viewClientsPanel;
         private ViewAdminsPanel viewAdminsPanel;
         private ViewCarsPanel viewCarsPanel;
         private AddAdminPanel addAdminPanel;
         private ViewMessagesPanel viewMessagesPanel;
+        private AddCarPanel addCarPanel;
 
         /**
          * Creates new form ADMIN - default constructor
@@ -98,19 +100,18 @@ public class AdminPage extends javax.swing.JFrame {
                 jLabel1 = new javax.swing.JLabel();
                 jLabel2 = new javax.swing.JLabel();
                 jPanel2 = new javax.swing.JPanel();
-                jButton1 = new javax.swing.JButton();
-                jButton3 = new javax.swing.JButton();
-                jButton13 = new javax.swing.JButton();
-                jButton15 = new javax.swing.JButton();
-                jButton17 = new javax.swing.JButton();
-                jButton11 = new RoundedButton(20);
+                DashBoardBtn = new javax.swing.JButton();
+                ClientsBtn = new javax.swing.JButton();
+                CarsBtn = new javax.swing.JButton();
+                AdminsBtn = new javax.swing.JButton();
+                SupportBtn = new javax.swing.JButton();
                 jScrollPane2 = new javax.swing.JScrollPane();
                 jPanel12 = new javax.swing.JPanel();
                 jPanel13 = new RoundedPanel(20);
                 jLabel18 = new javax.swing.JLabel();
                 jLabel19 = new javax.swing.JLabel();
-                jButton18 = new RoundedButton(20);
-                jButton19 = new RoundedButton(20);
+                LogoutBtn = new RoundedButton(20);
+                ProfileBtn = new RoundedButton(20);
                 jLabel20 = new javax.swing.JLabel();
                 jLabel21 = new javax.swing.JLabel();
                 jPanel14 = new RoundedPanel(20);
@@ -127,12 +128,12 @@ public class AdminPage extends javax.swing.JFrame {
                 jLabel30 = new javax.swing.JLabel();
                 jPanel17 = new RoundedPanel(20);
                 jLabel31 = new javax.swing.JLabel();
-                jButton20 = new RoundedButton(20);
-                jButton21 = new RoundedButton(20);
+                AddCarsBtn = new RoundedButton(20);
+                ReportedCarsBtn = new RoundedButton(20);
                 jPanel18 = new RoundedPanel(20);
                 jLabel32 = new javax.swing.JLabel();
-                jButton23 = new RoundedButton(20);
-                jButton25 = new RoundedButton(20);
+                AddAdminQuickActionsBtn = new RoundedButton(20);
+                PendinApprovalsBtn = new RoundedButton(20);
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -189,17 +190,17 @@ public class AdminPage extends javax.swing.JFrame {
                 jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0,
                                 new java.awt.Color(120, 120, 120)));
 
-                jButton1.setBackground(new java.awt.Color(24, 24, 24));
-                jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/hhhhhhhhh.png"))); // NOI18N
-                jButton1.setText("Dashboard");
-                jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
-                jButton1.setBorderPainted(false);
-                jButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-                jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-                jButton1.setIconTextGap(19);
-                jButton1.setMargin(new java.awt.Insets(2, 24, 2, 14));
-                jButton1.addActionListener(new java.awt.event.ActionListener() {
+                DashBoardBtn.setBackground(new java.awt.Color(24, 24, 24));
+                DashBoardBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                DashBoardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/hhhhhhhhh.png"))); // NOI18N
+                DashBoardBtn.setText("Dashboard");
+                DashBoardBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
+                DashBoardBtn.setBorderPainted(false);
+                DashBoardBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                DashBoardBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+                DashBoardBtn.setIconTextGap(19);
+                DashBoardBtn.setMargin(new java.awt.Insets(2, 24, 2, 14));
+                DashBoardBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
                                 // Show dashboard panel or perform intended action
                                 showPanel("dashboard");
@@ -214,61 +215,62 @@ public class AdminPage extends javax.swing.JFrame {
                         }
                 });
 
-                jButton3.setBackground(new java.awt.Color(24, 24, 24));
-                jButton3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/rating.png"))); // NOI18N
-                jButton3.setText("Clients");
-                jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
-                jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-                jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-                jButton3.setIconTextGap(19);
-                jButton3.addActionListener(new java.awt.event.ActionListener() {
+                ClientsBtn.setBackground(new java.awt.Color(24, 24, 24));
+                ClientsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                ClientsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/rating.png"))); // NOI18N
+                ClientsBtn.setText("Clients");
+                ClientsBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
+                ClientsBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                ClientsBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+                ClientsBtn.setIconTextGap(19);
+                ClientsBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton3ActionPerformed(evt);
+                                ClientsBtnActionPerformed(evt);
                         }
                 });
 
-                jButton13.setBackground(new java.awt.Color(24, 24, 24));
-                jButton13.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton13.setIcon(
+                CarsBtn.setBackground(new java.awt.Color(24, 24, 24));
+                CarsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                CarsBtn.setIcon(
                                 new javax.swing.ImageIcon(
                                                 getClass().getResource("/layout/Icons/dgfgfhmchgthtdfhrhdfhjthf.png"))); // NOI18N
-                jButton13.setText("Cars");
-                jButton13.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
-                jButton13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-                jButton13.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-                jButton13.setIconTextGap(19);
-                jButton13.addActionListener(new java.awt.event.ActionListener() {
+                CarsBtn.setText("Cars");
+                CarsBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
+                CarsBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                CarsBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+                CarsBtn.setIconTextGap(19);
+                CarsBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton13ActionPerformed(evt);
+                                CarsBtnActionPerformed(evt);
                         }
                 });
 
-                jButton15.setBackground(new java.awt.Color(24, 24, 24));
-                jButton15.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/admin.png"))); // NOI18N
-                jButton15.setText("Admins");
-                jButton15.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
-                jButton15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-                jButton15.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-                jButton15.setIconTextGap(19);
-                jButton15.addActionListener(new java.awt.event.ActionListener() {
+                AdminsBtn.setBackground(new java.awt.Color(24, 24, 24));
+                AdminsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                AdminsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/admin.png"))); // NOI18N
+                AdminsBtn.setText("Admins");
+                AdminsBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
+                AdminsBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                AdminsBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+                AdminsBtn.setIconTextGap(19);
+                AdminsBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton15ActionPerformed(evt);
+                                AdminsBtnActionPerformed(evt);
                         }
                 });
 
-                jButton17.setBackground(new java.awt.Color(24, 24, 24));
-                jButton17.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/chatting.png"))); // NOI18N
-                jButton17.setText("Support");
-                jButton17.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
-                jButton17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-                jButton17.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-                jButton17.setIconTextGap(19);
-                jButton17.addActionListener(new java.awt.event.ActionListener() {
+                SupportBtn.setBackground(new java.awt.Color(24, 24, 24));
+                SupportBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                SupportBtn.setIcon(
+                                new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/risk-analysis.png"))); // NOI18N
+                SupportBtn.setText("Reports");
+                SupportBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
+                SupportBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                SupportBtn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+                SupportBtn.setIconTextGap(19);
+                SupportBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton17ActionPerformed(evt);
+                                SupportBtnActionPerformed(evt);
                         }
                 });
 
@@ -276,45 +278,45 @@ public class AdminPage extends javax.swing.JFrame {
                 jPanel2.setLayout(jPanel2Layout);
                 jPanel2Layout.setHorizontalGroup(
                                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                .addComponent(ClientsBtn, javax.swing.GroupLayout.Alignment.TRAILING,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE, 318,
                                                                 Short.MAX_VALUE)
-                                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                .addComponent(DashBoardBtn, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 // Removed jButton12 (Add Admin)
-                                                .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, 318,
+                                                .addComponent(CarsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 318,
                                                                 Short.MAX_VALUE)
-                                                .addComponent(jButton15, javax.swing.GroupLayout.DEFAULT_SIZE, 318,
+                                                .addComponent(AdminsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 318,
                                                                 Short.MAX_VALUE)
-                                                .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, 318,
+                                                .addComponent(SupportBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 318,
                                                                 Short.MAX_VALUE));
                 jPanel2Layout.setVerticalGroup(
                                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                                                 .addContainerGap()
-                                                                .addComponent(jButton1,
+                                                                .addComponent(DashBoardBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 41,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(9, 9, 9)
-                                                                .addComponent(jButton3,
+                                                                .addComponent(ClientsBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 41,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(8, 8, 8)
-                                                                .addComponent(jButton15,
+                                                                .addComponent(AdminsBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 41,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jButton13,
+                                                                .addComponent(CarsBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 41,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jButton17,
+                                                                .addComponent(SupportBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 41,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -326,24 +328,6 @@ public class AdminPage extends javax.swing.JFrame {
                 jPanel4.add(jPanel2, java.awt.BorderLayout.CENTER);
 
                 jPanel1.add(jPanel4, java.awt.BorderLayout.WEST);
-
-                jButton11.setBackground(new java.awt.Color(24, 24, 24));
-                jButton11.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/hhhhhhhhh.png"))); // NOI18N
-                jButton11.setText("Dashboard");
-                jButton11.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
-                jButton11.setBorderPainted(false);
-                jButton11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-                jButton11.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-                jButton11.setIconTextGap(19);
-                jButton11.setMargin(new java.awt.Insets(2, 24, 2, 14));
-                jButton11.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton11ActionPerformed(evt);
-                        }
-                });
-                jPanel1.add(jButton11);
-                jButton11.setBounds(0, 0, 152, 26);
 
                 jScrollPane2.setBorder(null);
                 jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -365,23 +349,23 @@ public class AdminPage extends javax.swing.JFrame {
                 jLabel19.setFont(new java.awt.Font("Corbel Light", 0, 14)); // NOI18N
                 jLabel19.setText("Here's what's happening with your car business today.");
 
-                jButton18.setBackground(new java.awt.Color(255, 0, 0));
-                jButton18.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-                jButton18.setText("Logout");
-                jButton18.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-                jButton18.addActionListener(new java.awt.event.ActionListener() {
+                LogoutBtn.setBackground(new java.awt.Color(255, 0, 0));
+                LogoutBtn.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+                LogoutBtn.setText("Logout");
+                LogoutBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                LogoutBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton18ActionPerformed(evt);
+                                LogoutBtnActionPerformed(evt);
                         }
                 });
 
-                jButton19.setBackground(new java.awt.Color(0, 102, 255));
-                jButton19.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
-                jButton19.setText("Profile");
-                jButton19.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-                jButton19.addActionListener(new java.awt.event.ActionListener() {
+                ProfileBtn.setBackground(new java.awt.Color(0, 102, 255));
+                ProfileBtn.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+                ProfileBtn.setText("Profile");
+                ProfileBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                ProfileBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton19ActionPerformed(evt);
+                                ProfileBtnActionPerformed(evt);
                         }
                 });
 
@@ -440,13 +424,13 @@ public class AdminPage extends javax.swing.JFrame {
                                                                 .addComponent(jLabel20)
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jButton19,
+                                                                .addComponent(ProfileBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 68,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jButton18,
+                                                                .addComponent(LogoutBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 67,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -479,11 +463,11 @@ public class AdminPage extends javax.swing.JFrame {
                                                                                                                                 .addGroup(jPanel13Layout
                                                                                                                                                 .createParallelGroup(
                                                                                                                                                                 javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                                                .addComponent(jButton18,
+                                                                                                                                                .addComponent(LogoutBtn,
                                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                                                                                 25,
                                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                                                .addComponent(jButton19,
+                                                                                                                                                .addComponent(ProfileBtn,
                                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                                                                                 25,
                                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -650,30 +634,31 @@ public class AdminPage extends javax.swing.JFrame {
 
                 jLabel31.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
                 jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                jLabel31.setText("Quick Actions");
+                jLabel31.setText("Quick Actions - Cars -");
 
-                jButton20.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton20.setIcon(new javax.swing.ImageIcon(
+                AddCarsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                AddCarsBtn.setIcon(new javax.swing.ImageIcon(
                                 getClass().getResource("/layout/Icons/plusuuuuuuuuuuuuuu.png"))); // NOI18N
-                jButton20.setText("Manage Listings");
-                // jButton20.setBorder(javax.swing.BorderFactory.createLineBorder(new
+                AddCarsBtn.setText("Add Car");
+                // AddCarsBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24, 24, 24)));
-                jButton20.setIconTextGap(19);
-                jButton20.addActionListener(new java.awt.event.ActionListener() {
+                AddCarsBtn.setIconTextGap(19);
+                AddCarsBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton20ActionPerformed(evt);
+                                AddCarsBtnActionPerformed(evt);
                         }
                 });
 
-                jButton21.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/check-list.png"))); // NOI18N
-                jButton21.setText("Reported Cars");
-                // jButton21.setBorder(javax.swing.BorderFactory.createLineBorder(new
+                ReportedCarsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                ReportedCarsBtn.setIcon(
+                                new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/check-list.png"))); // NOI18N
+                ReportedCarsBtn.setText("Reported Cars");
+                // ReportedCarsBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24, 24, 24)));
-                jButton21.setIconTextGap(19);
-                jButton21.addActionListener(new java.awt.event.ActionListener() {
+                ReportedCarsBtn.setIconTextGap(19);
+                ReportedCarsBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton21ActionPerformed(evt);
+                                ReportedCarsBtnActionPerformed(evt);
                         }
                 });
 
@@ -687,11 +672,11 @@ public class AdminPage extends javax.swing.JFrame {
                                                                 .addContainerGap()
                                                                 .addGroup(jPanel17Layout.createParallelGroup(
                                                                                 javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                .addComponent(jButton21,
+                                                                                .addComponent(ReportedCarsBtn,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 Short.MAX_VALUE)
-                                                                                .addComponent(jButton20,
+                                                                                .addComponent(AddCarsBtn,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 Short.MAX_VALUE)
@@ -710,12 +695,12 @@ public class AdminPage extends javax.swing.JFrame {
                                                                                 42,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(18, 18, 18)
-                                                                .addComponent(jButton20,
+                                                                .addComponent(AddCarsBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 38,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(12, 12, 12)
-                                                                .addComponent(jButton21,
+                                                                .addComponent(ReportedCarsBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 36,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -728,31 +713,33 @@ public class AdminPage extends javax.swing.JFrame {
 
                 jLabel32.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
                 jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                jLabel32.setText("User Approvals");
+                jLabel32.setText("Quick Actions - Clients -");
 
-                jButton23.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/minus-button.png"))); // NOI18N
-                jButton23.setText("Remove Client");
-                // jButton23.setBorder(javax.swing.BorderFactory.createLineBorder(new
+                AddAdminQuickActionsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                AddAdminQuickActionsBtn.setIcon(new javax.swing.ImageIcon(
+                                getClass().getResource("/layout/Icons/plusuuuuuuuuuuuuuu.png"))); // NOI18N
+                AddAdminQuickActionsBtn.setText("Add Admin");
+                // AddAdminQuickActionsBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24,24,24)));
-                jButton23.setIconTextGap(19);
-                jButton23.addActionListener(new java.awt.event.ActionListener() {
+                AddAdminQuickActionsBtn.setIconTextGap(19);
+                AddAdminQuickActionsBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton23ActionPerformed(evt);
+                                AddAdminQuickActionsBtnActionPerformed(evt);
                         }
                 });
 
                 // jButton24 (View All Client) removed from Quick Actions
 
-                jButton25.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-                jButton25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/sand-clock.png"))); // NOI18N
-                jButton25.setText("Pending Approvals");
-                // jButton25.setBorder(javax.swing.BorderFactory.createLineBorder(new
+                PendinApprovalsBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+                PendinApprovalsBtn.setIcon(
+                                new javax.swing.ImageIcon(getClass().getResource("/layout/Icons/sand-clock.png"))); // NOI18N
+                PendinApprovalsBtn.setText("Pending Approvals");
+                // PendinApprovalsBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new
                 // java.awt.Color(24,24,24)));
-                jButton25.setIconTextGap(19);
-                jButton25.addActionListener(new java.awt.event.ActionListener() {
+                PendinApprovalsBtn.setIconTextGap(19);
+                PendinApprovalsBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButton25ActionPerformed(evt);
+                                PendinApprovalsBtnActionPerformed(evt);
                         }
                 });
 
@@ -768,11 +755,11 @@ public class AdminPage extends javax.swing.JFrame {
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 Short.MAX_VALUE)
-                                                                                .addComponent(jButton23,
+                                                                                .addComponent(AddAdminQuickActionsBtn,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 Short.MAX_VALUE)
-                                                                                .addComponent(jButton25,
+                                                                                .addComponent(PendinApprovalsBtn,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 Short.MAX_VALUE))
@@ -787,13 +774,13 @@ public class AdminPage extends javax.swing.JFrame {
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jButton23,
+                                                                .addComponent(AddAdminQuickActionsBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 38,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jButton25,
+                                                                .addComponent(PendinApprovalsBtn,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 38,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -893,51 +880,37 @@ public class AdminPage extends javax.swing.JFrame {
 
         // Button Action Methods - All buttons are now functional
 
-        private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {
-                // Duplicate Dashboard button - same functionality as jButton1
-                // Show dashboard and refresh its stats/panels
-                showPanel("dashboard");
-                // Run refresh in background so the UI stays responsive and switching back is
-                // instant
-                new SwingWorker<Void, Void>() {
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                                refreshDashboardStats(clientId);
-                                return null;
-                        }
-
-                }.execute();
-        }
-
-        private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        private void ClientsBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 // Show ViewClientsPanel in mainPanel
                 showPanel("clients");
         }
 
         // jButton24 (View All Client) action removed
 
-        private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {
+        private void CarsBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 // Show ViewCarsPanel in mainPanel
                 showPanel("cars");
         }
 
-        private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {
+        private void AdminsBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 // Show ViewAdminsPanel in mainPanel
                 showPanel("admins");
         }
 
-        private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {
+        private void SupportBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 // Show ViewMessagesPanel in mainPanel
                 showPanel("messages");
         }
 
-        private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {
+        private void LogoutBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 // Logout
                 int confirm = JOptionPane.showConfirmDialog(this,
                                 "Are you sure you want to logout?",
                                 "Confirm Logout",
                                 JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
+                        // Close database connection before logout
+                        closeDatabaseConnection();
                         this.dispose();
                         try {
                                 LoginFrame loginFrame = new LoginFrame();
@@ -952,7 +925,7 @@ public class AdminPage extends javax.swing.JFrame {
                 }
         }
 
-        private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {
+        private void ProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 // Profile
                 java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
@@ -963,21 +936,27 @@ public class AdminPage extends javax.swing.JFrame {
                 });
         }
 
-        private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {
-                // Add New Car
-                try {
-                        JOptionPane.showMessageDialog(this, "Opening Add New Car page...",
-                                        "Add Car", JOptionPane.INFORMATION_MESSAGE);
-                        // Uncomment when you have the actual page:
-                        // AddCarPage addCarPage = new AddCarPage();
-                        // addCarPage.setVisible(true);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Error opening Add Car page: " + e.getMessage(),
-                                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        private void AddCarsBtnActionPerformed(java.awt.event.ActionEvent evt) {
+            JDialog dialog = new JDialog(this, "Add New Car", true);
+            // Reuse the existing addCarPanel and clear the form
+            if (addCarPanel != null) {
+                // Clear the form fields before showing
+                addCarPanel.clearForm();
+                dialog.add(addCarPanel);
+                dialog.setSize(1200, 800);
+                dialog.setLocationRelativeTo(this);
+                dialog.setVisible(true);
+            } else {
+                // Fallback: create new panel if somehow addCarPanel is null
+                AddCarPanel carPanel = new AddCarPanel(dbConn, clientId);
+                dialog.add(carPanel);
+                dialog.setSize(1200, 800);
+                dialog.setLocationRelativeTo(this);
+                dialog.setVisible(true);
+            }
         }
 
-        private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {
+        private void ReportedCarsBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 // View All Cars
                 try {
                         JOptionPane.showMessageDialog(this, "Opening View All Cars page...",
@@ -993,20 +972,17 @@ public class AdminPage extends javax.swing.JFrame {
 
         // jButton22 (Manage Users) action removed
 
-        private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {
-                // Remove Client
-                try {
-                        DeleteClientPage deleteClientPage = new DeleteClientPage();
-                        deleteClientPage.setVisible(true);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Error opening Delete Client page: " + e.getMessage(),
-                                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        private void AddAdminQuickActionsBtnActionPerformed(java.awt.event.ActionEvent evt) {
+                JDialog dialog = new JDialog(this, "Add New Admin", true);
+                dialog.add(addAdminPanel);
+                dialog.pack();
+                dialog.setLocationRelativeTo(this);
+                dialog.setVisible(true);
         }
 
         private ApprovalPanel approvalPanel;
 
-        private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {
+        private void PendinApprovalsBtnActionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                         // Show ApprovalPanel inside mainPanel (fast) - panel was created in
                         // setupMainPanel
@@ -1143,6 +1119,22 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         /**
+         * Close database connection to prevent connection leaks
+         */
+        private void closeDatabaseConnection() {
+                if (dbConn != null) {
+                        try {
+                                if (!dbConn.isClosed()) {
+                                        dbConn.close();
+                                        System.out.println("Database connection closed successfully");
+                                }
+                        } catch (Exception e) {
+                                System.err.println("Error closing database connection: " + e.getMessage());
+                        }
+                }
+        }
+
+        /**
          * @param args the command line arguments
          */
         public static void main(String args[]) {
@@ -1171,20 +1163,19 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         // Variables declaration - do not modify
-        private javax.swing.JButton jButton1;
-        private javax.swing.JButton jButton11;
-        private javax.swing.JButton jButton13;
-        private javax.swing.JButton jButton15;
-        private javax.swing.JButton jButton17;
-        private javax.swing.JButton jButton18;
-        private javax.swing.JButton jButton19;
-        private javax.swing.JButton jButton20;
-        private javax.swing.JButton jButton21;
+        private javax.swing.JButton DashBoardBtn;
+        private javax.swing.JButton CarsBtn;
+        private javax.swing.JButton AdminsBtn;
+        private javax.swing.JButton SupportBtn;
+        private javax.swing.JButton LogoutBtn;
+        private javax.swing.JButton ProfileBtn;
+        private javax.swing.JButton AddCarsBtn;
+        private javax.swing.JButton ReportedCarsBtn;
         // jButton22 removed
-        private javax.swing.JButton jButton23;
+        private javax.swing.JButton AddAdminQuickActionsBtn;
         // jButton24 removed
-        private javax.swing.JButton jButton25;
-        private javax.swing.JButton jButton3;
+        private javax.swing.JButton PendinApprovalsBtn;
+        private javax.swing.JButton ClientsBtn;
         private javax.swing.JLabel jLabel1;
         private javax.swing.JLabel jLabel18;
         private javax.swing.JLabel jLabel19;
@@ -1220,18 +1211,21 @@ public class AdminPage extends javax.swing.JFrame {
          * Setup mainPanel and ViewClientsPanel for switching views
          */
         private void setupMainPanel() {
-                // Get DB connection (reuse from dashboard stats)
-                Connection dbConn = null;
                 try {
                         dbConn = config.getConnection();
                 } catch (Exception e) {
                         dbConn = null;
+                        System.err.println("Failed to establish database connection: " + e.getMessage());
                 }
+
                 viewClientsPanel = new ViewClientsPanel(dbConn);
                 viewAdminsPanel = new ViewAdminsPanel(dbConn);
                 viewCarsPanel = new ViewCarsPanel(dbConn);
                 viewMessagesPanel = new ViewMessagesPanel(dbConn);
                 approvalPanel = new ApprovalPanel(dbConn);
+                addCarPanel = new AddCarPanel(dbConn, clientId);
+
+                // Add all panels to mainPanel if needed
                 mainPanel.add(viewClientsPanel, "clients");
                 mainPanel.add(viewAdminsPanel, "admins");
                 mainPanel.add(viewCarsPanel, "cars");
@@ -1278,4 +1272,5 @@ public class AdminPage extends javax.swing.JFrame {
                 }
                 cl.show(mainPanel, name);
         }
+
 }
