@@ -196,7 +196,8 @@ public class homePanel extends javax.swing.JPanel {
         });
         supportBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                parent.switchPages("Support");
+                // parent.switchPages("Support");
+                new supportFrame(clientId);
             }
         });
 

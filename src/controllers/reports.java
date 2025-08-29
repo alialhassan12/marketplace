@@ -5,12 +5,12 @@ import java.sql.Statement;
 
 import app.config;
 
-public class supportAndReports {
+public class reports {
     private Connection connect=config.getConnection();
     private int client_id;
     private int owner_id;
     private int reportedCar_id;
-    public supportAndReports(int client_id,int owner_id,int reportedCar_id){
+    public reports(int client_id,int owner_id,int reportedCar_id){
         this.client_id=client_id;
         this.owner_id=owner_id;
         this.reportedCar_id=reportedCar_id;
@@ -18,8 +18,8 @@ public class supportAndReports {
 
     public boolean sendReport(String messageContent){
         try{
-            String query="Insert into messages (client_id,reportedcar_id,message_content,message_type)"+
-                        "Values("+this.client_id+","+this.reportedCar_id+",'"+messageContent+"','car report')";
+            String query="Insert into reports (client_id,car_id,report_content)"+
+                        "Values("+this.client_id+","+this.reportedCar_id+",'"+messageContent+"')";
             Statement stmt=connect.createStatement();
             stmt.execute(query);
             return true;

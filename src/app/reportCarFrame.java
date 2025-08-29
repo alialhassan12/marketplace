@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import controllers.supportAndReports;
+import controllers.reports;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -30,7 +30,7 @@ public class reportCarFrame extends JFrame{
         setPreferredSize(new Dimension(500,300));
         setLocationRelativeTo(null);
 
-        supportAndReports reports =new supportAndReports(this.client_id, this.owner_id,this.reportedCar_id);
+        reports reports =new reports(this.client_id, this.owner_id,this.reportedCar_id);
 
         setTitle("Report Car");
         JLabel titlelabel=new JLabel("Report Car");

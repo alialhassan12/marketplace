@@ -21,12 +21,14 @@ public class mainFrame extends JFrame {
         profilePanel profilePage = new profilePanel(this, this.client_id);
         searchPanel searchPage = new searchPanel(this, this.client_id);
         newListingPanel newListingPage = new newListingPanel(this, this.client_id);
+        // supportPanel supportPage=new supportPanel(this.client_id);
 
         // add panels to mainPanel
         mainPanel.add(homePage, "Home");
         mainPanel.add(profilePage, "Profile");
         mainPanel.add(searchPage, "Search");
         mainPanel.add(newListingPage, "newListing");
+        // mainPanel.add(supportPage,"Support");
 
         getContentPane().add(mainPanel);
 
