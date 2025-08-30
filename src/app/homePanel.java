@@ -335,11 +335,7 @@ public class homePanel extends javax.swing.JPanel {
                         public void actionPerformed(ActionEvent e) {
                             try {
                                 // System.out.println("owner: "+ownerId+" carId: "+carId);
-                                carInfoFrame carInfo = new carInfoFrame(ownerId, clientId, carId);
-                                carInfo.setSize(959, 608);// car info frame size
-                                carInfo.setResizable(false);
-                                carInfo.setVisible(true);
-                                carInfo.setLocationRelativeTo(null);
+                                new carInfoFrame(ownerId, clientId, carId);
                             } catch (Exception ex) {
                                 System.out.println("error loading car Info " + ex.getMessage());
                             }
@@ -413,13 +409,8 @@ public class homePanel extends javax.swing.JPanel {
                     moreBtn.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             try {
-                                // System.out.println("owner: "+ownerId+" carId: "+carId);
                                 SwingUtilities.invokeLater(() -> {
-                                    carInfoFrame carInfo = new carInfoFrame(ownerId, clientId, carId);
-                                    carInfo.setSize(959, 608);// car info frame size
-                                    carInfo.setResizable(false);
-                                    carInfo.setVisible(true);
-                                    carInfo.setLocationRelativeTo(null);
+                                    new carInfoFrame(ownerId, clientId, carId);
                                 });
                             } catch (Exception ex) {
                                 System.out.println("error loading car Info " + ex.getMessage());

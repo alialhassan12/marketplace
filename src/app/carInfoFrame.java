@@ -46,6 +46,8 @@ public class carInfoFrame extends javax.swing.JFrame {
         priceValueLabel = new javax.swing.JLabel();
         locationLabel = new javax.swing.JLabel();
         locationValueLabel = new javax.swing.JLabel();
+        transactionLabel = new javax.swing.JLabel();
+        transactionValueLabel = new javax.swing.JLabel();
         vehicalDescriptionPanel = new javax.swing.JPanel();
         vehicalDescLabel = new javax.swing.JLabel();
         vehicalDescValue = new javax.swing.JLabel();
@@ -101,6 +103,11 @@ public class carInfoFrame extends javax.swing.JFrame {
 
         locationValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
 
+        transactionLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); 
+        transactionLabel.setText("Transaction");
+
+        transactionValueLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
+
         imagesPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
 
         carInfo carInfo=new carInfo(this.car_id);
@@ -139,6 +146,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                                 priceValueLabel.setText("$"+resultSet.getString("price"));
                                 locationValueLabel.setText(resultSet.getString("location"));
                                 vehicalDescValue.setText(resultSet.getString("description"));
+                                transactionValueLabel.setText(resultSet.getString("transaction"));
                             }catch(Exception e){
                             System.out.println(e.getMessage());
                             }
@@ -189,6 +197,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                     .addComponent(cardetailslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(carDetailsPanelLayout.createSequentialGroup()
                         .addGroup(carDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(transactionLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(locationLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, carDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(yearLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -201,7 +210,9 @@ public class carInfoFrame extends javax.swing.JFrame {
                             .addComponent(modelValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(yearValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(priceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(locationValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
+                            .addComponent(locationValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                            .addComponent(transactionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                            )))
                 .addContainerGap(88, Short.MAX_VALUE))
         );
         carDetailsPanelLayout.setVerticalGroup(
@@ -209,26 +220,30 @@ public class carInfoFrame extends javax.swing.JFrame {
             .addGroup(carDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cardetailslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(5, 5, 5)
                 .addGroup(carDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(brandValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(brandlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(5, 5, 5)
                 .addGroup(carDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(modellabel)
                     .addComponent(modelValueLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(5, 5, 5)
                 .addGroup(carDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(yearLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(yearValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(5, 5, 5)
                 .addGroup(carDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(priceValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(9, 9, 9)
+                .addGap(5, 5, 5)
                 .addGroup(carDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(locationValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(locationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(carDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(transactionValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(transactionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
 
@@ -338,8 +353,16 @@ public class carInfoFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        setTitle("Car Info");
+        ImageIcon image = new ImageIcon(getClass().getResource("../layout/frameIcon.png"));
+        Image Icon = image.getImage();
+        setIconImage(Icon);
+        setSize(959, 608);// car info frame size
+        setResizable(false);
+        setVisible(true);
+        setLocationRelativeTo(null);
         pack();
-    }// </editor-fold>                        
+    }                      
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel brandValueLabel;
@@ -365,6 +388,8 @@ public class carInfoFrame extends javax.swing.JFrame {
     private javax.swing.JPanel vehicalDescriptionPanel;
     private javax.swing.JLabel yearLabel;
     private javax.swing.JLabel yearValueLabel;
+    private javax.swing.JLabel transactionLabel;
+    private javax.swing.JLabel transactionValueLabel;
     private javax.swing.JPanel imagesPanel;
     private javax.swing.JPanel ownerPanel;
     // End of variables declaration                   

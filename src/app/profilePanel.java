@@ -23,7 +23,10 @@ public class profilePanel extends javax.swing.JPanel {
     private mainFrame parent;
     private int client_id;
     private String name;
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(profilePanel.class.getName());
+    private String profileImagePath;
+    private boolean profileEdited=false;
+
+    // private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(profilePanel.class.getName());
 
     public profilePanel(mainFrame parent,int client_id) {
         this.parent=parent;
@@ -36,16 +39,54 @@ public class profilePanel extends javax.swing.JPanel {
             profilePicPanel.removeAll();
             profilePicPanel.setLayout(new BorderLayout());
 
-            ImageIcon profilePic = new ImageIcon(imageFile.getAbsolutePath());
-            Image profileImage = profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-            JLabel profilePicLabel = new JLabel(new ImageIcon(profileImage));
+            ImageIcon profilePicIcon = new ImageIcon(imageFile.getAbsolutePath());
+            Image profileImage = profilePicIcon.getImage().getScaledInstance(296, 282, Image.SCALE_SMOOTH);
+            RoundedPanel profilePic=new RoundedPanel(290,profileImage,false);
 
-            profilePicPanel.add(profilePicLabel, BorderLayout.CENTER);
+            profilePicPanel.add(profilePic, BorderLayout.CENTER);
             profilePicPanel.revalidate();
             profilePicPanel.repaint();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void refreshProfileData(){
+        profile profile=new profile(this.client_id);
+        profile.getClientInfo().thenAccept(result ->{
+            try{
+                if(result.next()){
+                    String imagePath = result.getString("profile_image");
+                    profilePicPanel.removeAll();
+                    if (imagePath == null) {
+                        profilePicPanel.setLayout(new BoxLayout(profilePicPanel, BoxLayout.Y_AXIS));
+                        ImageIcon noProfileIcon = new ImageIcon(getClass().getResource("../layout/Icons/noProfileIcon.jpeg"));
+                        Image noProfileImage = noProfileIcon.getImage().getScaledInstance(296, 282, Image.SCALE_SMOOTH);
+                        RoundedPanel profilePic = new RoundedPanel(350, noProfileImage, false);
+                        profilePicPanel.add(profilePic);
+                        profilePicPanel.add(Box.createVerticalStrut(10));
+                        profilePicPanel.add(addProfileImgBtn);
+                    } else {
+                        profilePicPanel.setLayout(new BorderLayout());
+                        ImageIcon profilePicIcon = new ImageIcon(new File(imagePath).getAbsolutePath());
+                        Image profileImage = profilePicIcon.getImage().getScaledInstance(296, 282, Image.SCALE_SMOOTH);
+                        RoundedPanel profilePic = new RoundedPanel(290, profileImage, false);
+                        profilePicPanel.add(profilePic, BorderLayout.CENTER);
+                    }
+                    profilePicPanel.revalidate();
+                    profilePicPanel.repaint();
+
+                
+                    //update textValues
+                    usernameLabel.setText(result.getString("name"));
+                    emailLabel.setText(result.getString("email"));
+                    phone.setText(result.getString("phone"));
+                    locationLabel.setText(result.getString("location"));
+                }
+            }catch(Exception e){
+                System.out.println("Error rfreshing profile data "+e.getMessage());
+            }
+        });
     }
 
     private void initComponents() {
@@ -78,7 +119,7 @@ public class profilePanel extends javax.swing.JPanel {
         emailLabel = new javax.swing.JLabel();
         fullNameLabel = new javax.swing.JLabel();
         phoneLabel = new javax.swing.JLabel();
-        emptyLabel = new javax.swing.JLabel();
+        emptyLabel = new javax.swing.JLabel(); 
         addProfileImgBtn=new javax.swing.JButton("Add Profile Picture");
 
         setBackground(new Color(52,52,52));
@@ -235,7 +276,6 @@ public class profilePanel extends javax.swing.JPanel {
         });
         supportBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // parent.switchPages("Support");
                 new supportFrame(client_id);
             }
         });
@@ -299,19 +339,20 @@ public class profilePanel extends javax.swing.JPanel {
                 result.next();
                 profilePicPanel.removeAll();
                 if(result.getString("profile_image") == null){
-                    RoundedPanel profilePicPanel=new RoundedPanel(10);
                     profilePicPanel.setLayout(new BoxLayout(profilePicPanel,BoxLayout.Y_AXIS));
-                    profilePicPanel.add(new JLabel("No Profile"),Box.CENTER_ALIGNMENT);
+                    ImageIcon noProfileIcon=new ImageIcon(getClass().getResource("../layout/Icons/noProfileIcon.jpeg"));
+                    Image noProfileImage=noProfileIcon.getImage().getScaledInstance(296, 282, Image.SCALE_SMOOTH);
+                    RoundedPanel profilePic=new RoundedPanel(350,noProfileImage,false);
+                    profilePicPanel.add(profilePic);
                     profilePicPanel.add(Box.createVerticalStrut(10));
-                    profilePicPanel.add(addProfileImgBtn,Box.CENTER_ALIGNMENT);
+                    profilePicPanel.add(addProfileImgBtn);
                 }else{
                     profilePicPanel.setLayout(new BorderLayout());
                     String imagePath=new File(result.getString("profile_image")).getAbsolutePath();
-                
-                    ImageIcon profilePic = new ImageIcon(imagePath);
-                    Image profileImage=profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-                    JLabel profilePicLabel = new JLabel(new ImageIcon(profileImage));
-                    profilePicPanel.add(profilePicLabel,BorderLayout.CENTER);
+                    ImageIcon profilePicIcon = new ImageIcon(imagePath);
+                    Image profileImage=profilePicIcon.getImage().getScaledInstance(296, 282, Image.SCALE_SMOOTH);
+                    RoundedPanel profilePic=new RoundedPanel(290,profileImage,false);
+                    profilePicPanel.add(profilePic,BorderLayout.CENTER);
                 }
                 profilePicPanel.revalidate();
                 profilePicPanel.repaint();
@@ -333,6 +374,7 @@ public class profilePanel extends javax.swing.JPanel {
                 }
                 locationLabel.setFont(new Font(getName(),0,18));
 
+                profileImagePath=result.getString("profile_image");
             
             }catch(SQLException e){
                 System.out.println(e.getMessage());
@@ -368,7 +410,13 @@ public class profilePanel extends javax.swing.JPanel {
         editProfileBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         editProfileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editProfileFrame edit=new editProfileFrame(client_id,usernameLabel.getText(),emailLabel.getText(),phone.getText(),locationLabel.getText());
+                editProfileFrame edit=new editProfileFrame(client_id
+                                                            ,usernameLabel.getText()
+                                                            ,emailLabel.getText()
+                                                            ,phone.getText()
+                                                            ,locationLabel.getText()
+                                                            ,profileImagePath
+                                                            ,profilePanel.this);
                 edit.setVisible(true);
                 edit.setLocationRelativeTo(null);
                 edit.setResizable(false);
@@ -525,7 +573,7 @@ public class profilePanel extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(scrollPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(profilePicPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(profilePicPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
                 .addComponent(userInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -541,7 +589,7 @@ public class profilePanel extends javax.swing.JPanel {
             .addGroup(scrollPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(scrollPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(profilePicPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(profilePicPanel, javax.swing.GroupLayout.DEFAULT_SIZE,282, Short.MAX_VALUE)
                     .addComponent(userInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(MyListingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
