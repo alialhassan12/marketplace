@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import functions.RoundedPanel;
 
 import controllers.adminprofile; // Fixed import - should be lowercase 'profile'
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class ProfilePanelsami extends JFrame {
     private adminprofile profileController;
     
     // Profile View Panel Components
-    private JLabel profileImageLabel;
+    private RoundedPanel profileImageLabel;
     private JLabel fullNameLabel;
     private JLabel usernameLabel;
     private JLabel emailLabel;
@@ -38,7 +39,7 @@ public class ProfilePanelsami extends JFrame {
     private JTextField phoneField;
     private JFileChooser fileChooser;
     private String selectedImagePath;
-    private JLabel editImageLabel;
+    private RoundedPanel editImageLabel;
     
     // UI Component references for easier access
     private JButton editButton;
@@ -65,7 +66,7 @@ public class ProfilePanelsami extends JFrame {
     
     private void initializeFrame() {
         setTitle("User Profile Manager");
-        setSize(700, 600);
+        setSize(650, 620);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Better than EXIT_ON_CLOSE
         
@@ -88,10 +89,10 @@ public class ProfilePanelsami extends JFrame {
     }
     
     private JPanel createProfileHeaderPanel() {
-        JPanel headerPanel = new JPanel();
+        JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(24, 24, 24));
         headerPanel.setPreferredSize(new Dimension(0, 80));
-        headerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel titleLabel = new JLabel("Profile Information");
         titleLabel.setFont(new Font("Dialog", Font.BOLD, 24));
@@ -108,9 +109,8 @@ public class ProfilePanelsami extends JFrame {
             this.dispose(); // Close the profile frame
         });
 
-        headerPanel.add(titleLabel);
-        headerPanel.add(Box.createHorizontalStrut(300));
-        headerPanel.add(backButton);
+        headerPanel.add(titleLabel, BorderLayout.WEST);
+        headerPanel.add(backButton, BorderLayout.EAST);
 
         return headerPanel;
     }
@@ -128,11 +128,9 @@ public class ProfilePanelsami extends JFrame {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         // Initialize components
-        profileImageLabel = new JLabel("No Profile Picture");
-        profileImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        profileImageLabel.setVerticalAlignment(SwingConstants.CENTER);
-        profileImageLabel.setForeground(Color.WHITE);
+        profileImageLabel = new RoundedPanel(100);
         profileImageLabel.setPreferredSize(new Dimension(200, 200));
+        profileImageLabel.setBackground(new Color(40, 40, 40));
         
         // Create and style labels
         JLabel[] labelTexts = {
@@ -147,6 +145,7 @@ public class ProfilePanelsami extends JFrame {
         for (JLabel label : labelTexts) {
             label.setFont(new Font("Dialog", Font.PLAIN, 18));
             label.setForeground(Color.WHITE);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
         }
         
         // Data labels (placeholders until DB load)
@@ -185,7 +184,7 @@ public class ProfilePanelsami extends JFrame {
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                 .addComponent(profileImageLabel, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
                         .addComponent(labelTexts[0], GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelTexts[1], GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelTexts[2], GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -278,11 +277,9 @@ public class ProfilePanelsami extends JFrame {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         // Initialize components
-        editImageLabel = new JLabel("No Profile Picture");
-        editImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        editImageLabel.setVerticalAlignment(SwingConstants.CENTER);
-        editImageLabel.setForeground(Color.WHITE);
+        editImageLabel = new RoundedPanel(75);
         editImageLabel.setPreferredSize(new Dimension(150, 150));
+        editImageLabel.setBackground(new Color(40, 40, 40));
         
         // Create labels
         JLabel[] labelTexts = {
@@ -296,6 +293,7 @@ public class ProfilePanelsami extends JFrame {
         for (JLabel label : labelTexts) {
             label.setFont(new Font("Dialog", Font.PLAIN, 18));
             label.setForeground(Color.WHITE);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
         }
         
         // Text fields
@@ -359,7 +357,7 @@ public class ProfilePanelsami extends JFrame {
                 .addComponent(editImageLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                 .addComponent(addEditPictureButton)
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
                         .addComponent(labelTexts[0], GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelTexts[1], GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelTexts[2], GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -422,6 +420,7 @@ public class ProfilePanelsami extends JFrame {
         field.setBackground(new Color(40, 40, 40));
         field.setForeground(Color.WHITE);
         field.setFont(new Font("Dialog", Font.PLAIN, 16));
+        field.setHorizontalAlignment(SwingConstants.CENTER);
         return field;
     }
 
@@ -484,30 +483,32 @@ public class ProfilePanelsami extends JFrame {
     
     private void loadProfileImage(String profileImagePath) {
         if (profileImagePath == null) {
-            profileImageLabel.setText("No Profile Picture");
-            profileImageLabel.setIcon(null);
-            editImageLabel.setText("No Profile Picture");
-            editImageLabel.setIcon(null);
+            profileImageLabel.setBackgroundImage((Image) null);
+            profileImageLabel.setBackground(new Color(40, 40, 40));
+            editImageLabel.setBackgroundImage((Image) null);
+            editImageLabel.setBackground(new Color(40, 40, 40));
         } else {
             File imageFile = new File(profileImagePath);
             if (imageFile.exists()) {
                 try {
                     ImageIcon profilePic = new ImageIcon(imageFile.getAbsolutePath());
-                    Image profileImage = profilePic.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
-                    profileImageLabel.setIcon(new ImageIcon(profileImage));
-                    profileImageLabel.setText("");
-                    
+                    Image profileImage = profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                    profileImageLabel.setBackgroundImage(profileImage);
+
                     Image editImage = profilePic.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-                    editImageLabel.setIcon(new ImageIcon(editImage));
-                    editImageLabel.setText("");
+                    editImageLabel.setBackgroundImage(editImage);
                 } catch (Exception e) {
-                    profileImageLabel.setText("Image error");
-                    editImageLabel.setText("Image error");
+                    profileImageLabel.setBackgroundImage((Image) null);
+                    profileImageLabel.setBackground(new Color(255, 0, 0)); // red for error
+                    editImageLabel.setBackgroundImage((Image) null);
+                    editImageLabel.setBackground(new Color(255, 0, 0));
                     System.out.println("Error loading image: " + e.getMessage());
                 }
             } else {
-                profileImageLabel.setText("Image not found");
-                editImageLabel.setText("Image not found");
+                profileImageLabel.setBackgroundImage((Image) null);
+                profileImageLabel.setBackground(new Color(255, 255, 0)); // yellow for not found
+                editImageLabel.setBackgroundImage((Image) null);
+                editImageLabel.setBackground(new Color(255, 255, 0));
             }
         }
     }
@@ -646,34 +647,29 @@ public class ProfilePanelsami extends JFrame {
     System.out.println("Showing profile image from file: " + imageFile.getAbsolutePath());
     System.out.println("File exists: " + imageFile.exists());
     System.out.println("File size: " + imageFile.length() + " bytes");
-    
+
     try {
         ImageIcon profilePic = new ImageIcon(imageFile.getAbsolutePath());
         System.out.println("Original image dimensions: " + profilePic.getIconWidth() + "x" + profilePic.getIconHeight());
-        
+
         if (profilePic.getIconWidth() == -1) {
             System.out.println("Failed to load image - invalid format or corrupted file");
             return;
         }
-        
+
         Image profileImage = profilePic.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         Image editImage = profilePic.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        
-        ImageIcon profileIcon = new ImageIcon(profileImage);
-        ImageIcon editIcon = new ImageIcon(editImage);
-        
-        profileImageLabel.setIcon(profileIcon);
-        profileImageLabel.setText("");
+
+        profileImageLabel.setBackgroundImage(profileImage);
         profileImageLabel.revalidate();
         profileImageLabel.repaint();
-        
-        editImageLabel.setIcon(editIcon);
-        editImageLabel.setText("");
+
+        editImageLabel.setBackgroundImage(editImage);
         editImageLabel.revalidate();
         editImageLabel.repaint();
-        
+
         System.out.println("Image display updated successfully");
-        
+
     } catch (Exception e) {
         System.out.println("Exception in showProfileImage: " + e.getMessage());
         e.printStackTrace();

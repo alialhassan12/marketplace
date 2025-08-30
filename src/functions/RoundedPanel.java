@@ -77,4 +77,16 @@ public class RoundedPanel extends JPanel {
         this.drawBorder = drawBorder;
         repaint();
     }
+
+    // Setter for background image
+    public void setBackgroundImage(Image image) {
+        this.backgroundImage = image;
+        repaint();
+    }
+
+    // Setter for background image from path
+    public void setBackgroundImage(String imagePath) {
+        this.backgroundImage = new ImageIcon(imagePath).getImage();
+        repaint();
+    }
 }
