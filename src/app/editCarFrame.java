@@ -2,28 +2,30 @@ package app;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import controllers.carInfo;
+import controllers.editCar;
 
-public class carInfoFrame extends javax.swing.JFrame {
-    private int owner_id;
+public class editCarFrame extends javax.swing.JFrame {
     private int client_id;
     private int car_id;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(carInfoFrame.class.getName());
 
-    public carInfoFrame(int owner_id,int client_id,int car_id) {
-        this.owner_id=owner_id;
+    public editCarFrame(int client_id,int car_id) {
         this.client_id=client_id;
         this.car_id=car_id;
         initComponents();
@@ -44,13 +46,13 @@ public class carInfoFrame extends javax.swing.JFrame {
         sellerNameLabel = new javax.swing.JLabel();
         phoneNumberLabel = new javax.swing.JLabel();
 
-        brandValueLabel = new javax.swing.JLabel();
-        modelValueLabel = new javax.swing.JLabel();
-        yearValueLabel = new javax.swing.JLabel();
-        priceValueLabel = new javax.swing.JLabel();
-        locationValueLabel = new javax.swing.JLabel();
-        transactionValueLabel = new javax.swing.JLabel();
-        vehicalDescValue = new javax.swing.JLabel();
+        brandValueLabel = new javax.swing.JTextField();
+        modelValueLabel = new javax.swing.JTextField();
+        yearValueLabel = new javax.swing.JTextField();
+        priceValueLabel = new javax.swing.JTextField();
+        locationValueLabel = new javax.swing.JTextField();
+        transactionValueLabel = new javax.swing.JTextField();
+        vehicalDescValue = new javax.swing.JTextArea();
 
         carDetailsPanel = new javax.swing.JPanel();
         titlePanel = new javax.swing.JPanel();
@@ -62,14 +64,23 @@ public class carInfoFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
 
         contactBtn = new javax.swing.JButton();
-        
-        JButton reportBtn =new JButton("Report Car");
-        
-        reportBtn.addActionListener(new ActionListener() {
+        submitEdit=new javax.swing.JButton("Submit Edits");
+
+        editCar editCarInfo=new editCar(this.car_id);
+
+        submitEdit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                new reportCarFrame(client_id,owner_id,car_id);
+                if(editCarInfo.editCarInfo(brandValueLabel.getText(),
+                    modelValueLabel.getText(),priceValueLabel.getText(),
+                    yearValueLabel.getText(),vehicalDescValue.getText(),
+                    locationValueLabel.getText(),
+                    transactionValueLabel.getText())){
+                    JOptionPane.showMessageDialog(null,"Car Edited Successfully");
+                    dispose();
+                }
             }
         });
+        
         
         titlePanel.setLayout(new BorderLayout());
         
@@ -77,7 +88,7 @@ public class carInfoFrame extends javax.swing.JFrame {
         titleLabel.setText("Car Info");
 
         titlePanel.add(titleLabel,BorderLayout.LINE_START);
-        titlePanel.add(reportBtn,BorderLayout.LINE_END);
+        titlePanel.add(submitEdit,BorderLayout.LINE_END);
 
         cardetailslabel.setFont(new java.awt.Font("Segoe UI", 1, 18));
         cardetailslabel.setText("Car Details");
@@ -116,8 +127,6 @@ public class carInfoFrame extends javax.swing.JFrame {
 
         carInfo carInfo=new carInfo(this.car_id);
 
-
-            // ResultSet carImages=carInfo.getCarImages();
             carInfo.getCarImages().thenAccept(resultSet->{
                 try{
                     while(resultSet.next()){
@@ -138,7 +147,6 @@ public class carInfoFrame extends javax.swing.JFrame {
                 }
             });
 
-            // ResultSet carinfo=carInfo.getCarInfo();
             carInfo.getCarInfo().thenAccept(resultSet->{
                 try{
                     if(resultSet.next()){
@@ -147,7 +155,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                                 brandValueLabel.setText(resultSet.getString("brand"));
                                 modelValueLabel.setText(resultSet.getString("model"));
                                 yearValueLabel.setText(resultSet.getString("year"));
-                                priceValueLabel.setText("$"+resultSet.getString("price"));
+                                priceValueLabel.setText(resultSet.getString("price"));
                                 locationValueLabel.setText(resultSet.getString("location"));
                                 vehicalDescValue.setText(resultSet.getString("description"));
                                 transactionValueLabel.setText(resultSet.getString("transaction"));
@@ -161,8 +169,7 @@ public class carInfoFrame extends javax.swing.JFrame {
                 }
             });
 
-            // ResultSet ownerInfo=carInfo.getOwnerInfo(this.owner_id);
-            carInfo.getOwnerInfo(this.owner_id).thenAccept(resultSet->{
+            carInfo.getOwnerInfo(this.client_id).thenAccept(resultSet->{
                 try{
                     if(resultSet.next()){
                         SwingUtilities.invokeLater(()->{
@@ -255,7 +262,15 @@ public class carInfoFrame extends javax.swing.JFrame {
         vehicalDescLabel.setText("Vehical Description");
 
         vehicalDescValue.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        vehicalDescValue.setLineWrap(true);
+        vehicalDescValue.setWrapStyleWord(true);
+        JScrollPane descriptionValuePane =new JScrollPane(
+            vehicalDescValue,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
 
+        //vehicleDescPanel layout
         javax.swing.GroupLayout vehicalDescriptionPanelLayout = new javax.swing.GroupLayout(vehicalDescriptionPanel);
         vehicalDescriptionPanel.setLayout(vehicalDescriptionPanelLayout);
         vehicalDescriptionPanelLayout.setHorizontalGroup(
@@ -264,8 +279,10 @@ public class carInfoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(vehicalDescriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(vehicalDescLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(vehicalDescValue, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                    .addComponent(descriptionValuePane, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    
+                    .addContainerGap(59, Short.MAX_VALUE)
+                )
         );
         vehicalDescriptionPanelLayout.setVerticalGroup(
             vehicalDescriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,18 +290,18 @@ public class carInfoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(vehicalDescLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(vehicalDescValue, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(descriptionValuePane, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                
+                )
         );
 
         sellerInfoLabel.setFont(new java.awt.Font("Segoe UI", 1, 18));
         sellerInfoLabel.setText("Seller Information");
 
         sellerNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        // sellerNameLabel.setText("Seller Name");
 
         phoneNumberLabel.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        // phoneNumberLabel.setText("Phone number");
 
         contactBtn.setText("Contact Seller");
         contactBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -369,33 +386,39 @@ public class carInfoFrame extends javax.swing.JFrame {
     }                      
 
     // Variables declaration - do not modify                     
-    private javax.swing.JLabel brandValueLabel;
     private javax.swing.JLabel brandlabel;
-    private javax.swing.JPanel carDetailsPanel;
     private javax.swing.JLabel cardetailslabel;
-    private javax.swing.JButton contactBtn;
-    private javax.swing.JLabel vehicalDescValue;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel locationLabel;
-    private javax.swing.JLabel locationValueLabel;
-    private javax.swing.JLabel modelValueLabel;
     private javax.swing.JLabel modellabel;
     private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JLabel priceLabel;
-    private javax.swing.JLabel priceValueLabel;
     private javax.swing.JLabel sellerInfoLabel;
-    private javax.swing.JPanel sellerInfoPanel;
     private javax.swing.JLabel sellerNameLabel;
     private javax.swing.JLabel titleLabel;
-    private javax.swing.JPanel titlePanel;
     private javax.swing.JLabel vehicalDescLabel;
-    private javax.swing.JPanel vehicalDescriptionPanel;
     private javax.swing.JLabel yearLabel;
-    private javax.swing.JLabel yearValueLabel;
     private javax.swing.JLabel transactionLabel;
-    private javax.swing.JLabel transactionValueLabel;
+    
+    private javax.swing.JTextArea vehicalDescValue;
+    private javax.swing.JTextField brandValueLabel;
+    private javax.swing.JTextField locationValueLabel;
+    private javax.swing.JTextField modelValueLabel;
+    private javax.swing.JTextField priceValueLabel;
+    private javax.swing.JTextField yearValueLabel;
+    private javax.swing.JTextField transactionValueLabel;
+    
+    
+    private javax.swing.JPanel carDetailsPanel;
+    private javax.swing.JPanel sellerInfoPanel;
+    private javax.swing.JPanel titlePanel;
+    private javax.swing.JPanel vehicalDescriptionPanel;
     private javax.swing.JPanel imagesPanel;
     private javax.swing.JPanel ownerPanel;
+    
+    private javax.swing.JScrollPane jScrollPane1;
+
+    private javax.swing.JButton contactBtn;
+    private javax.swing.JButton submitEdit;
     // End of variables declaration                   
 }
 

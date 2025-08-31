@@ -467,8 +467,6 @@ public class profilePanel extends javax.swing.JPanel {
         
         profile.getMyListingsCars(this.client_id).thenAccept(result->{
             try{
-                // ResultSet MyListingCars=profile.getMyListingsCars(this.client_id);
-
                 if(!result.isBeforeFirst()){//check if there a result
                     emptyLabel.setText("No Listings Yet...");
                     emptyLabel.setFont(new Font(getName(),Font.PLAIN,18));
@@ -505,9 +503,15 @@ public class profilePanel extends javax.swing.JPanel {
                         card.add(Box.createVerticalStrut(10));
                         card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
                         card.setBackground(new Color(24,24,24));
+                        int carId = result.getInt("car_id");
                         JButton moreBtn = new JButton("Show More");
                         moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        moreBtn.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e){
+                                new editCarFrame(client_id,carId);
+                            }
+                        });
 
                         SwingUtilities.invokeLater(()->{
                             card.add(moreBtn);
