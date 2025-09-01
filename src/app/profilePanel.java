@@ -504,7 +504,7 @@ public class profilePanel extends javax.swing.JPanel {
                         card.setBorder (BorderFactory.createEmptyBorder(10,10,10,10));
                         card.setBackground(new Color(24,24,24));
                         int carId = result.getInt("car_id");
-                        JButton moreBtn = new JButton("Show More");
+                        JButton moreBtn = new JButton("Edit car");
                         moreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         moreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
                         moreBtn.addActionListener(new ActionListener() {
