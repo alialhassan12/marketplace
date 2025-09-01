@@ -957,15 +957,16 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         private void ReportedCarsBtnActionPerformed(java.awt.event.ActionEvent evt) {
-                // View All Cars
+                // Show Reported Cars Panel
                 try {
-                        JOptionPane.showMessageDialog(this, "Opening View All Cars page...",
-                                        "View Cars", JOptionPane.INFORMATION_MESSAGE);
-                        // Uncomment when you have the actual page:
-                        // ViewAllCarsPage viewCarsPage = new ViewAllCarsPage();
-                        // viewCarsPage.setVisible(true);
+                        JDialog dialog = new JDialog(this, "Reported Cars", true);
+                        ReportedCarsPanel reportedCarsPanel = new ReportedCarsPanel(dbConn);
+                        dialog.add(reportedCarsPanel);
+                        dialog.setSize(1000, 600);
+                        dialog.setLocationRelativeTo(this);
+                        dialog.setVisible(true);
                 } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Error opening View Cars page: " + e.getMessage(),
+                        JOptionPane.showMessageDialog(this, "Error opening Reported Cars page: " + e.getMessage(),
                                         "Error", JOptionPane.ERROR_MESSAGE);
                 }
         }
@@ -1229,7 +1230,7 @@ public class AdminPage extends javax.swing.JFrame {
                 viewClientsPanel = new ViewClientsPanel(dbConn);
                 viewAdminsPanel = new ViewAdminsPanel(dbConn);
                 viewCarsPanel = new ViewCarsPanel(dbConn);
-                viewMessagesPanel = new ViewMessagesPanel(dbConn);
+                viewMessagesPanel = new ViewMessagesPanel(dbConn, clientId);
                 approvalPanel = new ApprovalPanel(dbConn);
                 addCarPanel = new AddCarPanel(dbConn, clientId);
                 addAdminPanel = new AddAdminPanel(dbConn, null);

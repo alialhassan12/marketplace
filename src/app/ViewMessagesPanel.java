@@ -21,13 +21,15 @@ public class ViewMessagesPanel extends JPanel {
     private JScrollPane scrollPane;
     private JLabel statusLabel;
     private Connection dbConnection;
+    private int adminId;
     private JComboBox<String> filterComboBox;
     private String currentFilter = "All";
     private JTextArea messageContentArea;
     private JSplitPane splitPane;
 
-    public ViewMessagesPanel(Connection dbConnection) {
+    public ViewMessagesPanel(Connection dbConnection, int adminId) {
         this.dbConnection = dbConnection;
+        this.adminId = adminId;
         initComponents();
         setupTable();
         loadMessagesData();
@@ -454,10 +456,43 @@ public class ViewMessagesPanel extends JPanel {
         sendButton.setBackground(new Color(0, 150, 0));
         sendButton.setForeground(Color.WHITE);
         sendButton.addActionListener(e -> {
-            // TODO: Implement actual reply functionality
-            JOptionPane.showMessageDialog(replyDialog, "Reply sent successfully!", "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
-            replyDialog.dispose();
+            String replyContent = replyTextArea.getText().trim();
+            if (replyContent.isEmpty()) {
+                JOptionPane.showMessageDialog(replyDialog, "Please enter a reply message.", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            try {
+                // Insert reply into replies table
+                String insertQuery = "INSERT INTO replies (message_id, admin_id, reply_content, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
+                PreparedStatement pstmt = dbConnection.prepareStatement(insertQuery);
+                pstmt.setInt(1, messageId);
+                pstmt.setInt(2, adminId);
+                pstmt.setString(3, replyContent);
+                int rowsAffected = pstmt.executeUpdate();
+                pstmt.close();
+
+                if (rowsAffected > 0) {
+                    // Update message status to replied
+                    String updateQuery = "UPDATE messages SET status = 'Replied' WHERE message_id = ?";
+                    PreparedStatement updateStmt = dbConnection.prepareStatement(updateQuery);
+                    updateStmt.setInt(1, messageId);
+                    updateStmt.executeUpdate();
+                    updateStmt.close();
+
+                    JOptionPane.showMessageDialog(replyDialog, "Reply sent successfully!", "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    replyDialog.dispose();
+                    loadMessagesData(); // Refresh the table
+                } else {
+                    JOptionPane.showMessageDialog(replyDialog, "Failed to send reply.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(replyDialog, "Error sending reply: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         JButton cancelButton = new JButton("Cancel");
