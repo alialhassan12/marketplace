@@ -24,6 +24,10 @@ public class ViewCarsPanel extends JPanel {
     private Connection dbConnection;
     private JComboBox<String> filterComboBox;
     private String currentFilter = "All";
+    private JTextField searchField;
+    private JButton searchButton;
+    private JButton clearSearchButton;
+    private String currentSearchQuery = "";
 
     public ViewCarsPanel(Connection dbConnection) {
         this.dbConnection = dbConnection;
@@ -66,9 +70,50 @@ public class ViewCarsPanel extends JPanel {
         topRow.add(titleLabel);
         topRow.add(Box.createHorizontalStrut(400));
 
-        // Bottom row with filter and action buttons
+        // Bottom row with search, filter and action buttons
         JPanel bottomRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
         bottomRow.setBackground(new Color(24, 24, 24));
+
+        // Search components
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        searchPanel.setBackground(new Color(24, 24, 24));
+
+        JLabel searchLabel = new JLabel("Car ID:");
+        searchLabel.setForeground(Color.WHITE);
+        searchLabel.setFont(new Font("Dialog", Font.BOLD, 14));
+
+        searchField = new JTextField(10);
+        searchField.setFont(new Font("Dialog", Font.PLAIN, 14));
+        searchField.setBackground(new Color(40, 40, 40));
+        searchField.setForeground(Color.WHITE);
+        searchField.setCaretColor(Color.WHITE);
+        searchField.setToolTipText("Enter car ID number to search");
+        searchField.addActionListener(e -> performSearch());
+
+        searchButton = new JButton("Search");
+        searchButton.setBackground(new Color(0, 102, 255));
+        searchButton.setForeground(Color.WHITE);
+        searchButton.setFont(new Font("Dialog", Font.BOLD, 11));
+        searchButton.setFocusPainted(false);
+        searchButton.setBorderPainted(false);
+        searchButton.setPreferredSize(new Dimension(80, 35));
+        searchButton.setToolTipText("Search for specific car by ID");
+        searchButton.addActionListener(e -> performSearch());
+
+        clearSearchButton = new JButton("Clear");
+        clearSearchButton.setBackground(new Color(128, 128, 128));
+        clearSearchButton.setForeground(Color.WHITE);
+        clearSearchButton.setFont(new Font("Dialog", Font.BOLD, 11));
+        clearSearchButton.setFocusPainted(false);
+        clearSearchButton.setBorderPainted(false);
+        clearSearchButton.setPreferredSize(new Dimension(70, 35));
+        clearSearchButton.setToolTipText("Clear search and show all cars");
+        clearSearchButton.addActionListener(e -> clearSearch());
+
+        searchPanel.add(searchLabel);
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        searchPanel.add(clearSearchButton);
 
         // Filter label and combo box
         JLabel filterLabel = new JLabel("Filter by Status:");
@@ -188,6 +233,7 @@ public class ViewCarsPanel extends JPanel {
             }
         });
 
+        bottomRow.add(searchPanel);
         bottomRow.add(filterLabel);
         bottomRow.add(filterComboBox);
         bottomRow.add(Box.createHorizontalStrut(30));
@@ -291,6 +337,15 @@ public class ViewCarsPanel extends JPanel {
                     query += " WHERE status = '" + currentFilter + "'";
                 }
 
+                // Apply search if not empty
+                if (!currentSearchQuery.isEmpty()) {
+                    if (!"All".equals(currentFilter)) {
+                        query += " AND car_id = " + currentSearchQuery;
+                    } else {
+                        query += " WHERE car_id = " + currentSearchQuery;
+                    }
+                }
+
                 query += " ORDER BY car_id DESC";
 
                 ResultSet rs = stmt.executeQuery(query);
@@ -315,9 +370,14 @@ public class ViewCarsPanel extends JPanel {
                     carCount++;
                 }
 
-                String statusText = "Total Cars: " + carCount;
-                if (!"All".equals(currentFilter)) {
-                    statusText += " (" + currentFilter + " cars)";
+                String statusText;
+                if (!currentSearchQuery.isEmpty()) {
+                    statusText = "Search Results: " + carCount + " car(s) found for ID: " + currentSearchQuery;
+                } else {
+                    statusText = "Total Cars: " + carCount;
+                    if (!"All".equals(currentFilter)) {
+                        statusText += " (" + currentFilter + " cars)";
+                    }
                 }
                 statusLabel.setText(statusText);
 
@@ -387,6 +447,30 @@ public class ViewCarsPanel extends JPanel {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private void performSearch() {
+        String searchText = searchField.getText().trim();
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a Car ID to search.", "Empty Search",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            int carId = Integer.parseInt(searchText);
+            currentSearchQuery = String.valueOf(carId);
+            loadCarsData();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid numeric Car ID.", "Invalid Input",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void clearSearch() {
+        searchField.setText("");
+        currentSearchQuery = "";
+        loadCarsData();
     }
 
     /**

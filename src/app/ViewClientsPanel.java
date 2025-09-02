@@ -74,13 +74,6 @@ public class ViewClientsPanel extends JPanel {
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         searchPanel.setBackground(new Color(24, 24, 24));
 
-        // Search section label
-        JLabel searchSectionLabel = new JLabel("🔍 SEARCH TOOLS");
-        searchSectionLabel.setForeground(new Color(0, 150, 255));
-        searchSectionLabel.setFont(new Font("Dialog", Font.BOLD, 11));
-        searchPanel.add(searchSectionLabel);
-        searchPanel.add(Box.createHorizontalStrut(20));
-
         JLabel searchLabel = new JLabel("Client ID:");
         searchLabel.setForeground(Color.WHITE);
         searchLabel.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -121,13 +114,6 @@ public class ViewClientsPanel extends JPanel {
         // Right side - Action buttons with compact sizing
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 5));
         actionPanel.setBackground(new Color(24, 24, 24));
-
-        // Action section label
-        JLabel actionSectionLabel = new JLabel("⚙️ MANAGEMENT TOOLS");
-        actionSectionLabel.setForeground(new Color(255, 204, 0));
-        actionSectionLabel.setFont(new Font("Dialog", Font.BOLD, 11));
-        actionPanel.add(actionSectionLabel);
-        actionPanel.add(Box.createHorizontalStrut(15));
 
         JButton deleteButton = new JButton("Delete Client");
         deleteButton.setBackground(new Color(220, 20, 60));
