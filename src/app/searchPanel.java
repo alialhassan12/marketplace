@@ -2,7 +2,6 @@ package app;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -10,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -51,6 +51,9 @@ public class searchPanel extends javax.swing.JPanel {
         resultPanel =new javax.swing.JPanel();
 
         setBackground(new Color(52,52,52));
+
+        search search=new search();
+        ArrayList<Double> allPrices=search.getAllPrices();
 
         jPanel1.setBackground(new java.awt.Color(24,24,24));
         jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -95,7 +98,7 @@ public class searchPanel extends javax.swing.JPanel {
         });
 
         ImageIcon profileIcon=new ImageIcon(getClass().getResource("../layout/Icons/profileIcon.png"));
-        Image profileImageIcon=profileIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image profileImageIcon=profileIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon profileIconScaled=new ImageIcon(profileImageIcon);
         profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         profileBtn.setText("Profile");
@@ -124,7 +127,7 @@ public class searchPanel extends javax.swing.JPanel {
         });
 
         ImageIcon searchIcon=new ImageIcon(getClass().getResource("../layout/Icons/searchIcon.png"));
-        Image searchImage=searchIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image searchImage=searchIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon searchIconScaled=new ImageIcon(searchImage);
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         searchBtn.setText("Search");
@@ -257,7 +260,7 @@ public class searchPanel extends javax.swing.JPanel {
 
         searchBtn2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                search search=new search();
+                // search search=new search();
             try{
                 int carBrandIndex=brandComboBox.getSelectedIndex();
                 String carBrand=brandComboBox.getItemAt(carBrandIndex);
@@ -339,19 +342,19 @@ public class searchPanel extends javax.swing.JPanel {
 
         brandComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Toyota", "BMW", "Ford", "Tesla", "Honda", "Mercedes-Benz", "Audi", "Nissan" }));
 
-        brandLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        brandLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
         brandLabel.setText("Brand:");
 
-        priceLaybel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        priceLaybel.setFont(new java.awt.Font("Segoe UI", 0, 18));
         priceLaybel.setText("Price:");
 
-        priceComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new Double[] { 12000.50, 15000.00, 9500.75, 40000.00, 32000.99, 35000.00, 29.999, 33.200, 38.450, 42.000, 47.600, 53.900, 61.000, 74.500, 89.999 }));
+        priceComboBox1.setModel(new DefaultComboBoxModel<>(allPrices.toArray(new Double[0])));
         priceComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             }
         });
 
-        yearLaybel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        yearLaybel.setFont(new java.awt.Font("Segoe UI", 0, 18));
         yearLaybel.setText("Year:");
 
         yearComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new Integer[] { 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 }));

@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -170,7 +171,7 @@ public class profilePanel extends javax.swing.JPanel {
         });
 
         ImageIcon profileIcon=new ImageIcon(getClass().getResource("../layout/Icons/profileIcon.png"));
-        Image profileImageIcon=profileIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image profileImageIcon=profileIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon profileIconScaled=new ImageIcon(profileImageIcon);
         profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         profileBtn.setText("Profile");
@@ -194,7 +195,7 @@ public class profilePanel extends javax.swing.JPanel {
         });
 
         ImageIcon searchIcon=new ImageIcon(getClass().getResource("../layout/Icons/searchIcon.png"));
-        Image searchImage=searchIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image searchImage=searchIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon searchIconScaled=new ImageIcon(searchImage);
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         searchBtn.setText("Search");
@@ -354,8 +355,10 @@ public class profilePanel extends javax.swing.JPanel {
                     RoundedPanel profilePic=new RoundedPanel(290,profileImage,false);
                     profilePicPanel.add(profilePic,BorderLayout.CENTER);
                 }
-                profilePicPanel.revalidate();
-                profilePicPanel.repaint();
+                SwingUtilities.invokeLater(()->{
+                    profilePicPanel.revalidate();
+                    profilePicPanel.repaint();
+                });
 
                 usernameLabel.setText(result.getString("name"));
                 usernameLabel.setFont(new Font(getName(),0,18));
@@ -543,6 +546,32 @@ public class profilePanel extends javax.swing.JPanel {
         JButton deleteAccount=new JButton("Delete Account");
         deleteAccount.setCursor(new Cursor(Cursor.HAND_CURSOR));
         deleteAccount.setBackground(new Color(255,0,0));
+        
+        ImageIcon logoutIcon = new ImageIcon(getClass().getResource("../layout/Icons/logout.png"));
+        Image logoutImageIcon = logoutIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon logoutIconScaled = new ImageIcon(logoutImageIcon);
+        JButton logoutBtn=new JButton("Logout");
+        logoutBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        logoutBtn.setIcon(logoutIconScaled);
+        logoutBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                int confirm =JOptionPane.showConfirmDialog(null,
+                                            "Are you sure you want to logout?",
+                                            "Confirm logout",
+                                            JOptionPane.YES_NO_OPTION);
+                if(confirm == JOptionPane.YES_OPTION){
+                    parent.dispose();
+                    LoginFrame loginFrame = new LoginFrame();
+                    loginFrame.setSize(1280, 750);
+                    loginFrame.setResizable(false);
+                    loginFrame.setVisible(true);
+                    loginFrame.setLocationRelativeTo(null);
+                }
+            }
+        });
+
+        deleteAccount.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        deleteAccount.setBackground(new Color(255,0,0));
 
         deleteAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -564,6 +593,8 @@ public class profilePanel extends javax.swing.JPanel {
         settingsPanel.add(changePassword);
         settingsPanel.add(Box.createVerticalStrut(5));
         settingsPanel.add(deleteAccount);
+        settingsPanel.add(Box.createVerticalStrut(5));
+        settingsPanel.add(logoutBtn);
 
 
         scrollPanel.setBackground(new Color(52,52,52));

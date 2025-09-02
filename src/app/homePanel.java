@@ -92,7 +92,7 @@ public class homePanel extends javax.swing.JPanel {
         });
 
         ImageIcon profileIcon = new ImageIcon(getClass().getResource("../layout/Icons/profileIcon.png"));
-        Image profileImageIcon = profileIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image profileImageIcon = profileIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon profileIconScaled = new ImageIcon(profileImageIcon);
         profileBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         profileBtn.setText("Profile");
@@ -122,7 +122,7 @@ public class homePanel extends javax.swing.JPanel {
         });
 
         ImageIcon searchIcon = new ImageIcon(getClass().getResource("../layout/Icons/searchIcon.png"));
-        Image searchImage = searchIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image searchImage = searchIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon searchIconScaled = new ImageIcon(searchImage);
         searchBtn.setFont(new java.awt.Font("Segoe UI", 0, 18));
         searchBtn.setText("Search");

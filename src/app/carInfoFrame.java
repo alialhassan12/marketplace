@@ -2,6 +2,7 @@ package app;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import controllers.carInfo;
+import functions.RoundedPanel;
 
 public class carInfoFrame extends javax.swing.JFrame {
     private int owner_id;
@@ -170,10 +172,13 @@ public class carInfoFrame extends javax.swing.JFrame {
                                 sellerNameLabel.setText(resultSet.getString("name"));
                                 phoneNumberLabel.setText(resultSet.getString("phone"));
                                 ImageIcon ownerImage=new ImageIcon(resultSet.getString("profile_image"));
-                                Image scaled=ownerImage.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-                                JLabel profileLabel=new JLabel(new ImageIcon(scaled));
+                                Image scaled=ownerImage.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+                                RoundedPanel profilePic=new RoundedPanel(40,scaled,false);
+                                profilePic.setPreferredSize(new Dimension(40,40));
+                                profilePic.setMaximumSize(new Dimension(40,40));
+                                profilePic.setMinimumSize(new Dimension(40,40));
                                 ownerPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,5));
-                                ownerPanel.add(profileLabel);
+                                ownerPanel.add(profilePic);
                                 ownerPanel.add(sellerNameLabel);
                             }catch(Exception e){
                                 System.out.println(e.getMessage());
