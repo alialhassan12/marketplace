@@ -121,7 +121,7 @@ public class ViewClientsPanel extends JPanel {
         deleteButton.setFont(new Font("Dialog", Font.BOLD, 11));
         deleteButton.setFocusPainted(false);
         deleteButton.setBorderPainted(false);
-        deleteButton.setPreferredSize(new Dimension(110, 35));
+        deleteButton.setPreferredSize(new Dimension(120, 35));
         deleteButton.setToolTipText("Permanently delete the selected client");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -136,7 +136,7 @@ public class ViewClientsPanel extends JPanel {
         pendingButton.setFont(new Font("Dialog", Font.BOLD, 11));
         pendingButton.setFocusPainted(false);
         pendingButton.setBorderPainted(false);
-        pendingButton.setPreferredSize(new Dimension(130, 35));
+        pendingButton.setPreferredSize(new Dimension(120, 35));
         pendingButton.setToolTipText("View clients waiting for approval");
         pendingButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -154,7 +154,7 @@ public class ViewClientsPanel extends JPanel {
         refreshButton.setFont(new Font("Dialog", Font.BOLD, 11));
         refreshButton.setFocusPainted(false);
         refreshButton.setBorderPainted(false);
-        refreshButton.setPreferredSize(new Dimension(80, 35));
+        refreshButton.setPreferredSize(new Dimension(120, 35));
         refreshButton.setToolTipText("Reload client data from database");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -169,7 +169,7 @@ public class ViewClientsPanel extends JPanel {
         backButton.setFont(new Font("Dialog", Font.BOLD, 11));
         backButton.setFocusPainted(false);
         backButton.setBorderPainted(false);
-        backButton.setPreferredSize(new Dimension(140, 35));
+        backButton.setPreferredSize(new Dimension(120, 35));
         backButton.setToolTipText("Return to main dashboard");
         backButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
