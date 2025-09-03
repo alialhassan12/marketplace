@@ -205,7 +205,7 @@ public class ViewCarsPanel extends JPanel {
             }
         });
 
-        JButton deleteButton = new JButton("Delete Selected");
+        JButton deleteButton = new JButton("Delete");
         deleteButton.setBackground(new Color(220, 20, 60));
         deleteButton.setForeground(Color.WHITE);
         deleteButton.setFont(new Font("Dialog", Font.PLAIN, 14));
