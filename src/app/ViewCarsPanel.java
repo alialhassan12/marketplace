@@ -56,19 +56,36 @@ public class ViewCarsPanel extends JPanel {
     private JPanel createHeaderPanel() {
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(24, 24, 24));
-        headerPanel.setPreferredSize(new Dimension(0, 120));
         headerPanel.setLayout(new BorderLayout());
 
         // Top row with title and back button
-        JPanel topRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
+        JPanel topRow = new JPanel(new BorderLayout());
         topRow.setBackground(new Color(24, 24, 24));
 
         JLabel titleLabel = new JLabel("Car Management");
         titleLabel.setFont(new Font("Dialog", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
 
-        topRow.add(titleLabel);
-        topRow.add(Box.createHorizontalStrut(400));
+        topRow.add(titleLabel, BorderLayout.WEST);
+
+        JButton backButton = new JButton("← Back to Dashboard");
+        backButton.setBackground(new Color(0, 102, 255));
+        backButton.setForeground(Color.WHITE);
+        backButton.setFont(new Font("Dialog", Font.PLAIN, 14));
+        backButton.setFocusPainted(false);
+        backButton.setBorderPainted(false);
+        backButton.setPreferredSize(new Dimension(180, 35));
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Container parent = getTopLevelAncestor();
+                if (parent instanceof AdminPage) {
+                    ((AdminPage) parent).showPanel("dashboard");
+                }
+            }
+        });
+
+        topRow.add(backButton, BorderLayout.EAST);
 
         // Bottom row with search, filter and action buttons
         JPanel bottomRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
@@ -216,23 +233,6 @@ public class ViewCarsPanel extends JPanel {
             }
         });
 
-        JButton backButton = new JButton("← Back to Dashboard");
-        backButton.setBackground(new Color(0, 102, 255));
-        backButton.setForeground(Color.WHITE);
-        backButton.setFont(new Font("Dialog", Font.PLAIN, 14));
-        backButton.setFocusPainted(false);
-        backButton.setBorderPainted(false);
-        backButton.setPreferredSize(new Dimension(180, 35));
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Container parent = getTopLevelAncestor();
-                if (parent instanceof AdminPage) {
-                    ((AdminPage) parent).showPanel("dashboard");
-                }
-            }
-        });
-
         bottomRow.add(searchPanel);
         bottomRow.add(filterLabel);
         bottomRow.add(filterComboBox);
@@ -241,7 +241,6 @@ public class ViewCarsPanel extends JPanel {
         bottomRow.add(showInfoButton);
         bottomRow.add(deleteButton);
         bottomRow.add(refreshButton);
-        bottomRow.add(backButton);
 
         headerPanel.add(topRow, BorderLayout.NORTH);
         headerPanel.add(bottomRow, BorderLayout.SOUTH);
@@ -310,7 +309,6 @@ public class ViewCarsPanel extends JPanel {
     private JPanel createFooterPanel() {
         JPanel footerPanel = new JPanel();
         footerPanel.setBackground(new Color(24, 24, 24));
-        footerPanel.setPreferredSize(new Dimension(0, 50));
         footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         statusLabel = new JLabel("Total Cars: 0");
